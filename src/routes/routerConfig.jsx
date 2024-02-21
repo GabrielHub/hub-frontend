@@ -12,7 +12,7 @@ import { Maps } from './Maps';
 
 export const routerConfig = [
   {
-    path: '/hub',
+    path: '/',
     element: <Navbar />,
     errorElement: <ErrorBoundary />,
     children: [
@@ -23,44 +23,44 @@ export const routerConfig = [
       },
       // * StartPlaying Technical Demo
       {
-        path: '/hub/carousel',
+        path: '/carousel',
         element: <ImageCarousel />
       },
       {
-        path: '/hub/gm',
+        path: '/gm',
         element: <GM />
       },
       // * 2K Stat Hub
       {
-        path: '/hub/ranking',
+        path: '/ranking',
         element: <Ranking />
       },
       {
-        path: '/hub/analysis',
+        path: '/analysis',
         element: <Analysis />
       },
       {
-        path: '/hub/players',
+        path: '/players',
         element: <Players />
       },
       {
-        path: '/hub/players/:playerID',
+        path: '/players/:playerID',
         element: <PlayerData />
       },
       {
-        path: '/hub/imageUpload',
+        path: '/imageUpload',
         element: <ImageUpload />
       },
       {
-        path: '/hub/imageUpload/success',
+        path: '/imageUpload/success',
         element: <Success />
       },
       {
-        path: '/hub/manualUpload',
+        path: '/manualUpload',
         element: <UploadStats />
       },
       {
-        path: '/hub/maps',
+        path: '/maps',
         element: <Maps />
       }
     ]

@@ -78,7 +78,7 @@ export function PlayerData() {
       {playerData && (
         <Grid sx={{ padding: 1 }} justifyContent="center" container>
           <Grid xs={12} item>
-            <Button variant="outlined" onClick={() => navigate('/hub/players')}>
+            <Button variant="outlined" onClick={() => navigate('/players')}>
               Go Back
             </Button>
           </Grid>

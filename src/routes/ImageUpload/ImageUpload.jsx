@@ -43,7 +43,7 @@ export function ImageUpload() {
     } else {
       enqueueSnackbar(data?.message, { variant: 'success' });
       setIsLoading(false);
-      navigate('/hub/imageUpload/success');
+      navigate('/imageUpload/success');
     }
   };
 

@@ -19,7 +19,7 @@ export function Success() {
           </Typography>
         </Grid>
         <Grid xs item>
-          <Button variant="outlined" onClick={() => navigate('/hub/imageUpload')}>
+          <Button variant="outlined" onClick={() => navigate('/imageUpload')}>
             Upload another image
           </Button>
         </Grid>

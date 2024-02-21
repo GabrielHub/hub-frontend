@@ -12,7 +12,7 @@ export function Navbar() {
     <>
       <Grid alignItems="center" justifyContent="space-around" container>
         <Grid xs sx={{ padding: 2 }} item>
-          <Button sx={{ borderRadius: 28 }} onClick={() => navigate('/hub/')}>
+          <Button sx={{ borderRadius: 28 }} onClick={() => navigate('/')}>
             <Typography
               variant="h4"
               sx={{ mr: 2, display: 'flex', alignItems: 'center', color: THEME_COLORS.DARK }}>

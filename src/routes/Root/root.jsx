@@ -22,7 +22,7 @@ export function Root() {
             This is an open source project built with Firebase, Express, React and Node. Report bugs
             and view updates{' '}
             <Link
-              href="https://github.com/GabrielHub/hub"
+              href="https://github.com/GabrielHub/hub-frontend"
               target="_blank"
               rel="noreferrer"
               variant="body2"
@@ -70,7 +70,7 @@ export function Root() {
               </Typography>
             </CardContent>
             <CardActions>
-              <Button size="small" onClick={() => navigate('/hub/ranking')}>
+              <Button size="small" onClick={() => navigate('/ranking')}>
                 View Rankings
               </Button>
             </CardActions>
@@ -104,7 +104,7 @@ export function Root() {
               </Typography>
             </CardContent>
             <CardActions>
-              <Button size="small" onClick={() => navigate('/hub/analysis')}>
+              <Button size="small" onClick={() => navigate('/analysis')}>
                 View Analysis
               </Button>
             </CardActions>
@@ -139,7 +139,7 @@ export function Root() {
               </Typography>
             </CardContent>
             <CardActions>
-              <Button size="small" onClick={() => navigate('/hub/players')}>
+              <Button size="small" onClick={() => navigate('/players')}>
                 View Players
               </Button>
             </CardActions>

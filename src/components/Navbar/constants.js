@@ -1,27 +1,27 @@
 export const navConfig = [
   {
     title: 'RANKING',
-    path: '/hub/ranking'
+    path: '/ranking'
   },
   {
     title: 'PLAYERS',
-    path: '/hub/players'
+    path: '/players'
   },
   {
     title: 'ANALYSIS',
-    path: '/hub/analysis'
+    path: '/analysis'
   },
   {
     title: 'UPLOAD IMAGE',
-    path: '/hub/imageUpload'
+    path: '/imageUpload'
   },
   {
     title: 'UPLOAD MANUAL',
-    path: '/hub/manualUpload'
+    path: '/manualUpload'
   },
   {
     title: 'MAPS',
-    path: '/hub/maps'
+    path: '/maps'
   }
 ];
 

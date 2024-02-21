@@ -9,7 +9,7 @@ export function Players() {
   const navigate = useNavigate();
 
   const handleNavigation = (objectID) => {
-    navigate(`/hub/players/${objectID}`);
+    navigate(`/players/${objectID}`);
   };
 
   return (
