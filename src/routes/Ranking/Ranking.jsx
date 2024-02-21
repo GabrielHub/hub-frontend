@@ -3,13 +3,13 @@ import { Button, Grid, Typography } from '@mui/material';
 import { PlayerGrid } from 'components/PlayerGrid';
 import { DefenseDescriptionModal } from 'components/Modal';
 import { OffenseDescriptionModal } from 'components/Modal/OffenseDescriptionModal/OffenseDescriptionModal';
+import { MIN_GAMES } from 'constants';
 import {
-  MIN_GAMES,
-  DEFENSIVE_PLAYERS_COLUMNS,
-  DEFENSIVE_PLAYERS_DEFAULT_SORTS,
   OFFENSIVE_PLAYERS_COLUMNS,
-  OFFENSIVE_PLAYERS_DEFAULT_SORTS
-} from 'constants';
+  OFFENSIVE_PLAYERS_DEFAULT_SORTS,
+  DEFENSIVE_PLAYERS_COLUMNS,
+  DEFENSIVE_PLAYERS_DEFAULT_SORTS
+} from './constants';
 
 export function Ranking() {
   const [offenseModalOpen, setOffenseModalOpen] = useState(false);
