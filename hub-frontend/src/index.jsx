@@ -1,13 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { SnackbarProvider } from 'notistack';
+import { routerConfig } from 'routes';
 import './index.css';
-import App from './App';
+import 'react-multi-carousel/lib/styles.css';
+
 import reportWebVitals from './reportWebVitals';
+
+const router = createBrowserRouter(routerConfig);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <SnackbarProvider autoHideDuration={3000}>
+      <RouterProvider router={router} />
+    </SnackbarProvider>
   </React.StrictMode>
 );
 
