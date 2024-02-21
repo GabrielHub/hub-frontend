@@ -4,6 +4,8 @@ export const ALGOLIA_PROJECT_ID = process.env.REACT_APP_ALGOLIA_PROJECT_ID;
 export const NANONET_KEY = process.env.REACT_APP_NANONET;
 export const NANONET_MODEL_ID = process.env.REACT_APP_MODEL_ID;
 
+export const MIN_GAMES = 3;
+
 export const POSITION_READABLE = {
   1: 'PG',
   2: 'SG',
