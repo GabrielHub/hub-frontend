@@ -20,6 +20,17 @@ export const PLAYER_DATA_CONFIG = [
     flex: 1
   },
   {
+    field: 'oppPos',
+    headerName: 'MATCHUP',
+    renderEditCell: SelectPositionEditCell,
+    valueGetter: (params) => {
+      return params.value;
+    },
+    sortable: false,
+    editable: true,
+    flex: 1
+  },
+  {
     field: 'name',
     headerName: 'NAME',
     sortable: false,

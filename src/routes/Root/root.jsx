@@ -28,6 +28,15 @@ export function Root() {
               variant="body2"
               underline="none">
               here!
+            </Link>{' '}
+            and{' '}
+            <Link
+              href="https://github.com/GabrielHub/hub-backend"
+              target="_blank"
+              rel="noreferrer"
+              variant="body2"
+              underline="none">
+              here!
             </Link>
           </Typography>
         </Grid>
