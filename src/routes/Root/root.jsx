@@ -133,7 +133,7 @@ export function Root() {
                 </Grid>
               </Grid>
               <Typography variant="body2">
-                View the last updated players. <br />
+                View the last updated players and games. <br />
                 Search and view individual player statistics <br />
                 You can view career averages, last games played and compare to specific players
               </Typography>
