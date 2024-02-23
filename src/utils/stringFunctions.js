@@ -40,7 +40,6 @@ function parseStats(str, team, position = 0) {
 }
 
 export const parseGameData = (lines) => {
-  console.log({ lines });
   const teams = [];
   let currentTeam = {};
   lines.forEach((line) => {
@@ -142,8 +141,6 @@ export const parseGameData = (lines) => {
     teamTotals.push(team.total);
     playerTotals = playerTotals.concat(team.players);
   });
-
-  console.log({ teamTotals, playerTotals });
 
   return { teamTotals, playerTotals };
 };
