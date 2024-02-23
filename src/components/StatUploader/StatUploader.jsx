@@ -31,6 +31,11 @@ export function StatUploader(props) {
   const [errors, setErrors] = useState([]);
 
   const handleStatUpload = useCallback(async () => {
+    if (!uploadKey.trim()) {
+      enqueueSnackbar('Please provide an upload key', { variant: 'error' });
+      return;
+    }
+
     setIsLoading(true);
     setErrors([]);
     const rawPlayerData = sanitizeArrayData(playerList);
