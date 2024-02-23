@@ -127,7 +127,7 @@ export function UploadStats() {
             threshold
           );
         }
-      }, 100),
+      }, 500),
     [completedCrop, greyscale, threshold]
   );
 

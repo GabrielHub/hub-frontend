@@ -40,6 +40,7 @@ function parseStats(str, team, position = 0) {
 }
 
 export const parseGameData = (lines) => {
+  console.log({ lines });
   const teams = [];
   let currentTeam = {};
   lines.forEach((line) => {
@@ -54,29 +55,70 @@ export const parseGameData = (lines) => {
         players: []
       };
     } else if (line.startsWith('TOTAL')) {
+      // * TOTAL means we've hit the end of the team's stats
       currentTeam.total = parseStats(line, team);
+      teams.push(currentTeam);
+      currentTeam = {};
+    } else if (currentTeam?.players && currentTeam.players.length >= 5) {
+      // * If we've already added 5 players, we're done
+      // * This also means the TOTAL check failed, so create fake total statline
+      currentTeam.total = {
+        id: uuidv4(),
+        team,
+        name: `Team ${team}`,
+        grd: 'A',
+        pts: 0,
+        treb: 0,
+        ast: 0,
+        stl: 0,
+        blk: 0,
+        pf: 0,
+        tov: 0,
+        fgm: 0,
+        fga: 0,
+        threepm: 0,
+        threepa: 0
+      };
+
       teams.push(currentTeam);
       currentTeam = {};
     } else {
       if (!currentTeam?.players) {
         // eslint-disable-next-line no-console
         console.error('Error: No current team. Incorrect data or corrupted image');
-        return;
+
+        // ! This means data has failed, but start an empty team anyway
+        currentTeam = {
+          name: `Team ${team}`,
+          team,
+          players: []
+        };
       }
+
       // * Assign position by order
       const position = currentTeam.players.length + 1;
       currentTeam.players.push(parseStats(line, team, position));
     }
   });
 
-  // * Add 5th player, since 5th player will always be missing
+  // in case we fail to find the total, add a team with no players
+  while (teams.length < 2) {
+    teams.push({
+      name: `Team ${teams.length + 1}`,
+      team: teams.length + 1,
+      players: []
+    });
+  }
+
+  // * Add 5th player, if 5th player is missing
   teams.forEach((team, index) => {
-    if (team.players.length < 5) {
+    while (team.players.length < 5) {
       teams[index].players.push({
         id: uuidv4(),
-        pos: 5,
+        pos: team.players.length,
+        oppPos: team.players.length,
         team: index + 1,
-        name: 'AI Player',
+        name: 'Empty',
         grd: 'A',
         pts: 0,
         treb: 0,
@@ -100,6 +142,8 @@ export const parseGameData = (lines) => {
     teamTotals.push(team.total);
     playerTotals = playerTotals.concat(team.players);
   });
+
+  console.log({ teamTotals, playerTotals });
 
   return { teamTotals, playerTotals };
 };
