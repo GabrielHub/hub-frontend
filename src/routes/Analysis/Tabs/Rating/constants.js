@@ -80,6 +80,13 @@ export const OVERALL_PLAYERS_COLUMNS = [
     type: 'number',
     valueGetter: getPercentValues,
     flex: 1
+  },
+  {
+    field: 'plusMinus',
+    headerName: '+/-',
+    description: 'Total box score plus minus',
+    type: 'number',
+    flex: 1
   }
 ];
 
