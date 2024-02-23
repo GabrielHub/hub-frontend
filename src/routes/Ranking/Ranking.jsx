@@ -3,7 +3,6 @@ import { Button, Grid, Typography } from '@mui/material';
 import { PlayerGrid } from 'components/PlayerGrid';
 import { DefenseDescriptionModal } from 'components/Modal';
 import { OffenseDescriptionModal } from 'components/Modal/OffenseDescriptionModal/OffenseDescriptionModal';
-import { MIN_GAMES } from 'constants';
 import {
   OFFENSIVE_PLAYERS_COLUMNS,
   OFFENSIVE_PLAYERS_DEFAULT_SORTS,
@@ -34,7 +33,7 @@ export function Ranking() {
           container
           item>
           <Typography variant="h5" gutterBottom>
-            {`Players Ranked By Offense (min ${MIN_GAMES} games)`}
+            Players Ranked By Offense
           </Typography>
           <Button variant="outlined" onClick={() => setOffenseModalOpen(true)}>
             How is this calculated?
@@ -55,7 +54,7 @@ export function Ranking() {
           container
           item>
           <Typography variant="h5" gutterBottom>
-            {`Players Ranked By Defense (min ${MIN_GAMES} games)`}
+            Players Ranked By Defense
           </Typography>
           <Button variant="outlined" onClick={() => setDefenseModalOpen(true)}>
             How is this calculated?
