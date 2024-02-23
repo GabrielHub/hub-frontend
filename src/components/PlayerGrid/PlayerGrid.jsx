@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useSnackbar } from 'notistack';
-import { Grid, Button } from '@mui/material';
+import { Grid, Button, Select, MenuItem } from '@mui/material';
 import { DataGrid, GridPagination } from '@mui/x-data-grid';
 import { fetchTableData } from 'rest';
 import { TableFooterModal } from 'components/Modal';
@@ -9,7 +9,42 @@ import { TableFooterModal } from 'components/Modal';
 // * There are not enough players to put a hard limit.
 const LIMIT = 100;
 
-function Footer() {
+const FooterDropdownOptions = {
+  DEFAULT: 'Default',
+  PER_36: 'Per 36 min',
+  PER_100: 'Per 100 possessions'
+};
+
+const statsToAdjust = ['pts', 'treb', 'ast', 'stl', 'blk', 'tov', 'pf'];
+const playerMinutes = 20;
+
+const adjustDataByFilter = (data, filter) => {
+  if (filter === FooterDropdownOptions.PER_36) {
+    return data.map((player) => {
+      const adjustedPlayer = { ...player };
+      statsToAdjust.forEach((stat) => {
+        if (adjustedPlayer[stat])
+          adjustedPlayer[stat] = Math.round((player[stat] / playerMinutes) * 36 * 10) / 10;
+      });
+      return adjustedPlayer;
+    });
+  }
+  if (filter === FooterDropdownOptions.PER_100) {
+    return data.map((player) => {
+      const adjustedPlayer = { ...player };
+      statsToAdjust.forEach((stat) => {
+        if (adjustedPlayer[stat]) {
+          adjustedPlayer[stat] = Math.round((player[stat] / player.pace) * 100 * 10) / 10;
+        }
+      });
+      return adjustedPlayer;
+    });
+  }
+  return data;
+};
+
+function Footer(props) {
+  const { dropdownValue, handleDropdownChange } = props;
   const [open, setOpen] = useState(false);
 
   const handleClose = () => {
@@ -17,12 +52,27 @@ function Footer() {
   };
 
   return (
-    <Grid sx={{ p: 1 }} justifyContent="flex-end" container>
-      <TableFooterModal open={open} handleClose={handleClose} />
-      <Button sx={{ textTransform: 'none' }} onClick={() => setOpen(true)}>
-        How do I use this table?
-      </Button>
-      <GridPagination />
+    <Grid sx={{ p: 1 }} container alignItems="center" justifyContent="space-between">
+      <Grid xs={6} item>
+        <Select
+          value={dropdownValue}
+          onChange={handleDropdownChange}
+          sx={{ ml: 2 }} // Add some margin to the left of the dropdown
+        >
+          {Object.values(FooterDropdownOptions).map((option) => (
+            <MenuItem key={option} value={option}>
+              {option}
+            </MenuItem>
+          ))}
+        </Select>
+      </Grid>
+      <Grid xs={6} item container justifyContent="flex-end" direction="row" alignItems="center">
+        <TableFooterModal open={open} handleClose={handleClose} />
+        <Button sx={{ textTransform: 'none', ml: 2 }} onClick={() => setOpen(true)}>
+          How do I use this table?
+        </Button>
+        <GridPagination />
+      </Grid>
     </Grid>
   );
 }
@@ -30,6 +80,7 @@ function Footer() {
 export function PlayerGrid(props) {
   const { columns, defaultSortField, defaultSortType } = props;
   const { enqueueSnackbar } = useSnackbar();
+  const [dropdownValue, setDropdownValue] = useState(FooterDropdownOptions.DEFAULT);
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(false);
   const [sortModel, setSortModel] = useState([
@@ -39,6 +90,10 @@ export function PlayerGrid(props) {
     }
   ]);
 
+  const handleDropdownChange = (event) => {
+    setDropdownValue(event.target.value);
+  };
+
   const getTableRows = useCallback(async () => {
     setLoading(true);
     const queryParams = {
@@ -47,14 +102,16 @@ export function PlayerGrid(props) {
       limit: LIMIT
     };
     const { data, error } = await fetchTableData(queryParams);
+    const adjustedData = adjustDataByFilter(data, dropdownValue);
+
     if (error) {
       setLoading(false);
       enqueueSnackbar('Error reading data, please try again', { variant: 'error' });
     } else {
-      setRows(data);
+      setRows(adjustedData);
       setLoading(false);
     }
-  }, [defaultSortField, defaultSortType, enqueueSnackbar, sortModel]);
+  }, [defaultSortField, defaultSortType, dropdownValue, enqueueSnackbar, sortModel]);
 
   useEffect(() => {
     getTableRows();
@@ -72,6 +129,12 @@ export function PlayerGrid(props) {
         slots={{
           footer: Footer
         }}
+        slotProps={{
+          footer: {
+            dropdownValue,
+            handleDropdownChange
+          }
+        }}
       />
     </Grid>
   );
@@ -85,6 +148,11 @@ PlayerGrid.propTypes = {
       PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool, PropTypes.func])
     )
   ).isRequired
+};
+
+Footer.propTypes = {
+  dropdownValue: PropTypes.string.isRequired,
+  handleDropdownChange: PropTypes.func.isRequired
 };
 
 export default {};
