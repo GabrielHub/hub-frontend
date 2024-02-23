@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Avatar, Card, CardHeader, CardContent, Typography, Grid } from '@mui/material';
 import { green, yellow, orange, red } from '@mui/material/colors';
+import { round } from 'lodash';
 
 export function PlayerCard(props) {
   const { data } = props;
@@ -17,9 +18,23 @@ export function PlayerCard(props) {
     TOV: tov,
     REB: reb,
     FG_PCT: fgPct,
-    FG3_PCT: fg3Pct
+    FG3_PCT: fg3Pct,
+    MIN: min
   } = data;
   const [headerColor, setHeaderColor] = useState(red[500]);
+
+  const mpColor = useMemo(() => {
+    if (min / gp < 10) {
+      return red[500];
+    }
+    if (min / gp < 20) {
+      return orange[500];
+    }
+    if (min / gp < 25) {
+      return yellow[500];
+    }
+    return green[500];
+  }, [min, gp]);
 
   useEffect(() => {
     if (similarity > 85) {
@@ -75,14 +90,19 @@ export function PlayerCard(props) {
               {tov} <b>TO</b>
             </Typography>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={4}>
             <Typography variant="body2">
-              {fgPct * 100}% <b>FG%</b>
+              {round(fgPct * 100, 1)}% <b>FG%</b>
             </Typography>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={4}>
             <Typography variant="body2">
-              {fg3Pct * 100}% <b>3P%</b>
+              {round(fg3Pct * 100, 1)}% <b>3P%</b>
+            </Typography>
+          </Grid>
+          <Grid item xs={4}>
+            <Typography variant="body2" sx={{ color: mpColor }}>
+              {round(min / gp, 2)} <b>MP</b>
             </Typography>
           </Grid>
         </Grid>

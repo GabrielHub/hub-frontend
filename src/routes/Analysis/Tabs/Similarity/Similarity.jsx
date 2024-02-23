@@ -149,24 +149,24 @@ export function Similarity() {
                   </Grid>
                   <Grid item xs={6} sm={3}>
                     <Typography variant="body2" color="text.secondary">
-                      Points: {selectedPlayerData.pts}
+                      <b>Points:</b> {selectedPlayerData.pts}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      Rebounds: {selectedPlayerData.treb}
+                      <b>Rebounds:</b> {selectedPlayerData.treb}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      Assists: {selectedPlayerData.ast}
+                      <b>Assists:</b> {selectedPlayerData.ast}
                     </Typography>
                   </Grid>
                   <Grid item xs={6} sm={3}>
                     <Typography variant="body2" color="text.secondary">
-                      Steals: {selectedPlayerData.stl}
+                      <b>Steals:</b> {selectedPlayerData.stl}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      Blocks: {selectedPlayerData.blk}
+                      <b>Blocks:</b> {selectedPlayerData.blk}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      Turnovers: {selectedPlayerData.tov}
+                      <b>Turnovers:</b> {selectedPlayerData.tov}
                     </Typography>
                   </Grid>
                   <Grid item xs={6} sm={3}>
