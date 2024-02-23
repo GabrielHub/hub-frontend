@@ -114,8 +114,8 @@ export const parseGameData = (lines) => {
     while (team.players.length < 5) {
       teams[index].players.push({
         id: uuidv4(),
-        pos: team.players.length,
-        oppPos: team.players.length,
+        pos: team.players.length + 1,
+        oppPos: team.players.length + 1,
         team: index + 1,
         name: 'Empty',
         grd: 'A',
