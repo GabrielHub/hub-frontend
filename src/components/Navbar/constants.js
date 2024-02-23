@@ -18,10 +18,6 @@ export const navConfig = [
   {
     title: 'UPLOAD MANUAL',
     path: '/manualUpload'
-  },
-  {
-    title: 'MAPS',
-    path: '/maps'
   }
 ];
 

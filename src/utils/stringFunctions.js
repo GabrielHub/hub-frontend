@@ -1,5 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 
+// * Image Data can have any number of these words in any order, in the first line
+const firstLineContains = ['GRD', 'PTS', 'REB', 'AST', 'STL', 'BLK', 'FOULS', 'TO'];
+
 function parseStats(str, team, position = 0) {
   const [tpmtpa, fgmtpa, tov, pf, blk, stl, ast, treb, pts, grd, ...nameArr] = str
     .split(' ')
@@ -14,6 +17,8 @@ function parseStats(str, team, position = 0) {
   const stats = {
     // * Add position if it exists( if we're adding a player not a team )
     ...(Boolean(position) && { pos: position }),
+    // * Add matchup position
+    ...(Boolean(position) && { oppPos: position }),
     id,
     team,
     name,
@@ -35,14 +40,14 @@ function parseStats(str, team, position = 0) {
 }
 
 export const parseGameData = (lines) => {
-  // console.log('LINES!', lines);
   const teams = [];
   let currentTeam = {};
   lines.forEach((line) => {
     // * Identifier for team
     const team = teams.length + 1;
 
-    if (line.startsWith('Team')) {
+    // * Check for first line, which determines the next 5 are players
+    if (firstLineContains.filter((word) => line.includes(word)).length >= 2) {
       currentTeam = {
         name: `Team ${team}`,
         team,
@@ -53,6 +58,11 @@ export const parseGameData = (lines) => {
       teams.push(currentTeam);
       currentTeam = {};
     } else {
+      if (!currentTeam?.players) {
+        // eslint-disable-next-line no-console
+        console.error('Error: No current team. Incorrect data or corrupted image');
+        return;
+      }
       // * Assign position by order
       const position = currentTeam.players.length + 1;
       currentTeam.players.push(parseStats(line, team, position));
