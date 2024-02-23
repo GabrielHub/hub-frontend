@@ -1,16 +1,13 @@
 import axios from 'axios';
 import { FIREBASE_BASE_URL } from 'constants';
 
-/**
- * @description return 3 most similar NBA players adjusted for min played
- * @param {string} playerID Player ID string
- * @returns {*} Array of NBA Players by similarity
- */
-export const fetchSimilarPlayers = async (playerID) => {
+export const fetchSimilarPlayers = async (playerID, perGame, season, paceAdjust) => {
   const response = {};
 
   await axios
-    .get(`${FIREBASE_BASE_URL}/similarity?playerID=${playerID}`)
+    .get(
+      `${FIREBASE_BASE_URL}/similarity?playerID=${playerID}&perGame=${perGame}&season=${season}&paceAdjust=${paceAdjust}`
+    )
     .then((res) => {
       response.data = res.data;
     })

@@ -7,6 +7,12 @@ export const NANONET_MODEL_ID = process.env.REACT_APP_MODEL_ID;
 // TODO Currently broken so unused
 export const MIN_GAMES = 3;
 
+export const STAT_PER_TYPES = {
+  DEFAULT: 'PerGame',
+  PER_36: 'Per36',
+  PER_100: 'Per100Possessions'
+};
+
 export const POSITION_READABLE = {
   1: 'PG',
   2: 'SG',

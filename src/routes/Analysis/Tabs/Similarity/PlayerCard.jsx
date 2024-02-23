@@ -1,11 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Avatar, Card, CardHeader, CardContent, Typography } from '@mui/material';
+import { Avatar, Card, CardHeader, CardContent, Typography, Grid } from '@mui/material';
 import { green, yellow, orange, red } from '@mui/material/colors';
 
 export function PlayerCard(props) {
   const { data } = props;
-  const { name, pts, trb, ast, stl, blk, tov, similarity, pos, Tm } = data;
+  const {
+    PLAYER_NAME: name,
+    similarity,
+    TEAM_ABBREVIATION: team,
+    GP: gp,
+    PTS: pts,
+    AST: ast,
+    STL: stl,
+    BLK: blk,
+    TOV: tov,
+    REB: reb,
+    FG_PCT: fgPct,
+    FG3_PCT: fg3Pct
+  } = data;
   const [headerColor, setHeaderColor] = useState(red[500]);
 
   useEffect(() => {
@@ -22,21 +35,57 @@ export function PlayerCard(props) {
     <Card>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: headerColor }} aria-label="sim-perc">
+          <Avatar sx={{ bgcolor: headerColor, color: 'black' }} aria-label="sim-perc">
             <Typography variant="caption">{Math.round(similarity)}%</Typography>
           </Avatar>
         }
         title={name}
-        subheader={`${pos}, ${Tm}`}
+        subheader={`${team} | Games Played: ${gp}`}
       />
 
       <CardContent>
-        <Typography variant="body2">
-          {pts} <b>PTS</b> {ast} <b>AST</b> {trb} <b>REB</b>
-        </Typography>
-        <Typography variant="body2">
-          {stl} <b>STL</b> {blk} <b>BLK</b> {tov} <b>TO</b>
-        </Typography>
+        <Grid container spacing={2}>
+          <Grid item xs={4}>
+            <Typography variant="body2">
+              {pts} <b>PTS</b>
+            </Typography>
+          </Grid>
+          <Grid item xs={4}>
+            <Typography variant="body2">
+              {reb} <b>REB</b>
+            </Typography>
+          </Grid>
+          <Grid item xs={4}>
+            <Typography variant="body2">
+              {ast} <b>AST</b>
+            </Typography>
+          </Grid>
+          <Grid item xs={4}>
+            <Typography variant="body2">
+              {stl} <b>STL</b>
+            </Typography>
+          </Grid>
+          <Grid item xs={4}>
+            <Typography variant="body2">
+              {blk} <b>BLK</b>
+            </Typography>
+          </Grid>
+          <Grid item xs={4}>
+            <Typography variant="body2">
+              {tov} <b>TO</b>
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="body2">
+              {fgPct * 100}% <b>FG%</b>
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="body2">
+              {fg3Pct * 100}% <b>3P%</b>
+            </Typography>
+          </Grid>
+        </Grid>
       </CardContent>
     </Card>
   );

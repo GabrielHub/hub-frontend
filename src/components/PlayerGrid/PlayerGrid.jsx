@@ -1,25 +1,21 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useSnackbar } from 'notistack';
-import { Grid, Button, Select, MenuItem } from '@mui/material';
+import { Grid, Button } from '@mui/material';
 import { DataGrid, GridPagination } from '@mui/x-data-grid';
 import { fetchTableData } from 'rest';
 import { TableFooterModal } from 'components/Modal';
+import { STAT_PER_TYPES } from 'constants';
+import { StatAdjustDropdown } from 'components/StatAdjustDropdown';
 
 // * There are not enough players to put a hard limit.
 const LIMIT = 100;
-
-const FooterDropdownOptions = {
-  DEFAULT: 'Default',
-  PER_36: 'Per 36 min',
-  PER_100: 'Per 100 possessions'
-};
 
 const statsToAdjust = ['pts', 'treb', 'ast', 'stl', 'blk', 'tov', 'pf'];
 const playerMinutes = 20;
 
 const adjustDataByFilter = (data, filter) => {
-  if (filter === FooterDropdownOptions.PER_36) {
+  if (filter === STAT_PER_TYPES.PER_36) {
     return data.map((player) => {
       const adjustedPlayer = { ...player };
       statsToAdjust.forEach((stat) => {
@@ -29,7 +25,7 @@ const adjustDataByFilter = (data, filter) => {
       return adjustedPlayer;
     });
   }
-  if (filter === FooterDropdownOptions.PER_100) {
+  if (filter === STAT_PER_TYPES.PER_100) {
     return data.map((player) => {
       const adjustedPlayer = { ...player };
       statsToAdjust.forEach((stat) => {
@@ -54,17 +50,7 @@ function Footer(props) {
   return (
     <Grid sx={{ p: 1 }} container alignItems="center" justifyContent="space-between">
       <Grid xs={6} item>
-        <Select
-          value={dropdownValue}
-          onChange={handleDropdownChange}
-          sx={{ ml: 2 }} // Add some margin to the left of the dropdown
-        >
-          {Object.values(FooterDropdownOptions).map((option) => (
-            <MenuItem key={option} value={option}>
-              {option}
-            </MenuItem>
-          ))}
-        </Select>
+        <StatAdjustDropdown value={dropdownValue} handleChange={handleDropdownChange} />
       </Grid>
       <Grid xs={6} item container justifyContent="flex-end" direction="row" alignItems="center">
         <TableFooterModal open={open} handleClose={handleClose} />
@@ -80,7 +66,7 @@ function Footer(props) {
 export function PlayerGrid(props) {
   const { columns, defaultSortField, defaultSortType } = props;
   const { enqueueSnackbar } = useSnackbar();
-  const [dropdownValue, setDropdownValue] = useState(FooterDropdownOptions.DEFAULT);
+  const [dropdownValue, setDropdownValue] = useState(STAT_PER_TYPES.DEFAULT);
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(false);
   const [sortModel, setSortModel] = useState([
