@@ -77,8 +77,8 @@ export const handleUploadValidation = (rawPlayerData, rawTeamData) => {
   }
 
   // * Validate that players match a position on the other team
-  playersOnTeamOne.forEach(({ name, pos }) => {
-    if (!_.some(playersOnTeamTwo, (player) => player.pos === pos)) {
+  playersOnTeamOne.forEach(({ name, oppPos }) => {
+    if (!_.some(playersOnTeamTwo, (player) => player.pos === oppPos)) {
       errors.push(addError(name, ERROR_DESCRIPTIONS.NO_MATCHING_POSITION));
     }
   });
