@@ -2,10 +2,10 @@ import { PER, League, Similarity, Rating } from './Tabs';
 
 export const TAB_LABELS = [
   {
-    label: 'League Averages'
+    label: 'Player Ratings'
   },
   {
-    label: 'Player Ratings'
+    label: 'League Averages'
   },
   {
     label: 'PER Leaders'
@@ -17,12 +17,12 @@ export const TAB_LABELS = [
 
 export const TAB_CONFIG = [
   {
-    label: 'League Averages',
-    component: <League />
-  },
-  {
     label: 'Player Ratings',
     component: <Rating />
+  },
+  {
+    label: 'League Averages',
+    component: <League />
   },
   {
     label: 'PER Leaders',
