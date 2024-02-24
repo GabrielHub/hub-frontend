@@ -21,7 +21,7 @@ export function UploadStats() {
   // * Tesseract State
   const [confidence, setConfidence] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [hideRules, setHideRules] = useState(false);
+  const [hideRules, setHideRules] = useState(true);
   const [progress, setProgress] = useState(null);
   const [uploadKey, setUploadKey] = useState('');
 
@@ -199,7 +199,7 @@ export function UploadStats() {
             </Grid>
             <Grid xs justifyContent="center" container item>
               <Button variant="contained" onClick={() => setHideRules(!hideRules)}>
-                Show/Hide Upload Rules
+                Show/Hide Upload Guidelines
               </Button>
             </Grid>
             {!imageData && (
