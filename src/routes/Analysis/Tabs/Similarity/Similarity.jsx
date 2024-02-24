@@ -28,6 +28,7 @@ export function Similarity() {
   const [isLoading, setIsLoading] = useState(false);
   const [perGameDropdown, setPerGameDropdown] = useState(STAT_PER_TYPES.PER_36);
   const [seasonDropdown, setSeasonDropdown] = useState(seasonDropdownOptions[0]);
+  const [limit, setLimit] = useState(3);
   const [paceAdjust, setPaceAdjust] = useState(false);
 
   const handleDropdownChange = (event) => {
@@ -40,7 +41,8 @@ export function Similarity() {
         playerID,
         perGameDropdown,
         seasonDropdown,
-        paceAdjust
+        paceAdjust,
+        limit
       );
       if (error) {
         enqueueSnackbar('Error reading data, please try again later', { variant: 'error' });
@@ -48,7 +50,7 @@ export function Similarity() {
         setSimilarData(data);
       }
     },
-    [perGameDropdown, seasonDropdown, paceAdjust, enqueueSnackbar]
+    [perGameDropdown, seasonDropdown, paceAdjust, limit, enqueueSnackbar]
   );
 
   const getPlayerData = useCallback(
@@ -97,6 +99,10 @@ export function Similarity() {
     setPaceAdjust(event.target.checked);
   };
 
+  const handleLimitChange = (event) => {
+    setLimit(event.target.value);
+  };
+
   return (
     <Grid xs={12} sx={{ p: 2 }} container item>
       <Loading isLoading={isLoading} />
@@ -121,6 +127,17 @@ export function Similarity() {
           <FormControl>
             <Select value={seasonDropdown} onChange={handleSeasonChange}>
               {seasonDropdownOptions.map((option) => (
+                <MenuItem key={option} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <FormControl>
+            <Select value={limit} onChange={handleLimitChange}>
+              {['3', '4', '5', '6', '7', '8', '9', '10', '11', '12'].map((option) => (
                 <MenuItem key={option} value={option}>
                   {option}
                 </MenuItem>
