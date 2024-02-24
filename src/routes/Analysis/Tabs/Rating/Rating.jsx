@@ -1,5 +1,6 @@
 import React from 'react';
-import { Grid, Typography } from '@mui/material';
+import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { PlayerGrid } from 'components/PlayerGrid';
 import { RATING_CONFIG } from 'utils';
 import { OVERALL_PLAYERS_COLUMNS, OVERALL_PLAYERS_DEFAULT_SORTS } from './constants';
@@ -13,8 +14,31 @@ export function Rating() {
         </Typography>
       </Grid>
       <Grid xs={6} item>
-        <Typography>Rating is a scaled measure of each players PER from 0 - 10</Typography>
-        <Typography>PER is adjusted to the league average, and adjusted by pace</Typography>
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header">
+            <Typography>How is this calculated:</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Typography>
+              Rating is based on PER (see PER Leaders tab for more information)
+            </Typography>
+            <Typography>
+              PER is already adjusted for pace and drawn from the league average, so the ratings are
+              based on our data, not the NBAs. The adjusted PER is recalculated every Sunday, and
+              readjusted based on total games played by all players.
+            </Typography>
+            <Typography>
+              The value is scaled so that 5 will always be the average (equivalent to 15 PER)
+            </Typography>
+            <Typography>
+              Rating definitions (Bench vs Allstar) are based on the PER table created by John
+              Hollinger
+            </Typography>
+          </AccordionDetails>
+        </Accordion>
       </Grid>
       <Grid xs={12} sx={{ p: 2 }} item>
         <Typography align="center">
