@@ -7,12 +7,10 @@ import { fetchTableData } from 'rest';
 import { TableFooterModal } from 'components/Modal';
 import { STAT_PER_TYPES } from 'constants';
 import { StatAdjustDropdown } from 'components/StatAdjustDropdown';
+import { adjustDataByFilter } from 'utils/adjustPlayerDataByFilter';
 
 // * There are not enough players to put a hard limit.
 const LIMIT = 100;
-
-const statsToAdjust = ['pts', 'treb', 'ast', 'stl', 'blk', 'tov', 'pf'];
-const playerMinutes = 20;
 
 function Footer(props) {
   const { dropdownValue, handleDropdownChange } = props;
@@ -56,31 +54,6 @@ export function PlayerGrid(props) {
 
   const handleDropdownChange = (event) => {
     setDropdownValue(event.target.value);
-  };
-
-  const adjustDataByFilter = (data, filter) => {
-    if (filter === STAT_PER_TYPES.PER_36) {
-      return data.map((player) => {
-        const adjustedPlayer = { ...player };
-        statsToAdjust.forEach((stat) => {
-          if (adjustedPlayer[stat])
-            adjustedPlayer[stat] = Math.round((player[stat] / playerMinutes) * 36 * 10) / 10;
-        });
-        return adjustedPlayer;
-      });
-    }
-    if (filter === STAT_PER_TYPES.PER_100) {
-      return data.map((player) => {
-        const adjustedPlayer = { ...player };
-        statsToAdjust.forEach((stat) => {
-          if (adjustedPlayer[stat]) {
-            adjustedPlayer[stat] = Math.round((player[stat] / player.pace) * 100 * 10) / 10;
-          }
-        });
-        return adjustedPlayer;
-      });
-    }
-    return data;
   };
 
   const getTableRows = useCallback(async () => {

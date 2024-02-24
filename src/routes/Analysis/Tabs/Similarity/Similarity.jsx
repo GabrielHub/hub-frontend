@@ -6,10 +6,9 @@ import {
   FormControl,
   Select,
   FormControlLabel,
+  FormLabel,
   MenuItem,
   Switch,
-  Card,
-  CardContent,
   Fade
 } from '@mui/material';
 import { Loading } from 'components/Loading';
@@ -17,8 +16,10 @@ import { fetchSimilarPlayers, fetchPlayerData } from 'rest';
 import { AlgoliaSearch } from 'components/AlgoliaSearch';
 import { STAT_PER_TYPES } from 'constants';
 import { StatAdjustDropdown } from 'components/StatAdjustDropdown';
+import { adjustDataByFilter } from 'utils';
 import { PlayerCard } from './PlayerCard';
 import { seasonDropdownOptions } from './constants';
+import { SelectedPlayerCard } from './SelectedPlayerCard';
 
 export function Similarity() {
   const { enqueueSnackbar } = useSnackbar();
@@ -59,10 +60,11 @@ export function Similarity() {
       if (error) {
         enqueueSnackbar('Error fetch player data, please try again later', { variant: 'error' });
       } else {
-        setSelectedPlayerData(data);
+        const dataList = adjustDataByFilter([data], perGameDropdown)?.[0];
+        setSelectedPlayerData(dataList);
       }
     },
-    [enqueueSnackbar]
+    [enqueueSnackbar, perGameDropdown]
   );
 
   const handlePlayerSelection = useCallback(
@@ -103,6 +105,14 @@ export function Similarity() {
     setLimit(event.target.value);
   };
 
+  useEffect(() => {
+    if (playerIDValue) {
+      setIsLoading(true);
+      getPlayerData(playerIDValue);
+      setIsLoading(false);
+    }
+  }, [getPlayerData, playerIDValue, perGameDropdown, seasonDropdown, paceAdjust, limit]);
+
   return (
     <Grid xs={12} sx={{ p: 2 }} container item>
       <Loading isLoading={isLoading} />
@@ -119,7 +129,7 @@ export function Similarity() {
         <Grid item xs={12} sm={4}>
           <AlgoliaSearch handleClick={handlePlayerSelection} />
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs>
           <StatAdjustDropdown
             dropdownValue={perGameDropdown}
             handleDropdownChange={handleDropdownChange}
@@ -132,9 +142,10 @@ export function Similarity() {
                 </MenuItem>
               ))}
             </Select>
+            <FormLabel component="legend">Season</FormLabel>
           </FormControl>
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs>
           <FormControl>
             <Select value={limit} onChange={handleLimitChange}>
               {['3', '4', '5', '6', '7', '8', '9', '10', '11', '12'].map((option) => (
@@ -143,9 +154,10 @@ export function Similarity() {
                 </MenuItem>
               ))}
             </Select>
+            <FormLabel component="legend">Number of Players to list</FormLabel>
           </FormControl>
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs>
           <FormControlLabel
             control={<Switch checked={paceAdjust} onChange={handlePaceAdjustChange} />}
             label="Pace Adjustment"
@@ -154,59 +166,15 @@ export function Similarity() {
       </Grid>
 
       <Grid xs={12} sx={{ marginTop: 2 }} item>
-        {selectedPlayerData && (
-          <Fade in timeout={1500}>
-            <Card sx={{ width: '100%', mt: 2 }}>
-              <CardContent>
-                <Grid container spacing={2}>
-                  <Grid item xs={12}>
-                    <Typography variant="h5" component="div">
-                      {selectedPlayerData.name}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={6} sm={3}>
-                    <Typography variant="body2" color="text.secondary">
-                      <b>Points:</b> {selectedPlayerData.pts}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      <b>Rebounds:</b> {selectedPlayerData.treb}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      <b>Assists:</b> {selectedPlayerData.ast}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={6} sm={3}>
-                    <Typography variant="body2" color="text.secondary">
-                      <b>Steals:</b> {selectedPlayerData.stl}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      <b>Blocks:</b> {selectedPlayerData.blk}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      <b>Turnovers:</b> {selectedPlayerData.tov}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={6} sm={3}>
-                    <Typography variant="body2" color="text.secondary">
-                      FG%: {selectedPlayerData.fgPerc}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      3P%: {selectedPlayerData.threePerc}
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </CardContent>
-            </Card>
-          </Fade>
-        )}
+        {selectedPlayerData && <SelectedPlayerCard playerData={selectedPlayerData} />}
       </Grid>
 
       <Grid sx={{ marginTop: 2 }} xs={12} spacing={1} container item>
         {Boolean(similarData?.length) &&
           similarData.map((data, index) => (
-            <Fade in timeout={{ enter: 1600 + index * 560 }} key={data?.name}>
-              <Grid xs key={data?.name} item>
-                <PlayerCard data={data} />
+            <Fade in timeout={{ enter: 1600 + index * 560 }} key={data?.PLAYER_NAME}>
+              <Grid xs={12} sm={3} item>
+                <PlayerCard data={data} perGame={perGameDropdown} />
               </Grid>
             </Fade>
           ))}

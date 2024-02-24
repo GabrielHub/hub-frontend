@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { Avatar, Card, CardHeader, CardContent, Typography, Grid } from '@mui/material';
 import { green, yellow, orange, red } from '@mui/material/colors';
 import { round } from 'lodash';
+import { STAT_PER_TYPES } from 'constants';
 
 export function PlayerCard(props) {
-  const { data } = props;
+  const { data, perGame } = props;
   const {
     PLAYER_NAME: name,
     similarity,
@@ -23,18 +24,27 @@ export function PlayerCard(props) {
   } = data;
   const [headerColor, setHeaderColor] = useState(red[500]);
 
+  // * NBA Data returns total mins with PER 36, so we need to adjust it
+  // ! Per 100 sets all their mins to 48 ish so we don't show it
+  const adjustedMP = useMemo(() => {
+    if (perGame === STAT_PER_TYPES.PER_36) {
+      return min / gp;
+    }
+    return min;
+  }, [perGame, min, gp]);
+
   const mpColor = useMemo(() => {
-    if (min / gp < 10) {
+    if (adjustedMP < 10) {
       return red[500];
     }
-    if (min / gp < 20) {
+    if (adjustedMP < 20) {
       return orange[500];
     }
-    if (min / gp < 25) {
+    if (adjustedMP < 25) {
       return yellow[500];
     }
     return green[500];
-  }, [min, gp]);
+  }, [adjustedMP]);
 
   useEffect(() => {
     if (similarity > 85) {
@@ -101,9 +111,11 @@ export function PlayerCard(props) {
             </Typography>
           </Grid>
           <Grid item xs={4}>
-            <Typography variant="body2" sx={{ color: mpColor }}>
-              {round(min / gp, 2)} <b>MP</b>
-            </Typography>
+            {perGame !== STAT_PER_TYPES.PER_100 && (
+              <Typography variant="body2" sx={{ color: mpColor }}>
+                {round(adjustedMP, 2)} <b>MP</b>
+              </Typography>
+            )}
           </Grid>
         </Grid>
       </CardContent>
@@ -113,7 +125,8 @@ export function PlayerCard(props) {
 
 PlayerCard.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
-  data: PropTypes.objectOf(PropTypes.any).isRequired
+  data: PropTypes.objectOf(PropTypes.any).isRequired,
+  perGame: PropTypes.string.isRequired
 };
 
 export default {};
