@@ -15,6 +15,9 @@ export const sanitizeArrayData = (arr) => {
       if (!isNaN(value)) {
         // * Convert the value to an integer and set it as a property in the new object
         acc[prop] = parseInt(value, 10);
+      } else if (value === 'O') {
+        // * sometimes the value is a string 'O' which should be converted to 0
+        acc[prop] = 0;
       } else {
         // * Otherwise, set the value as-is in the new object
         acc[prop] = value;
@@ -42,6 +45,9 @@ export const sanitizeObjectData = (obj) => {
       // * Recursively call the function for nested objects
       acc[prop] = sanitizeObjectData(value);
       // * Check if the value can be converted to an integer
+    } else if (value === 'O') {
+      // * sometimes the value is a string 'O' which should be converted to 0
+      acc[prop] = 0;
     } else if (!isNaN(value)) {
       acc[prop] = parseInt(value, 10);
     } else {
