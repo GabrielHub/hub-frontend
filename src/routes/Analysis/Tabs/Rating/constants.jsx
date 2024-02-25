@@ -1,4 +1,9 @@
-import { getNameRankValue, getPERRating, getPercentValues } from 'utils';
+import { getNameRankValue, getPercentValues } from 'utils';
+import { round } from 'lodash';
+import { Typography, Grid } from '@mui/material';
+
+const movedUp = '(↑)';
+const movedUpExtra = '(↑↑)';
 
 export const OVERALL_PLAYERS_COLUMNS = [
   {
@@ -9,18 +14,31 @@ export const OVERALL_PLAYERS_COLUMNS = [
     sortable: false
   },
   {
-    field: 'PER',
+    field: 'rating',
     headerName: 'Rating',
-    width: 150,
     type: 'number',
-    valueGetter: getPERRating,
+    flex: 1,
+    renderCell: (params) => {
+      let ratingColor = 'red';
+      if (params.row.ratingMovement === movedUp || params.row.ratingMovement === movedUpExtra) {
+        ratingColor = 'green';
+      }
+      const rating = `${round(params.value, 2)} (${params.row.ratingString})`;
+      return (
+        <Grid alignItems="center" justifyContent="center">
+          <Typography variant="body2">{rating}</Typography>
+          {Boolean(params.row.ratingMovement) && (
+            <Typography sx={{ color: ratingColor }}>{`${params.row.ratingMovement}`}</Typography>
+          )}
+        </Grid>
+      );
+    },
     sortable: true
   },
   {
-    field: 'aPERGamesPlayed',
+    field: 'gp',
     headerName: 'GP',
     type: 'number',
-    description: 'This is not games played, but the number of PER games recorded',
     flex: 1,
     sortable: false
   },
