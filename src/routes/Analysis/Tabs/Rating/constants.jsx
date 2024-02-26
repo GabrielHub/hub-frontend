@@ -17,7 +17,7 @@ export const OVERALL_PLAYERS_COLUMNS = [
     field: 'rating',
     headerName: 'Rating',
     type: 'number',
-    flex: 1,
+    width: 150,
     renderCell: (params) => {
       let ratingColor = 'red';
       if (params.row.ratingMovement === movedUp || params.row.ratingMovement === movedUpExtra) {
@@ -25,10 +25,14 @@ export const OVERALL_PLAYERS_COLUMNS = [
       }
       const rating = `${round(params.value, 2)} (${params.row.ratingString})`;
       return (
-        <Grid alignItems="center" justifyContent="center">
-          <Typography variant="body2">{rating}</Typography>
+        <Grid alignItems="center" justifyContent="center" container>
+          <Grid xs item>
+            <Typography variant="body2">{rating}</Typography>
+          </Grid>
           {Boolean(params.row.ratingMovement) && (
-            <Typography sx={{ color: ratingColor }}>{`${params.row.ratingMovement}`}</Typography>
+            <Grid xs item>
+              <Typography sx={{ color: ratingColor }}>{` ${params.row.ratingMovement}`}</Typography>
+            </Grid>
           )}
         </Grid>
       );
