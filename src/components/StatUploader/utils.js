@@ -7,6 +7,7 @@ const ERROR_DESCRIPTIONS = {
   NO_MATCHING_POSITION: ' does not have an opponent (player with same position on other team)',
   INVALID_POSITION: ' does not have a valid position (1 - 5)',
   STAT_NAN: ' stat is not a number',
+  NO_DECIMAL: ' stat should not be a decimal',
   NO_MATCHING_TOTAL: ' does not add up to their teams total'
 };
 
@@ -93,8 +94,18 @@ export const handleUploadValidation = (rawPlayerData, rawTeamData) => {
 
   rawPlayerData.forEach((player) => {
     Object.keys(player).forEach((stat) => {
-      // * Check for player stats that are not a number
-      if (!playerPropsToSkip.includes(stat) && Number.isNaN(player[stat])) {
+      // * Doesn't fix 0. cases
+      if (!playerPropsToSkip.includes(stat) && player[stat] === '0.') {
+        errors.push(addError(`${player.name}'s ${stat}`, ERROR_DESCRIPTIONS.STAT_NAN));
+      }
+
+      // * Error if decimal
+      if (!playerPropsToSkip.includes(stat) && player[stat] % 1 !== 0) {
+        errors.push(addError(`${player.name}'s ${stat}`, ERROR_DESCRIPTIONS.NO_DECIMAL));
+      }
+
+      // * Check for player stats that cannot be converted to a number
+      if (!playerPropsToSkip.includes(stat) && !Number.isFinite(Number(player[stat]))) {
         errors.push(addError(`${player.name}'s ${stat}`, ERROR_DESCRIPTIONS.STAT_NAN));
       }
     });
