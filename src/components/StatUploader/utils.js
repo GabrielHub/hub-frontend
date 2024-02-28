@@ -94,19 +94,19 @@ export const handleUploadValidation = (rawPlayerData, rawTeamData) => {
 
   rawPlayerData.forEach((player) => {
     Object.keys(player).forEach((stat) => {
-      // * Doesn't fix 0. cases
-      if (!playerPropsToSkip.includes(stat) && player[stat] === '0.') {
-        errors.push(addError(`${player.name}'s ${stat}`, ERROR_DESCRIPTIONS.STAT_NAN));
-      }
-
-      // * Error if decimal
-      if (!playerPropsToSkip.includes(stat) && player[stat] % 1 !== 0) {
-        errors.push(addError(`${player.name}'s ${stat}`, ERROR_DESCRIPTIONS.NO_DECIMAL));
-      }
-
       // * Check for player stats that cannot be converted to a number
       if (!playerPropsToSkip.includes(stat) && !Number.isFinite(Number(player[stat]))) {
         errors.push(addError(`${player.name}'s ${stat}`, ERROR_DESCRIPTIONS.STAT_NAN));
+        return;
+      }
+      // * Doesn't fix 0. cases
+      if (!playerPropsToSkip.includes(stat) && player[stat] === '0.') {
+        errors.push(addError(`${player.name}'s ${stat}`, ERROR_DESCRIPTIONS.STAT_NAN));
+        return;
+      }
+      // * Error if decimal
+      if (!playerPropsToSkip.includes(stat) && player[stat] % 1 !== 0) {
+        errors.push(addError(`${player.name}'s ${stat}`, ERROR_DESCRIPTIONS.NO_DECIMAL));
       }
     });
   });
@@ -135,7 +135,8 @@ export const handleUploadValidation = (rawPlayerData, rawTeamData) => {
       !playerPropsToSkip.includes(stat) &&
       !statsToSkip.includes(stat) &&
       teamTwoPlayerSum?.[stat] &&
-      teamTwoPlayerSum[stat] !== rawTeamData[teamKeys[1]][stat]
+      // eslint-disable-next-line eqeqeq
+      teamTwoPlayerSum[stat] != rawTeamData[teamKeys[1]][stat]
     ) {
       errors.push(addError(`Team ${teamKeys[1]}'s ${stat}`, ERROR_DESCRIPTIONS.NO_MATCHING_TOTAL));
     }
