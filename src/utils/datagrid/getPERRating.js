@@ -1,4 +1,4 @@
-const RATING_CONFIG = {
+export const RATING_CONFIG = {
   Bench: 4.3,
   Rotation: 5,
   Starter: 5.4,

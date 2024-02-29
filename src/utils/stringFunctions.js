@@ -19,6 +19,8 @@ function parseStats(str, team, position = 0) {
     ...(Boolean(position) && { pos: position }),
     // * Add matchup position
     ...(Boolean(position) && { oppPos: position }),
+    // * Add if AI or not, if position it's a player
+    ...(Boolean(position) && { isAI: 0 }),
     id,
     team,
     name,
@@ -116,6 +118,8 @@ export const parseGameData = (lines) => {
         id: uuidv4(),
         pos: team.players.length + 1,
         oppPos: team.players.length + 1,
+        // * Add if AI or not, if position it's a player
+        isAI: 0,
         team: index + 1,
         name: 'Empty',
         grd: 'A',

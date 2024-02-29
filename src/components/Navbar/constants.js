@@ -12,10 +12,6 @@ export const navConfig = [
     path: '/analysis'
   },
   {
-    title: 'UPLOAD IMAGE',
-    path: '/imageUpload'
-  },
-  {
     title: 'UPLOAD MANUAL',
     path: '/manualUpload'
   }

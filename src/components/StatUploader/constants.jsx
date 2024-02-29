@@ -1,4 +1,5 @@
-import { SelectPositionEditCell } from './EditCell';
+import { POSITION_READABLE } from 'constants';
+import { IsAIEditCell, SelectPositionEditCell } from './EditCell';
 
 export const PLAYER_DATA_CONFIG = [
   {
@@ -12,8 +13,8 @@ export const PLAYER_DATA_CONFIG = [
     field: 'pos',
     headerName: 'POSITION',
     renderEditCell: SelectPositionEditCell,
-    valueGetter: (params) => {
-      return params.value;
+    valueFormatter: (params) => {
+      return POSITION_READABLE[params.value];
     },
     sortable: false,
     editable: true,
@@ -23,8 +24,19 @@ export const PLAYER_DATA_CONFIG = [
     field: 'oppPos',
     headerName: 'MATCHUP',
     renderEditCell: SelectPositionEditCell,
-    valueGetter: (params) => {
-      return params.value;
+    valueFormatter: (params) => {
+      return POSITION_READABLE[params.value];
+    },
+    sortable: false,
+    editable: true,
+    flex: 1
+  },
+  {
+    field: 'isAI',
+    headerName: 'Is AI?',
+    renderEditCell: IsAIEditCell,
+    valueFormatter: (params) => {
+      return params.value === 0 ? 'No' : 'Yes';
     },
     sortable: false,
     editable: true,
