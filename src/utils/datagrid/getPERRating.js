@@ -5,7 +5,7 @@ export const RATING_CONFIG = {
   SecondOption: 6.5,
   AllStar: 7.5,
   /** Highest value is 10 */
-  MVP: 10
+  Superstar: 10
 };
 
 const mapRating = (value) => {
