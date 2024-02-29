@@ -47,53 +47,53 @@ export const OVERALL_PLAYERS_COLUMNS = [
     sortable: false
   },
   {
-    field: 'pts',
-    headerName: 'PTS',
+    field: 'PER',
+    headerName: 'PER',
     type: 'number',
     flex: 1,
     sortable: false
+  },
+  {
+    field: 'pts',
+    headerName: 'PTS',
+    type: 'number',
+    flex: 1
   },
   {
     field: 'treb',
     headerName: 'REB',
     type: 'number',
-    flex: 1,
-    sortable: false
+    flex: 1
   },
   {
     field: 'ast',
     headerName: 'AST',
     type: 'number',
-    flex: 1,
-    sortable: false
+    flex: 1
   },
   {
     field: 'stl',
     headerName: 'STL',
     type: 'number',
-    flex: 1,
-    sortable: false
+    flex: 1
   },
   {
     field: 'blk',
     headerName: 'BLK',
     type: 'number',
-    flex: 1,
-    sortable: false
+    flex: 1
   },
   {
     field: 'tov',
     headerName: 'TO',
     type: 'number',
-    flex: 1,
-    sortable: false
+    flex: 1
   },
   {
     field: 'pf',
     headerName: 'FOUL',
     type: 'number',
-    flex: 1,
-    sortable: false
+    flex: 1
   },
   {
     field: 'efgPerc',
@@ -106,7 +106,7 @@ export const OVERALL_PLAYERS_COLUMNS = [
   {
     field: 'plusMinus',
     headerName: '+/-',
-    description: 'Total box score plus minus',
+    description: 'Net Rating',
     type: 'number',
     flex: 1
   }

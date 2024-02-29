@@ -1,6 +1,8 @@
-export const RATING_CONFIG = {
-  Bench: 3.5,
-  Starter: 6.5,
+const RATING_CONFIG = {
+  Bench: 4.3,
+  Rotation: 5,
+  Starter: 5.4,
+  SecondOption: 6.5,
   AllStar: 7.5,
   /** Highest value is 10 */
   MVP: 10
