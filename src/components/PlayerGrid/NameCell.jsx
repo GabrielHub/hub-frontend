@@ -7,11 +7,13 @@ import { POSITION_READABLE } from 'constants';
 export function NameCell(props) {
   const { name, rank, playerId, positions } = props;
 
-  const positionDetails = Object.entries(positions).map(([position, games], index) => (
-    <Typography key={`${index - position}`} variant="body1">
-      {`${POSITION_READABLE[position] || position}: ${games} games`}
-    </Typography>
-  ));
+  const positionDetails = Object.entries(positions)
+    .sort(([, gamesA], [, gamesB]) => gamesB - gamesA)
+    .map(([position, games], index) => (
+      <Typography key={`${index - position}`} variant="body1">
+        {`${POSITION_READABLE[position] || position}: ${games} games`}
+      </Typography>
+    ));
 
   return (
     <Grid alignItems="center" justifyContent="center" container>
