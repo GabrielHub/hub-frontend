@@ -1,10 +1,20 @@
 import { getNameRankValue, getPercentValues } from 'utils';
+import { NameCell } from 'components/PlayerGrid';
 
 export const OFFENSIVE_PLAYERS_COLUMNS = [
   {
     field: 'name',
     headerName: 'Name',
-    valueGetter: getNameRankValue,
+    renderCell: (params) => {
+      return (
+        <NameCell
+          name={params.value}
+          rank={params.row.rank}
+          playerId={params.id}
+          positions={params.row.positions}
+        />
+      );
+    },
     width: 150,
     sortable: false
   },
