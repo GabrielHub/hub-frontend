@@ -1,9 +1,6 @@
 import { getNameRankValue, getPercentValues } from 'utils';
 import { round } from 'lodash';
-import { Typography, Grid } from '@mui/material';
-
-const movedUp = '(↑)';
-const movedUpExtra = '(↑↑)';
+import { RatingCell } from 'components/PlayerGrid';
 
 export const OVERALL_PLAYERS_COLUMNS = [
   {
@@ -19,23 +16,8 @@ export const OVERALL_PLAYERS_COLUMNS = [
     type: 'number',
     width: 150,
     renderCell: (params) => {
-      let ratingColor = 'red';
-      if (params.row.ratingMovement === movedUp || params.row.ratingMovement === movedUpExtra) {
-        ratingColor = 'green';
-      }
       const rating = `${round(params.value, 2)} (${params.row.ratingString})`;
-      return (
-        <Grid alignItems="center" justifyContent="center" container>
-          <Grid xs item>
-            <Typography variant="body2">{rating}</Typography>
-          </Grid>
-          {Boolean(params.row.ratingMovement) && (
-            <Grid xs item>
-              <Typography sx={{ color: ratingColor }}>{` ${params.row.ratingMovement}`}</Typography>
-            </Grid>
-          )}
-        </Grid>
-      );
+      return <RatingCell rating={rating} ratingMovement={params.row.ratingMovement} />;
     },
     sortable: true
   },
