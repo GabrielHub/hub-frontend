@@ -97,7 +97,11 @@ export function PlayerGrid(props) {
             handleDropdownChange
           }
         }}
-        columnVisibilityModel={visibilityModel ?? {}}
+        initialState={{
+          columns: {
+            columnVisibilityModel: visibilityModel
+          }
+        }}
       />
     </Grid>
   );
