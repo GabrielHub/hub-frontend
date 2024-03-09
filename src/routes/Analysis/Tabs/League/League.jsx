@@ -49,7 +49,7 @@ export function League() {
           {BASIC_STATS.map(({ label, field }) => (
             <Grid key={label} xs item>
               <Typography>
-                <b>{label}:</b> {leagueData[field]}
+                <b>{label}:</b> {Math.round(leagueData[field] * 10) / 10}
               </Typography>
             </Grid>
           ))}
@@ -59,7 +59,7 @@ export function League() {
           {ADVANCED_STATS.map(({ label, field }) => (
             <Grid key={label} xs item>
               <Typography>
-                <b>{label}:</b> {leagueData[field]}
+                <b>{label}:</b> {Math.round(leagueData[field] * 10) / 10}
               </Typography>
             </Grid>
           ))}
