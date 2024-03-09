@@ -17,27 +17,27 @@ export function Ranking() {
           Player Rankings
         </Typography>
       </Grid>
-      <Grid xs={6} item>
+      <Grid xs={12} item>
         <Accordion>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
             id="panel1a-header">
-            <Typography>How is this calculated:</Typography>
+            <Typography>How is this calculated?</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography>
+            <Typography gutterBottom>
               Rating is based on PER (see PER Leaders tab for more information)
             </Typography>
-            <Typography>
+            <Typography gutterBottom>
               PER is already adjusted for pace and drawn from the league average, so the ratings are
               based on our data, not the NBAs. The adjusted PER is recalculated every Sunday, and
               readjusted based on total games played by all players.
             </Typography>
-            <Typography>
+            <Typography gutterBottom>
               The value is scaled so that 5 will always be the average (equivalent to 15 PER)
             </Typography>
-            <Typography>
+            <Typography gutterBottom>
               Rating definitions (Bench vs Allstar) are based on the PER table created by John
               Hollinger
             </Typography>
