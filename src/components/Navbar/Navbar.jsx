@@ -23,18 +23,22 @@ export function Navbar() {
         </Grid>
       </Grid>
       <Menu styles={MenuStyles} right>
-        {navConfig.map((route) => (
-          <Link key={route.path} to={route.path} style={{ textDecoration: 'none' }}>
-            <Typography
-              variant="h6"
-              component="div"
-              sx={{ flexGrow: 1, mr: 2, color: THEME_COLORS.LIGHT }}
-              align="center"
-              gutterBottom>
-              {route.title}
-            </Typography>
-          </Link>
-        ))}
+        <Grid container>
+          {navConfig.map((route) => (
+            <Grid key={route.path} xs={12} item>
+              <Link to={route.path} style={{ textDecoration: 'none' }}>
+                <Typography
+                  variant="h6"
+                  component="div"
+                  sx={{ flexGrow: 1, mr: 2, color: THEME_COLORS.LIGHT }}
+                  align="center"
+                  gutterBottom>
+                  {route.title}
+                </Typography>
+              </Link>
+            </Grid>
+          ))}
+        </Grid>
       </Menu>
       <Outlet />
     </>

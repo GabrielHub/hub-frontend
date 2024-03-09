@@ -1,10 +1,12 @@
-import { getNameRankValue, getPercentValues } from 'utils';
-import { NameCell } from 'components/PlayerGrid';
+import { getPercentValues } from 'utils';
+import { round } from 'lodash';
+import { NameCell, RatingCell } from 'components/PlayerGrid';
 
-export const OFFENSIVE_PLAYERS_COLUMNS = [
+export const OVERALL_PLAYERS_COLUMNS = [
   {
     field: 'name',
     headerName: 'Name',
+    width: 150,
     renderCell: (params) => {
       return (
         <NameCell
@@ -15,14 +17,23 @@ export const OFFENSIVE_PLAYERS_COLUMNS = [
         />
       );
     },
-    width: 150,
     sortable: false
+  },
+  {
+    field: 'rating',
+    headerAlign: 'left',
+    headerName: 'Rating',
+    type: 'number',
+    width: 150,
+    renderCell: (params) => {
+      const rating = `${round(params.value, 2)} (${params.row.ratingString})`;
+      return <RatingCell rating={rating} ratingMovement={params.row.ratingMovement} />;
+    }
   },
   {
     field: 'gp',
     headerName: 'GP',
     type: 'number',
-    description: 'Total games played',
     flex: 1
   },
   {
@@ -35,83 +46,18 @@ export const OFFENSIVE_PLAYERS_COLUMNS = [
     flex: 1
   },
   {
-    field: 'ortg',
-    headerName: 'ORtg',
+    field: 'pace',
+    headerName: 'Pace',
+    type: 'number',
+    description: 'Pace factor is an estimate of the number of possessions per 48 minutes by a team',
+    flex: 1
+  },
+  {
+    field: 'PER',
+    headerName: 'PER',
     type: 'number',
     description:
-      'Offensive Rating is the points produced per 100 possessions or how many points is a player likely to generate when they try',
-    flex: 1
-  },
-  {
-    field: 'pts',
-    headerName: 'PTS',
-    type: 'number',
-    flex: 1
-  },
-  {
-    field: 'treb',
-    headerName: 'REB',
-    type: 'number',
-    flex: 1
-  },
-  {
-    field: 'ast',
-    headerName: 'AST',
-    type: 'number',
-    flex: 1
-  },
-  {
-    field: 'tov',
-    headerName: 'TO',
-    type: 'number',
-    flex: 1
-  },
-  {
-    field: 'tovPerc',
-    headerName: 'TOV%',
-    type: 'number',
-    description: 'Turnover percentage is an estimate of turnovers per 100 plays',
-    valueGetter: getPercentValues,
-    flex: 1
-  },
-  {
-    field: 'astPerc',
-    headerName: 'AST%',
-    type: 'number',
-    description:
-      'Assist percentage is an estimate of the percentage of teammate field goals a player assisted while he was on the floor',
-    valueGetter: getPercentValues,
-    flex: 1
-  },
-  {
-    field: 'astToRatio',
-    headerName: 'AST/TO',
-    type: 'number',
-    flex: 1
-  },
-  {
-    field: 'efgPerc',
-    headerName: 'EFG%',
-    description: 'FG% adjusted for 3 Pointers',
-    type: 'number',
-    valueGetter: getPercentValues,
-    flex: 1
-  },
-  {
-    field: 'tsPerc',
-    headerName: 'TS%',
-    type: 'number',
-    description:
-      'A measure of shooting efficiency that takes into account field goals, 3-point field goals, and free throws',
-    valueGetter: getPercentValues,
-    flex: 1
-  },
-  {
-    field: 'threepAR',
-    headerName: '3PaR',
-    type: 'number',
-    description: 'Percentage of shots taken from 3',
-    valueGetter: getPercentValues,
+      'Player Efficiency Rating is the overall rating of a player`s per-minute statistical production',
     flex: 1
   },
   {
@@ -121,27 +67,13 @@ export const OFFENSIVE_PLAYERS_COLUMNS = [
     description:
       'Game Score is a rough measure of a player`s productivity for a single game, per game',
     flex: 1
-  }
-];
-
-export const OFFENSIVE_PLAYERS_DEFAULT_SORTS = {
-  field: 'offensiveRanking',
-  type: 'desc'
-};
-
-export const DEFENSIVE_PLAYERS_COLUMNS = [
-  {
-    field: 'name',
-    headerName: 'Name',
-    width: 150,
-    valueGetter: getNameRankValue,
-    sortable: false
   },
   {
-    field: 'gp',
-    headerName: 'GP',
+    field: 'ortg',
+    headerName: 'ORtg',
     type: 'number',
-    description: 'Total games played',
+    description:
+      'Offensive Rating is the points produced per 100 possessions or how many points is a player likely to generate when they try',
     flex: 1
   },
   {
@@ -183,9 +115,71 @@ export const DEFENSIVE_PLAYERS_COLUMNS = [
     flex: 1
   },
   {
+    field: 'tov',
+    headerName: 'TO',
+    type: 'number',
+    flex: 1
+  },
+  {
     field: 'pf',
     headerName: 'FOUL',
     type: 'number',
+    flex: 1
+  },
+  {
+    field: 'tovPerc',
+    headerName: 'TOV%',
+    type: 'number',
+    description: 'Turnover percentage is an estimate of turnovers per 100 plays',
+    valueGetter: getPercentValues,
+    flex: 1
+  },
+  {
+    field: 'astPerc',
+    headerName: 'AST%',
+    type: 'number',
+    description:
+      'Assist percentage is an estimate of the percentage of teammate field goals a player assisted while he was on the floor',
+    valueGetter: getPercentValues,
+    flex: 1
+  },
+  {
+    field: 'fgPerc',
+    headerName: 'FG%',
+    type: 'number',
+    valueGetter: getPercentValues,
+    flex: 1
+  },
+  {
+    field: 'threePerc',
+    headerName: '3PT%',
+    type: 'number',
+    valueGetter: getPercentValues,
+    flex: 1
+  },
+  {
+    field: 'efgPerc',
+    headerName: 'EFG%',
+    description: 'FG% adjusted for 3 Pointers',
+    type: 'number',
+    valueGetter: getPercentValues,
+    flex: 1
+  },
+  {
+    field: 'tsPerc',
+    headerName: 'TS%',
+    type: 'number',
+    description:
+      'A measure of shooting efficiency that takes into account field goals, 3-point field goals, and free throws',
+    valueGetter: getPercentValues,
+    flex: 1
+  },
+  {
+    field: 'threepAR',
+    headerName: '3PaR',
+    type: 'number',
+    description: 'Percentage of shots taken from 3',
+    valueGetter: getPercentValues,
     flex: 1
   },
   {
@@ -225,12 +219,37 @@ export const DEFENSIVE_PLAYERS_COLUMNS = [
     description: `The percentage of available rebounds a player obtains while on the floor`,
     valueGetter: getPercentValues,
     flex: 1
+  },
+  {
+    field: 'plusMinus',
+    headerName: '+/-',
+    description: 'Net Rating',
+    type: 'number',
+    flex: 1
   }
 ];
 
-export const DEFENSIVE_PLAYERS_DEFAULT_SORTS = {
-  field: 'defensiveRanking',
-  type: 'asc'
+export const OVERALL_PLAYERS_DEFAULT_SORTS = {
+  field: 'PER',
+  type: 'desc'
 };
 
-export default {};
+export const VISIBILITY_MODEL = {
+  usageRate: false,
+  PER: false,
+  gameScore: false,
+  ortg: false,
+  drtg: false,
+  tovPerc: false,
+  astPerc: false,
+  fgPerc: false,
+  threePerc: false,
+  tsPerc: false,
+  threepAR: false,
+  oFGA: false,
+  oFGPerc: false,
+  o3PPerc: false,
+  oEFGPerc: false,
+  drebPerc: false,
+  pace: false
+};

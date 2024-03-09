@@ -15,12 +15,12 @@ export function RatingCell(props) {
   }, [ratingMovement]);
 
   return (
-    <Grid alignItems="center" justifyContent="center" container>
-      <Grid xs item>
+    <Grid alignItems="center" container>
+      <Grid xs={6} item>
         <Typography variant="body2">{rating}</Typography>
       </Grid>
       {Boolean(ratingMovement) && (
-        <Grid xs item>
+        <Grid xs={6} item>
           <Typography sx={{ color: ratingColor }}>{` ${ratingMovement}`}</Typography>
         </Grid>
       )}

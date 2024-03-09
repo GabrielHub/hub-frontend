@@ -40,7 +40,7 @@ function Footer(props) {
 }
 
 export function PlayerGrid(props) {
-  const { columns, defaultSortField, defaultSortType } = props;
+  const { columns, defaultSortField, defaultSortType, visibilityModel } = props;
   const { enqueueSnackbar } = useSnackbar();
   const [dropdownValue, setDropdownValue] = useState(STAT_PER_TYPES.DEFAULT);
   const [rows, setRows] = useState([]);
@@ -97,6 +97,7 @@ export function PlayerGrid(props) {
             handleDropdownChange
           }
         }}
+        columnVisibilityModel={visibilityModel ?? {}}
       />
     </Grid>
   );
@@ -109,7 +110,12 @@ PlayerGrid.propTypes = {
     PropTypes.objectOf(
       PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool, PropTypes.func])
     )
-  ).isRequired
+  ).isRequired,
+  visibilityModel: PropTypes.objectOf(PropTypes.bool)
+};
+
+PlayerGrid.defaultProps = {
+  visibilityModel: {}
 };
 
 Footer.propTypes = {
