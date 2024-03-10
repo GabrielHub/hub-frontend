@@ -1,6 +1,6 @@
 import { getPercentValues } from 'utils';
 import { round } from 'lodash';
-import { NameCell, RatingCell } from 'components/PlayerGrid';
+import { GamesPlayedCell, NameCell, RatingCell } from 'components/PlayerGrid';
 
 export const OVERALL_PLAYERS_COLUMNS = [
   {
@@ -33,7 +33,12 @@ export const OVERALL_PLAYERS_COLUMNS = [
   {
     field: 'gp',
     headerName: 'GP',
+    description:
+      'Games Played. Less than 5 games played is too small a sample size, and less than 25 is not accurate enough to be reliable.',
     type: 'number',
+    renderCell: (params) => {
+      return <GamesPlayedCell value={params.value} />;
+    },
     flex: 1
   },
   {
