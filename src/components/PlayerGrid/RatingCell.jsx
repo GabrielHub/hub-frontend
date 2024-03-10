@@ -16,11 +16,11 @@ export function RatingCell(props) {
 
   return (
     <Grid alignItems="center" container>
-      <Grid xs={6} item>
+      <Grid xs item>
         <Typography variant="body2">{rating}</Typography>
       </Grid>
       {Boolean(ratingMovement) && (
-        <Grid xs={6} item>
+        <Grid xs item>
           <Typography sx={{ color: ratingColor }}>{` ${ratingMovement}`}</Typography>
         </Grid>
       )}
