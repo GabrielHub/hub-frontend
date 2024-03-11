@@ -132,6 +132,42 @@ export const OVERALL_PLAYERS_COLUMNS = [
     flex: 1
   },
   {
+    field: 'fgm',
+    headerName: 'FGM',
+    type: 'number',
+    flex: 1
+  },
+  {
+    field: 'fga',
+    headerName: 'FGA',
+    type: 'number',
+    flex: 1
+  },
+  {
+    field: 'threepm',
+    headerName: '3PM',
+    type: 'number',
+    flex: 1
+  },
+  {
+    field: 'threepa',
+    headerName: '3PA',
+    type: 'number',
+    flex: 1
+  },
+  {
+    field: 'ftm',
+    headerName: 'FTM',
+    type: 'number',
+    flex: 1
+  },
+  {
+    field: 'fta',
+    headerName: 'FTA',
+    type: 'number',
+    flex: 1
+  },
+  {
     field: 'tovPerc',
     headerName: 'TOV%',
     type: 'number',
@@ -256,5 +292,11 @@ export const VISIBILITY_MODEL = {
   o3PPerc: false,
   oEFGPerc: false,
   drebPerc: false,
-  pace: false
+  pace: false,
+  fgm: false,
+  fga: false,
+  threepm: false,
+  threepa: false,
+  ftm: false,
+  fta: false
 };
