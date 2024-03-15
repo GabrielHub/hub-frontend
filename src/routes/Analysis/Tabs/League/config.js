@@ -1,78 +1,80 @@
-export const BASIC_STATS = [
-  {
-    label: 'PTS',
-    field: 'pts'
-  },
-  {
-    label: 'REB',
-    field: 'treb'
-  },
-  {
-    label: 'AST',
-    field: 'ast'
-  },
-  {
-    label: 'STL',
-    field: 'stl'
-  },
-  {
-    label: 'BLK',
-    field: 'blk'
-  },
-  {
-    label: 'TO',
-    field: 'tov'
-  },
-  {
-    label: 'FOUL',
-    field: 'pf'
-  }
+export const statNames = {
+  fga: 'FGA',
+  fgm: 'FGM',
+  fta: 'FTA',
+  ftm: 'FTM',
+  threepa: '3PA',
+  threepm: '3PM',
+  oreb: 'OREB',
+  dreb: 'DREB',
+  treb: 'TREB',
+  ast: 'AST',
+  stl: 'STL',
+  blk: 'BLK',
+  tov: 'TOV',
+  pf: 'PF',
+  pts: 'PTS',
+  tovPerc: 'TOV%',
+  threepPerc: '3PT%',
+  usageRate: 'Usage Rate',
+  aPER: 'aPER',
+  fgPerc: 'FG%',
+  efgPerc: 'eFG%',
+  ortg: 'ORTG',
+  drtg: 'DRTG',
+  astToRatio: 'AST/TO Ratio',
+  PER: 'PER',
+  pace: 'Pace',
+  threepAR: '3PT Attempt %',
+  gameScore: 'Game Score',
+  gp: 'Games Played'
+};
+
+export const totalStatsToSkip = [
+  'tovPerc',
+  'threepPerc',
+  'fgPerc',
+  'efgPerc',
+  'threepAR',
+  'astToRatio',
+  'PER',
+  'aPER',
+  'ortg',
+  'drtg',
+  'pace',
+  'usageRate',
+  'threepAR'
 ];
 
-export const ADVANCED_STATS = [
-  {
-    label: 'ORtg',
-    field: 'ortg'
-  },
-  {
-    label: 'DRtg',
-    field: 'drtg'
-  },
-  {
-    label: 'PACE',
-    field: 'pace'
-  },
-  {
-    label: 'USG%',
-    field: 'usageRate'
-  },
-  {
-    label: 'PER',
-    field: 'PER'
-  },
-  {
-    label: 'aPER',
-    field: 'aPER'
-  }
+export const basicStats = [
+  'fga',
+  'fgm',
+  'fta',
+  'ftm',
+  'threepa',
+  'threepm',
+  'oreb',
+  'dreb',
+  'treb',
+  'ast',
+  'stl',
+  'blk',
+  'tov',
+  'pf',
+  'pts'
 ];
-
-export const EFFICIENCY = [
-  {
-    label: 'FGM',
-    field: 'fgm'
-  },
-  {
-    label: 'FGA',
-    field: 'fga'
-  },
-  {
-    label: 'FTM',
-    field: 'ftm'
-  },
-  {
-    label: 'FTA',
-    field: 'fta'
-  }
+export const advancedStats = [
+  'tovPerc',
+  'threepPerc',
+  'threepAR',
+  'usageRate',
+  'aPER',
+  'fgPerc',
+  'efgPerc',
+  'ortg',
+  'drtg',
+  'astToRatio',
+  'PER',
+  'pace',
+  'gameScore'
 ];
-
-export default {};
