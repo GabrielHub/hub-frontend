@@ -12,7 +12,6 @@ What can you do with it?
 
 ### TODOS:
 > Add Player Comparison Tool
-- Maybe link from player page? Or another tab on the analytics page
 - Add advanced analytics API
     - returns who is a better shooter and why
     - returns who is a better defender and why
