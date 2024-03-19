@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { useSnackbar } from 'notistack';
 import {
   Grid,
@@ -6,6 +6,7 @@ import {
   FormControl,
   Select,
   FormControlLabel,
+  FormHelperText,
   FormLabel,
   MenuItem,
   Switch,
@@ -14,7 +15,7 @@ import {
 import { Loading } from 'components/Loading';
 import { fetchSimilarPlayers, fetchPlayerData } from 'rest';
 import { AlgoliaSearch } from 'components/AlgoliaSearch';
-import { STAT_PER_TYPES } from 'constants';
+import { STAT_PER_TYPES, POSITION_READABLE } from 'constants';
 import { StatAdjustDropdown } from 'components/StatAdjustDropdown';
 import { adjustDataByFilter } from 'utils';
 import { PlayerCard } from './PlayerCard';
@@ -31,10 +32,26 @@ export function Similarity() {
   const [seasonDropdown, setSeasonDropdown] = useState(seasonDropdownOptions[0]);
   const [limit, setLimit] = useState(3);
   const [paceAdjust, setPaceAdjust] = useState(false);
+  const [position, setPosition] = useState(0);
 
   const handleDropdownChange = (event) => {
     setPerGameDropdown(event.target.value);
   };
+
+  const POSITION_OPTIONS = useMemo(
+    () =>
+      selectedPlayerData
+        ? Object.keys(POSITION_READABLE)
+            .filter((pos) =>
+              Object.prototype.hasOwnProperty.call(selectedPlayerData.positions, pos)
+            )
+            .map((pos) => ({
+              value: pos,
+              label: POSITION_READABLE[pos]
+            }))
+        : [],
+    [selectedPlayerData]
+  );
 
   const getSimilarityData = useCallback(
     async (playerID) => {
@@ -56,15 +73,15 @@ export function Similarity() {
 
   const getPlayerData = useCallback(
     async (playerID) => {
-      const { data, error } = await fetchPlayerData(playerID);
+      const { data, error } = await fetchPlayerData(playerID, position);
       if (error) {
         enqueueSnackbar('Error fetch player data, please try again later', { variant: 'error' });
       } else {
-        const dataList = adjustDataByFilter([data], perGameDropdown)?.[0];
+        const dataList = adjustDataByFilter([data.playerData], perGameDropdown)?.[0];
         setSelectedPlayerData(dataList);
       }
     },
-    [enqueueSnackbar, perGameDropdown]
+    [enqueueSnackbar, perGameDropdown, position]
   );
 
   const handlePlayerSelection = useCallback(
@@ -143,6 +160,27 @@ export function Similarity() {
               ))}
             </Select>
             <FormLabel component="legend">Season</FormLabel>
+          </FormControl>
+        </Grid>
+        <Grid item xs>
+          <FormControl fullWidth>
+            <Select
+              value={position}
+              onChange={(e) => setPosition(e.target.value)}
+              size="small"
+              sx={{ height: 1 }}
+              native
+              autoFocus>
+              <option value={0}>All</option>
+              {POSITION_OPTIONS.map((pos) => (
+                <option value={pos.value} key={pos.value}>
+                  {pos.label}
+                </option>
+              ))}
+            </Select>
+            <FormHelperText id="position-filter-helper-text" align="center">
+              Filter By Position
+            </FormHelperText>
           </FormControl>
         </Grid>
         <Grid item xs>
