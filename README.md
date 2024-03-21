@@ -9,6 +9,7 @@ What can you do with it?
 1. Generate and view advanced data using NBA analytics (equations from basketball reference)
 2. Compare and rank players by statistic
 3. Compare to NBA players, leveraging data from the NBA website/api
+4. View positional and league data
 
 ### TODOS:
 > Awards
