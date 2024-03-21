@@ -11,14 +11,25 @@ What can you do with it?
 3. Compare to NBA players, leveraging data from the NBA website/api
 
 ### TODOS:
+> Awards
+- Calculate MVP (min 25 gp)
+- Calculate All-NBA (positionless) (min 25 gp)
+- Positional MVPs (min 25 gp) including best lock (start recording by opp = pg)
+- best/worst shooters (min 3pa), other analysis (high/low usage, efg%, +- etc.)
+> Discord webhooks
+- Update a rankings channel for each ranking threshold change
+> Refactor for new seasons (years)
+- current `pace` field is actually the est. possessions. Convert that to possessions and calculate the pace factor correctly
+    - pace factor should be for 48 minutes. it currently estimates possessions over 20 minutes
+- fix issue with drtg. It is way too low so something must be wrong with the calculation
+- simplified BPM and VORP
+> Career Highs (league + player)
+- Add `career` subcollection to `players`
+- League average scheduled function should also calculate league highs in stats based on player `career` subcollection
 > Add Player Comparison Tool
 - Add advanced analytics API
     - returns who is a better shooter and why
     - returns who is a better defender and why
-> Career Highs (league + player)
-- Add `career` subcollection to `players`
-- League average scheduled function should also calculate league highs in stats based on player `career` subcollection
-> Refactor for new seasons (years)
 
 ### How to setup
 `npm run start` to run locally
