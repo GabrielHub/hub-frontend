@@ -19,6 +19,10 @@ What can you do with it?
 - best/worst shooters (min 3pa), other analysis (high/low usage, efg%, +- etc.)
 > Discord webhooks
 - Update a rankings channel for each ranking threshold change
+- reach: update roles based on rating?
+> Firestore and Auth refactor
+- Upload results and edit players based on admin (include login page etc.)
+- Use firestore directly instead of API calls
 > Refactor for new seasons (years)
 - current `pace` field is actually the est. possessions. Convert that to possessions and calculate the pace factor correctly
     - pace factor should be for 48 minutes. it currently estimates possessions over 20 minutes
