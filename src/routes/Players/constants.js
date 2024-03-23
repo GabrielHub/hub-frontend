@@ -176,13 +176,13 @@ export const PLAYER_AVERAGES_OFFENSE = [
   },
   {
     field: 'ortg',
-    header: 'Offensive Rating',
+    header: 'ORTG',
     size: 4,
     tooltip: false
   },
   {
-    field: 'gameScore',
-    header: 'Game Score',
+    field: 'pace',
+    header: 'Pace',
     size: 4,
     tooltip: false
   },
@@ -240,8 +240,14 @@ export const PLAYER_AVERAGES_OFFENSE = [
 export const PLAYER_AVERAGES_DEFENSE = [
   {
     field: 'drtg',
-    header: 'Defensive Rating',
-    size: 12,
+    header: 'DRTG',
+    size: 4,
+    tooltip: false
+  },
+  {
+    field: 'drebPerc',
+    header: 'DREB%',
+    size: 4,
     tooltip: false
   },
   {
@@ -393,6 +399,12 @@ export const RECENT_GAMES_COLUMNS = [
     sortable: false
   },
   {
+    field: 'name',
+    headerName: 'Name',
+    flex: 1,
+    sortable: false
+  },
+  {
     field: 'pos',
     headerName: 'POS',
     valueGetter: (params) => {
@@ -406,13 +418,6 @@ export const RECENT_GAMES_COLUMNS = [
     headerName: 'PER',
     description:
       'This PER value is not what goes into your average. It is the PER that would be calculated based on when this game was uploaded',
-    type: 'number',
-    flex: 1,
-    sortable: false
-  },
-  {
-    field: 'aPER',
-    headerName: 'aPER',
     type: 'number',
     flex: 1,
     sortable: false

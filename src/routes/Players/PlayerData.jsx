@@ -10,12 +10,13 @@ import {
   FormControl,
   FormControlLabel,
   FormHelperText,
-  Switch
+  Switch,
+  Tooltip
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import { fetchPlayerData, fetchPlayerRanking } from 'rest';
+import { fetchPlayerData } from 'rest';
 import { Loading } from 'components/Loading';
 import { THEME_COLORS, POSITION_READABLE } from 'constants';
 import { EditPlayerModal } from 'components/Modal';
@@ -37,7 +38,6 @@ export function PlayerData() {
   const [isOpen, setIsOpen] = useState(false);
   const [playerData, setPlayerData] = useState(null);
   const [leagueData, setLeagueData] = useState(null);
-  const [playerRanking, setPlayerRanking] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [position, setPosition] = useState(0);
   const [showLeagueComparisons, setShowLeagueComparisons] = useState(false);
@@ -59,17 +59,6 @@ export function PlayerData() {
     setIsOpen(false);
   };
 
-  const getPlayerRanking = useCallback(async () => {
-    setIsLoading(true);
-    const { data, error } = await fetchPlayerRanking(playerID);
-    if (error) {
-      enqueueSnackbar('Error reading data, please try a different user', { variant: 'error' });
-    } else {
-      setPlayerRanking(data);
-    }
-    setIsLoading(false);
-  }, [enqueueSnackbar, playerID]);
-
   const getPlayerData = useCallback(async () => {
     setIsLoading(true);
     const { data, error } = await fetchPlayerData(playerID, position);
@@ -79,6 +68,8 @@ export function PlayerData() {
       // * Players should always have a name, alias and FTPerc
       setPlayerData(data.playerData);
       setLeagueData(data.leagueData);
+
+      console.log(data.playerData);
     }
     setIsLoading(false);
   }, [enqueueSnackbar, playerID, position]);
@@ -86,16 +77,16 @@ export function PlayerData() {
   useEffect(() => {
     if (playerID) {
       getPlayerData();
-      getPlayerRanking();
     }
-  }, [getPlayerData, getPlayerRanking, playerID, position]);
+  }, [getPlayerData, playerID, position]);
 
-  const getComparisonIcon = (playerStat, leagueStat) => {
+  const getComparisonIcon = (playerStat, leagueStat, stat) => {
+    console.log(playerStat, leagueStat);
     if (playerStat > leagueStat + 1) {
-      return <ArrowUpwardIcon style={{ color: 'green' }} />;
+      return <ArrowUpwardIcon style={{ color: stat !== 'drtg' ? 'green' : 'red' }} />;
     }
     if (playerStat < leagueStat - 1) {
-      return <ArrowDownwardIcon style={{ color: 'red' }} />;
+      return <ArrowDownwardIcon style={{ color: stat !== 'drtg' ? 'red' : 'green' }} />;
     }
     return null;
   };
@@ -116,12 +107,42 @@ export function PlayerData() {
 
       {playerData && (
         <Grid sx={{ padding: 1 }} justifyContent="center" container>
-          <Grid xs={12} item>
-            <Button variant="outlined" onClick={() => navigate('/players')}>
-              Go Back
-            </Button>
+          <Grid
+            xs={12}
+            justifyContent="space-between"
+            sx={{
+              paddingBottom: 8
+            }}
+            container
+            item>
+            <Grid xs={6} item>
+              <Button variant="outlined" onClick={() => navigate('/players')}>
+                Go Back
+              </Button>
+            </Grid>
+            <Grid xs={6} item>
+              <FormControl fullWidth>
+                <Select
+                  value={position}
+                  onChange={(e) => setPosition(e.target.value)}
+                  size="small"
+                  sx={{ height: 1 }}
+                  native
+                  autoFocus>
+                  <option value={0}>All</option>
+                  {POSITION_OPTIONS.map((pos) => (
+                    <option value={pos.value} key={pos.value}>
+                      {pos.label}
+                    </option>
+                  ))}
+                </Select>
+                <FormHelperText id="position-filter-helper-text" align="center">
+                  Filter By Position
+                </FormHelperText>
+              </FormControl>
+            </Grid>
           </Grid>
-          <Grid xs={10} sx={{ marginBottom: 16 }} container item>
+          <Grid xs={10} sx={{ marginBottom: 4 }} container item>
             <Grid
               sx={{
                 borderRadius: 25,
@@ -135,16 +156,18 @@ export function PlayerData() {
               item
               container>
               <Grid xs md={8} item>
-                <Typography
-                  align="center"
-                  variant="h3"
-                  sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  {/* Disable until we figure out how to auth this */}
-                  <IconButton onClick={() => setIsOpen(true)} size="large" disabled>
-                    <EditIcon />
-                  </IconButton>
-                  {playerData.name}
-                </Typography>
+                <Tooltip title={playerData.alias.join(', ')} enterTouchDelay={0}>
+                  <Typography
+                    align="center"
+                    variant="h3"
+                    sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    {/* Disable until we figure out how to auth this */}
+                    <IconButton onClick={() => setIsOpen(true)} size="large" disabled>
+                      <EditIcon />
+                    </IconButton>
+                    {playerData.name}
+                  </Typography>
+                </Tooltip>
               </Grid>
               <Grid xs justifyContent="flex-end" alignItems="center" container item>
                 <Grid xs md={3} item>
@@ -157,29 +180,10 @@ export function PlayerData() {
                     <b>FT%:</b> {playerData.ftPerc}
                   </Typography>
                 </Grid>
-                <Grid item xs={12}>
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        checked={showLeagueComparisons}
-                        onChange={() => setShowLeagueComparisons(!showLeagueComparisons)}
-                      />
-                    }
-                    label="League Average Comparisons"
-                  />
-                </Grid>
               </Grid>
             </Grid>
-            <Grid xs={12} item>
+            <Grid xs={12} alignItems="center" container item>
               <Grid xs item>
-                <Typography align="center" variant="body1">
-                  <b>Aliases: </b>
-                  {playerData.alias.toString()}
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid alignItems="center" container item xs={12}>
-              <Grid item xs={6}>
                 <Typography align="center" variant="body1">
                   <b>Position:</b>{' '}
                   {Object.entries(playerData.positions)
@@ -189,26 +193,21 @@ export function PlayerData() {
                     .join('/')}
                 </Typography>
               </Grid>
-              <Grid item xs={6}>
-                <FormControl fullWidth>
-                  <Select
-                    value={position}
-                    onChange={(e) => setPosition(e.target.value)}
-                    size="small"
-                    sx={{ height: 1 }}
-                    native
-                    autoFocus>
-                    <option value={0}>All</option>
-                    {POSITION_OPTIONS.map((pos) => (
-                      <option value={pos.value} key={pos.value}>
-                        {pos.label}
-                      </option>
-                    ))}
-                  </Select>
-                  <FormHelperText id="position-filter-helper-text" align="center">
-                    Filter By Position
-                  </FormHelperText>
-                </FormControl>
+              <Grid xs item>
+                <Typography align="center" variant="body1">
+                  <b>{playerData.ratingString}:</b> {Math.round(playerData.rating * 10) / 10}
+                </Typography>
+              </Grid>
+              <Grid xs item>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={showLeagueComparisons}
+                      onChange={() => setShowLeagueComparisons(!showLeagueComparisons)}
+                    />
+                  }
+                  label="League Average Comparisons"
+                />
               </Grid>
             </Grid>
           </Grid>
@@ -237,7 +236,7 @@ export function PlayerData() {
               </Grid>
               <Grid xs={12} sx={{ paddingBottom: 4 }} item>
                 <Typography align="center" variant="h5" gutterBottom>
-                  <b>Ranked {playerRanking?.offense}</b>
+                  <b>PER {Math.round(playerData.PER * 10) / 10}</b>
                 </Typography>
               </Grid>
               {PLAYER_AVERAGES_OFFENSE.map((stat) => (
@@ -250,7 +249,7 @@ export function PlayerData() {
                     {showLeagueComparisons &&
                       leagueData &&
                       leagueData[stat.field] &&
-                      getComparisonIcon(playerData[stat.field], leagueData[stat.field])}
+                      getComparisonIcon(playerData[stat.field], leagueData[stat.field], stat.field)}
                   </Typography>
                 </Grid>
               ))}
@@ -277,11 +276,6 @@ export function PlayerData() {
                   <b>Player Averages - Defense</b>
                 </Typography>
               </Grid>
-              <Grid xs={12} sx={{ paddingBottom: 4 }} item>
-                <Typography align="center" variant="h5" gutterBottom>
-                  <b>Ranked {playerRanking?.defense}</b>
-                </Typography>
-              </Grid>
               {PLAYER_AVERAGES_DEFENSE.map((stat) => (
                 <Grid xs={stat.size} key={stat.header} sx={{ padding: 2 }} item>
                   <Typography align="center" variant="h6">
@@ -292,7 +286,7 @@ export function PlayerData() {
                     {showLeagueComparisons &&
                       leagueData &&
                       leagueData[stat.field] &&
-                      getComparisonIcon(playerData[stat.field], leagueData[stat.field])}
+                      getComparisonIcon(playerData[stat.field], leagueData[stat.field], stat.field)}
                   </Typography>
                 </Grid>
               ))}
@@ -329,7 +323,7 @@ export function PlayerData() {
                     {showLeagueComparisons &&
                       leagueData &&
                       leagueData[stat.field] &&
-                      getComparisonIcon(playerData[stat.field], leagueData[stat.field])}
+                      getComparisonIcon(playerData[stat.field], leagueData[stat.field], stat.field)}
                   </Typography>
                 </Grid>
               ))}
