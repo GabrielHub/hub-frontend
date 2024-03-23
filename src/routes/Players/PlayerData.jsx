@@ -68,8 +68,6 @@ export function PlayerData() {
       // * Players should always have a name, alias and FTPerc
       setPlayerData(data.playerData);
       setLeagueData(data.leagueData);
-
-      console.log(data.playerData);
     }
     setIsLoading(false);
   }, [enqueueSnackbar, playerID, position]);
@@ -81,7 +79,6 @@ export function PlayerData() {
   }, [getPlayerData, playerID, position]);
 
   const getComparisonIcon = (playerStat, leagueStat, stat) => {
-    console.log(playerStat, leagueStat);
     if (playerStat > leagueStat + 1) {
       return <ArrowUpwardIcon style={{ color: stat !== 'drtg' ? 'green' : 'red' }} />;
     }
