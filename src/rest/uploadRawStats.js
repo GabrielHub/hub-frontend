@@ -10,13 +10,12 @@ import { auth } from 'firebase';
  * @param {*} uploadKey an attempt at security :) I should never have used github pages :(
  * @returns Uploaded player data and the team data used to calculate stats
  */
-export const uploadRawStats = async (rawPlayerData, rawTeamData, uploadKey) => {
+export const uploadRawStats = async (rawPlayerData, rawTeamData) => {
   const token = await auth.currentUser.getIdToken();
   const response = {};
   const body = {
     rawPlayerData: sanitizeArrayData(rawPlayerData),
-    rawTeamData: sanitizeObjectData(rawTeamData),
-    key: uploadKey.trim()
+    rawTeamData: sanitizeObjectData(rawTeamData)
   };
 
   await axios

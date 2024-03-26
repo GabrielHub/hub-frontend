@@ -17,7 +17,7 @@ const TABLE_KEY = {
 };
 
 export function StatUploader(props) {
-  const { possiblePlayers, teamData, handleReset, uploadKey } = props;
+  const { possiblePlayers, teamData, handleReset } = props;
   const { enqueueSnackbar } = useSnackbar();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -31,11 +31,6 @@ export function StatUploader(props) {
   const [errors, setErrors] = useState([]);
 
   const handleStatUpload = useCallback(async () => {
-    if (!uploadKey.trim()) {
-      enqueueSnackbar('Please provide an upload key', { variant: 'error' });
-      return;
-    }
-
     setIsLoading(true);
     setErrors([]);
     const rawPlayerData = sanitizeArrayData(playerList);
@@ -52,7 +47,7 @@ export function StatUploader(props) {
       return;
     }
 
-    const { data, error } = await uploadRawStats(rawPlayerData, rawTeamData, uploadKey);
+    const { data, error } = await uploadRawStats(rawPlayerData, rawTeamData);
     if (error || !data) {
       enqueueSnackbar('Error uploading data, please try again', { variant: 'error' });
       setIsLoading(false);
@@ -61,7 +56,7 @@ export function StatUploader(props) {
       setIsLoading(false);
       handleReset();
     }
-  }, [enqueueSnackbar, handleReset, playerList, teamList, uploadKey]);
+  }, [enqueueSnackbar, handleReset, playerList, teamList]);
 
   const processRowUpdate = useCallback(
     async (updatedRow, tableKey) => {
@@ -166,12 +161,7 @@ export function StatUploader(props) {
 StatUploader.propTypes = {
   possiblePlayers: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
   teamData: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
-  handleReset: PropTypes.func.isRequired,
-  uploadKey: PropTypes.string
-};
-
-StatUploader.defaultProps = {
-  uploadKey: ''
+  handleReset: PropTypes.func.isRequired
 };
 
 export default {};

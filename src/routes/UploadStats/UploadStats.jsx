@@ -23,7 +23,6 @@ export function UploadStats() {
   const [isLoading, setIsLoading] = useState(false);
   const [hideRules, setHideRules] = useState(true);
   const [progress, setProgress] = useState(null);
-  const [uploadKey, setUploadKey] = useState('');
 
   // * Crop state
   const [crop, setCrop] = useState(null);
@@ -171,12 +170,13 @@ export function UploadStats() {
             </Grid>
             <Grid xs={12} justifyContent="center" container item>
               <Typography variant="caption" sx={{ color: 'grey' }} gutterBottom>
-                ex. Player&apos;s name is AI Player, make their name AI Player or Al Player
+                If a player crashed out or disconnected before the 3rd quarter, make them an AI
+                Player
               </Typography>
             </Grid>
             <Grid xs={12} justifyContent="center" container item>
               <Typography variant="caption" sx={{ color: 'grey' }} gutterBottom>
-                ex. Player&apos;s name is [][][][], make their name Boxes
+                Names are not case sensitive, but symbols must match
               </Typography>
             </Grid>
             <Grid xs={12} justifyContent="center" container item>
@@ -189,14 +189,6 @@ export function UploadStats() {
 
         <Grid xs={12} justifyContent="center" alignItems="center" container item>
           <Grid xs={12} xl={6} justifyContent="center" alignItems="center" container item>
-            <Grid xs justifyContent="center" container item>
-              <TextField
-                placeholder="Upload key"
-                onChange={(e) => setUploadKey(e.target.value)}
-                required
-                sx={{ minWidth: 400 }}
-              />
-            </Grid>
             <Grid xs justifyContent="center" container item>
               <Button variant="contained" onClick={() => setHideRules(!hideRules)}>
                 Show/Hide Upload Guidelines
@@ -291,7 +283,6 @@ export function UploadStats() {
 
         {Boolean(playerData.length) && (
           <StatUploader
-            uploadKey={uploadKey}
             possiblePlayers={playerData}
             teamData={teamData}
             handleReset={handleReset}
