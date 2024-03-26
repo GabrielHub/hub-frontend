@@ -2,6 +2,11 @@ import axios from 'axios';
 import { Buffer } from 'buffer';
 import { NANONET_KEY, NANONET_MODEL_ID } from 'constants';
 
+/**
+ * @deprecated no longer used
+ * @param {*} fileBlob
+ * @returns
+ */
 export const uploadNanonet = async (fileBlob) => {
   const data = new FormData();
   data.append('file', fileBlob);

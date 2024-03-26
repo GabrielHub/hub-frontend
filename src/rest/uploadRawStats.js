@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { sanitizeArrayData, sanitizeObjectData } from 'utils';
 import { FIREBASE_BASE_URL } from 'constants';
+import { auth } from 'firebase';
 
 /**
  * @description uploads raw data. Rest endpoint will calculate stats and upload game data
@@ -10,6 +11,7 @@ import { FIREBASE_BASE_URL } from 'constants';
  * @returns Uploaded player data and the team data used to calculate stats
  */
 export const uploadRawStats = async (rawPlayerData, rawTeamData, uploadKey) => {
+  const token = await auth.currentUser.getIdToken();
   const response = {};
   const body = {
     rawPlayerData: sanitizeArrayData(rawPlayerData),
@@ -18,7 +20,11 @@ export const uploadRawStats = async (rawPlayerData, rawTeamData, uploadKey) => {
   };
 
   await axios
-    .post(`${FIREBASE_BASE_URL}/upload`, body)
+    .post(`${FIREBASE_BASE_URL}/upload`, body, {
+      headers: {
+        authorization: `Bearer ${token}`
+      }
+    })
     .then((res) => {
       response.data = res.data;
     })

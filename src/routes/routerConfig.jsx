@@ -1,13 +1,13 @@
 import { ErrorBoundary } from 'components/ErrorBoundary';
 import { Navbar } from 'components/Navbar';
 import { Root } from './Root';
-import { ImageCarousel } from './ImageCarousel';
-import { GM } from './GM';
 import { UploadStats } from './UploadStats';
 import { Players, PlayerData } from './Players';
 import { ImageUpload, Success } from './ImageUpload';
 import { Ranking } from './Ranking';
 import { Analysis } from './Analysis';
+import { Login } from './Login';
+import { PrivateRoute } from './PrivateRoute';
 
 export const routerConfig = [
   {
@@ -20,16 +20,6 @@ export const routerConfig = [
         index: true,
         element: <Root />
       },
-      // * StartPlaying Technical Demo
-      {
-        path: '/carousel',
-        element: <ImageCarousel />
-      },
-      {
-        path: '/gm',
-        element: <GM />
-      },
-      // * 2K Stat Hub
       {
         path: '/ranking',
         element: <Ranking />
@@ -48,15 +38,31 @@ export const routerConfig = [
       },
       {
         path: '/imageUpload',
-        element: <ImageUpload />
+        element: (
+          <PrivateRoute>
+            <ImageUpload />
+          </PrivateRoute>
+        )
       },
       {
         path: '/imageUpload/success',
-        element: <Success />
+        element: (
+          <PrivateRoute>
+            <Success />
+          </PrivateRoute>
+        )
       },
       {
         path: '/manualUpload',
-        element: <UploadStats />
+        element: (
+          <PrivateRoute>
+            <UploadStats />
+          </PrivateRoute>
+        )
+      },
+      {
+        path: '/login',
+        element: <Login />
       }
     ]
   }

@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { FIREBASE_BASE_URL } from 'constants';
+import { auth } from 'firebase';
 
 export const updatePlayerDetails = async ({ playerID, ftPerc, alias, aliasesToAdd }) => {
+  const token = await auth.currentUser.getIdToken();
   const response = {};
   const body = {
     playerID,
@@ -11,7 +13,11 @@ export const updatePlayerDetails = async ({ playerID, ftPerc, alias, aliasesToAd
   };
 
   await axios
-    .post(`${FIREBASE_BASE_URL}/updatePlayerDetails`, body)
+    .post(`${FIREBASE_BASE_URL}/updatePlayerDetails`, body, {
+      headers: {
+        authorization: `Bearer ${token}`
+      }
+    })
     .then((res) => {
       response.data = res.data;
     })

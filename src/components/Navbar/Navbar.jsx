@@ -1,17 +1,35 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { slide as Menu } from 'react-burger-menu';
-import { Button, Grid, Typography } from '@mui/material';
+import { Button, Grid, Typography, CircularProgress, Box } from '@mui/material';
 import { THEME_COLORS } from 'constants';
+import { AuthContext } from 'services';
 import logo512 from '../../images/logo512.png';
 import { navConfig, MenuStyles } from './constants';
 
 export function Navbar() {
   const navigate = useNavigate();
+  const { user, logout, loading } = useContext(AuthContext);
+
+  const handleSignOut = async () => {
+    await logout();
+    navigate('/');
+  };
+
+  const renderAuthButton = () => {
+    if (loading) {
+      return <CircularProgress />;
+    }
+    if (user) {
+      return <Button onClick={handleSignOut}>Logout</Button>;
+    }
+    return <Box />;
+  };
+
   return (
     <>
-      <Grid alignItems="center" justifyContent="space-around" container>
-        <Grid xs sx={{ padding: 2 }} item>
+      <Grid container justifyContent="flex-start" alignItems="center">
+        <Grid item xs={2} sx={{ padding: 2 }}>
           <Button sx={{ borderRadius: 28 }} onClick={() => navigate('/')}>
             <Typography
               variant="h4"
@@ -20,6 +38,9 @@ export function Navbar() {
               Hub
             </Typography>
           </Button>
+        </Grid>
+        <Grid xs item>
+          {renderAuthButton()}
         </Grid>
       </Grid>
       <Menu styles={MenuStyles} right>

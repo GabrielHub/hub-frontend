@@ -3,6 +3,7 @@ export const ALGOLIA_KEY = process.env.REACT_APP_ALGOLIA_SEARCH_KEY;
 export const ALGOLIA_PROJECT_ID = process.env.REACT_APP_ALGOLIA_PROJECT_ID;
 export const NANONET_KEY = process.env.REACT_APP_NANONET;
 export const NANONET_MODEL_ID = process.env.REACT_APP_MODEL_ID;
+export const FIREBASE_KEY = process.env.REACT_APP_FIREBASE_API_KEY;
 
 // TODO Currently broken so unused
 export const MIN_GAMES = 3;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Grid, Link, Typography, Card, CardActions, CardContent, Button, Box } from '@mui/material';
+import { Grid, Typography, Card, CardActions, CardContent, Button, Box } from '@mui/material';
 import pixelLogo from '../../images/pixelLogo.png';
 
 const bull = (
@@ -16,29 +16,6 @@ export function Root() {
       <Grid xs={12} container item>
         <Grid xs={12} justifyContent="center" container item>
           <Typography variant="h4">A comprehensive glossary and analytics hub</Typography>
-        </Grid>
-        <Grid xs={12} justifyContent="center" container item>
-          <Typography variant="caption" gutterBottom>
-            This is an open source project built with Firebase, Express, React and Node. Report bugs
-            and view updates{' '}
-            <Link
-              href="https://github.com/GabrielHub/hub-frontend"
-              target="_blank"
-              rel="noreferrer"
-              variant="body2"
-              underline="none">
-              here!
-            </Link>{' '}
-            and{' '}
-            <Link
-              href="https://github.com/GabrielHub/hub-backend"
-              target="_blank"
-              rel="noreferrer"
-              variant="body2"
-              underline="none">
-              here!
-            </Link>
-          </Typography>
         </Grid>
         <Grid xs={12} justifyContent="center" container item>
           <Typography sx={{ maxWidth: 600 }} variant="body2">
