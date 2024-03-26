@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import {
   Grid,
-  IconButton,
   Typography,
   Button,
   Select,
@@ -13,13 +12,11 @@ import {
   Switch,
   Tooltip
 } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { fetchPlayerData } from 'rest';
 import { Loading } from 'components/Loading';
 import { THEME_COLORS, POSITION_READABLE } from 'constants';
-import { EditPlayerModal } from 'components/Modal';
 import { GameGrid } from 'components/GameGrid';
 import {
   PLAYER_AVERAGES_DEFENSE,
@@ -35,7 +32,6 @@ export function PlayerData() {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
-  const [isOpen, setIsOpen] = useState(false);
   const [playerData, setPlayerData] = useState(null);
   const [leagueData, setLeagueData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -54,10 +50,6 @@ export function PlayerData() {
         : [],
     [playerData]
   );
-
-  const handleModalClose = () => {
-    setIsOpen(false);
-  };
 
   const getPlayerData = useCallback(async () => {
     setIsLoading(true);
@@ -91,16 +83,6 @@ export function PlayerData() {
   return (
     <>
       <Loading isLoading={isLoading} />
-      {playerData && (
-        <EditPlayerModal
-          setIsLoading={setIsLoading}
-          open={isOpen}
-          handleClose={handleModalClose}
-          ftPerc={playerData?.ftPerc}
-          alias={playerData?.alias}
-          playerID={playerID}
-        />
-      )}
 
       {playerData && (
         <Grid sx={{ padding: 1 }} justifyContent="center" container>
@@ -158,10 +140,6 @@ export function PlayerData() {
                     align="center"
                     variant="h3"
                     sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    {/* Disable until we figure out how to auth this */}
-                    <IconButton onClick={() => setIsOpen(true)} size="large" disabled>
-                      <EditIcon />
-                    </IconButton>
                     {playerData.name}
                   </Typography>
                 </Tooltip>

@@ -23,6 +23,7 @@ import { useSnackbar } from 'notistack';
 import { AlgoliaSearch } from 'components/AlgoliaSearch';
 import { ConfirmationModal } from 'components/Modal';
 import { fetchPlayerAndGames, updatePlayerDetails, deletePlayer } from 'fb';
+import { recalculateLeagueAverages, recalculatePlayerAverages } from 'rest';
 import { GAMES_COLUMNS } from './constants';
 
 export function Dashboard() {
@@ -35,6 +36,32 @@ export function Dashboard() {
   const [newAlias, setNewAlias] = useState('');
   const [editedPlayerData, setEditedPlayerData] = useState(null);
   const [open, setOpen] = useState(false);
+
+  const handleRecalculatePlayerAverages = useCallback(async () => {
+    setLoading(true);
+    try {
+      await recalculatePlayerAverages();
+      enqueueSnackbar('Player Averages Recalculated', { variant: 'success' });
+    } catch (err) {
+      enqueueSnackbar('Error recalculating player averages, please try again', {
+        variant: 'error'
+      });
+    }
+    setLoading(false);
+  }, [enqueueSnackbar]);
+
+  const handleRecalculateLeagueAverages = useCallback(async () => {
+    setLoading(true);
+    try {
+      await recalculateLeagueAverages();
+      enqueueSnackbar('League Averages Recalculated', { variant: 'success' });
+    } catch (err) {
+      enqueueSnackbar('Error recalculating league averages, please try again', {
+        variant: 'error'
+      });
+    }
+    setLoading(false);
+  }, [enqueueSnackbar]);
 
   const handlePlayerSelect = useCallback(
     async (objectID) => {
@@ -64,6 +91,7 @@ export function Dashboard() {
   };
 
   const handleSaveClick = useCallback(async () => {
+    setLoading(true);
     // * Valid states (FT 0 - 100), lowercase and trim all aliases
     if (editedPlayerData.ftPerc < 0 || editedPlayerData.ftPerc > 100) {
       enqueueSnackbar('Invalid FT%', { variant: 'error' });
@@ -82,6 +110,7 @@ export function Dashboard() {
     }
 
     setIsEditing(false);
+    setLoading(false);
   }, [editedPlayerData, enqueueSnackbar, handlePlayerSelect, playerID]);
 
   const handleTextFieldChange = (field) => (event) => {
@@ -99,6 +128,7 @@ export function Dashboard() {
   };
 
   const handleDeletePlayer = async () => {
+    setLoading(true);
     try {
       await deletePlayer(playerID);
       setPlayerData(null);
@@ -109,6 +139,7 @@ export function Dashboard() {
       enqueueSnackbar('Error deleting player, please try again', { variant: 'error' });
     }
     setOpen(false);
+    setLoading(false);
   };
 
   return (
@@ -132,20 +163,13 @@ export function Dashboard() {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => {
-            /* Recalculate Player Averages */
-          }}
+          onClick={handleRecalculatePlayerAverages}
           sx={{
             marginRight: 1
           }}>
           Recalculate Player Averages
         </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            /* Recalculate League Averages */
-          }}>
+        <Button variant="contained" color="primary" onClick={handleRecalculateLeagueAverages}>
           Recalculate League Averages
         </Button>
       </Grid>
