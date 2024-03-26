@@ -1,0 +1,131 @@
+import { POSITION_READABLE } from 'constants';
+
+export const GAMES_COLUMNS = [
+  {
+    field: '_createdAt',
+    headerName: 'Date',
+    valueGetter: (params) => {
+      return new Date(params.value.seconds * 1000).toLocaleDateString('en-US');
+    },
+    flex: 1,
+    sortable: false
+  },
+  {
+    field: 'name',
+    headerName: 'Name',
+    flex: 1,
+    sortable: false
+  },
+  {
+    field: 'pos',
+    headerName: 'POS',
+    valueGetter: (params) => {
+      return POSITION_READABLE[params.value];
+    },
+    flex: 1,
+    sortable: false
+  },
+  {
+    field: 'oppPos',
+    headerName: 'OPP POS',
+    valueGetter: (params) => {
+      return POSITION_READABLE[params.value];
+    },
+    flex: 1,
+    sortable: false
+  },
+  {
+    field: 'PER',
+    headerName: 'PER',
+    description:
+      'This PER value is not what goes into your average. It is the PER that would be calculated based on when this game was uploaded',
+    type: 'number',
+    flex: 1,
+    sortable: false
+  },
+  {
+    field: 'pts',
+    headerName: 'PTS',
+    type: 'number',
+    flex: 1,
+    sortable: false
+  },
+  {
+    field: 'treb',
+    headerName: 'REB',
+    type: 'number',
+    flex: 1,
+    sortable: false
+  },
+  {
+    field: 'ast',
+    headerName: 'AST',
+    type: 'number',
+    flex: 1,
+    sortable: false
+  },
+  {
+    field: 'stl',
+    headerName: 'STL',
+    type: 'number',
+    flex: 1
+  },
+  {
+    field: 'blk',
+    headerName: 'BLK',
+    type: 'number',
+    flex: 1
+  },
+  {
+    field: 'pf',
+    headerName: 'FOUL',
+    type: 'number',
+    flex: 1
+  },
+  {
+    field: 'tov',
+    headerName: 'TO',
+    type: 'number',
+    flex: 1,
+    sortable: false
+  },
+  {
+    field: 'fgm',
+    headerName: 'FGM',
+    type: 'number',
+    flex: 1,
+    sortable: false
+  },
+  {
+    field: 'fga',
+    headerName: 'FGA',
+    type: 'number',
+    flex: 1,
+    sortable: false
+  },
+  {
+    field: 'threepm',
+    headerName: '3PM',
+    type: 'number',
+    flex: 1,
+    sortable: false
+  },
+  {
+    field: 'threepa',
+    headerName: '3PA',
+    type: 'number',
+    flex: 1,
+    sortable: false
+  },
+  {
+    field: 'gameScore',
+    headerName: 'GmScr',
+    type: 'number',
+    description:
+      'Game Score is a rough measure of a player`s productivity for a single game, per game',
+    flex: 1,
+    sortable: false
+  }
+];
+
+export default {};

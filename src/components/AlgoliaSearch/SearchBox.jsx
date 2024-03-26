@@ -15,7 +15,7 @@ export function SearchBox() {
     refine(event.target.value);
   };
 
-  return <TextField placeholder="Search Name" onChange={handleChange} />;
+  return <TextField placeholder="Search Name" onChange={handleChange} label="Player Lookup" />;
 }
 
 export default {};

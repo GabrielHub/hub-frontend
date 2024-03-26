@@ -8,6 +8,7 @@ import { Ranking } from './Ranking';
 import { Analysis } from './Analysis';
 import { Login } from './Login';
 import { PrivateRoute } from './PrivateRoute';
+import { Dashboard } from './Dashboard';
 
 export const routerConfig = [
   {
@@ -57,6 +58,14 @@ export const routerConfig = [
         element: (
           <PrivateRoute>
             <UploadStats />
+          </PrivateRoute>
+        )
+      },
+      {
+        path: '/dashboard',
+        element: (
+          <PrivateRoute>
+            <Dashboard />
           </PrivateRoute>
         )
       },

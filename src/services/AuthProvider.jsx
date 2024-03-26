@@ -1,7 +1,7 @@
 import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { createContext, useEffect, useState, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { auth } from '../firebase/firebase';
+import { auth } from '../fb/firebase';
 
 export const AuthContext = createContext(null);
 

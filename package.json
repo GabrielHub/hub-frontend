@@ -67,7 +67,8 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
     "gh-pages": "^5.0.0",
-    "prettier": "^2.8.4"
+    "prettier": "^2.8.4",
+    "@babel/plugin-proposal-private-property-in-object": "^7.16.7"
   },
   "lint": "eslint .",
   "lint:fix": "eslint --fix",

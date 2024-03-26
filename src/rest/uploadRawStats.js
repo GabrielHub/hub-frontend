@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { sanitizeArrayData, sanitizeObjectData } from 'utils';
 import { FIREBASE_BASE_URL } from 'constants';
-import { auth } from '../firebase';
+import { auth } from '../fb';
 
 /**
  * @description uploads raw data. Rest endpoint will calculate stats and upload game data

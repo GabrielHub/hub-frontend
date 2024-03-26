@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { FIREBASE_BASE_URL } from 'constants';
-import { auth } from '../../firebase';
+import { auth } from '../../fb';
 
 export const updatePlayerDetails = async ({ playerID, ftPerc, alias, aliasesToAdd }) => {
   const token = await auth.currentUser.getIdToken();

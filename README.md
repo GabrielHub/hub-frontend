@@ -21,8 +21,7 @@ What can you do with it?
 - Update a rankings channel for each ranking threshold change
 - reach: update roles based on rating?
 > Firestore and Auth refactor
-- Upload results and edit players based on admin (include login page etc.)
-- Use firestore directly instead of API calls
+- Admins can edit games
 > Refactor for new seasons (years)
 - current `pace` field is actually the est. possessions. Convert that to possessions and calculate the pace factor correctly
     - pace factor should be for 48 minutes. it currently estimates possessions over 20 minutes
