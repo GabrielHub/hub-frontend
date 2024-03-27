@@ -20,8 +20,11 @@ What can you do with it?
 > Discord webhooks
 - Update a rankings channel for each ranking threshold change
 - reach: update roles based on rating?
-> Firestore and Auth refactor
-- Admins can edit games
+> Remove auto admin on claims
+- Anyone can have an account and can edit their details (name, ftPerc)
+    - unique check for aliases
+- Admins can view and create or remove other admins (new endpoint)
+- users collection for new accounts
 > Refactor for new seasons (years)
 - current `pace` field is actually the est. possessions. Convert that to possessions and calculate the pace factor correctly
     - pace factor should be for 48 minutes. it currently estimates possessions over 20 minutes
