@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Grid,
   Typography,
@@ -36,6 +37,7 @@ export function Dashboard() {
   const [newAlias, setNewAlias] = useState('');
   const [editedPlayerData, setEditedPlayerData] = useState(null);
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleRecalculatePlayerAverages = useCallback(async () => {
     setLoading(true);
@@ -281,7 +283,13 @@ export function Dashboard() {
         </Grid>
       )}
       <Grid xs={12} sx={{ height: 750 }} item>
-        <DataGrid rows={gameData || []} columns={GAMES_COLUMNS} autoPageSize loading={loading} />
+        <DataGrid
+          rows={gameData || []}
+          columns={GAMES_COLUMNS}
+          autoPageSize
+          loading={loading}
+          onRowClick={(params) => navigate(`/games/${params.id}`)}
+        />
       </Grid>
     </Grid>
   );

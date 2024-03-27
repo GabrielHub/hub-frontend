@@ -8,7 +8,10 @@ export const fetchPlayerAndGames = async (uid) => {
 
   const gamesRef = query(collection(db, 'games'), where('name', 'in', player.alias));
   const gamesSnapshot = await getDocs(gamesRef);
-  const games = gamesSnapshot.docs.map((document) => document.data());
+  const games = gamesSnapshot.docs.map((document) => ({
+    ...document.data(),
+    id: document.id
+  }));
 
   return { player, games };
 };

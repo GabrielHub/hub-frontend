@@ -6,14 +6,14 @@ import { Button, TextField, Grid, Paper, Typography, Box } from '@mui/material';
 
 export function Login() {
   const { user, signIn } = useContext(AuthContext);
-  const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (user) {
       navigate('/');
     }
-  }, [navigate, user]);
+  }, [user, navigate]);
 
   const handleLogin = useCallback(
     async (e) => {

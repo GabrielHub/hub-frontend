@@ -12,7 +12,7 @@ export const navConfig = [
     path: '/analysis'
   },
   {
-    title: 'UPLOAD MANUAL',
+    title: 'UPLOAD',
     path: '/manualUpload'
   },
   {

@@ -95,7 +95,7 @@ export function PlayerData() {
             container
             item>
             <Grid xs={6} item>
-              <Button variant="outlined" onClick={() => navigate('/players')}>
+              <Button variant="outlined" onClick={() => navigate(-1)}>
                 Go Back
               </Button>
             </Grid>

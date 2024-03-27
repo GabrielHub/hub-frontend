@@ -9,6 +9,7 @@ import { Analysis } from './Analysis';
 import { Login } from './Login';
 import { PrivateRoute } from './PrivateRoute';
 import { Dashboard } from './Dashboard';
+import { Games } from './Games';
 
 export const routerConfig = [
   {
@@ -66,6 +67,14 @@ export const routerConfig = [
         element: (
           <PrivateRoute>
             <Dashboard />
+          </PrivateRoute>
+        )
+      },
+      {
+        path: '/games/:gameID',
+        element: (
+          <PrivateRoute>
+            <Games />
           </PrivateRoute>
         )
       },

@@ -17,6 +17,12 @@ export const GAMES_COLUMNS = [
     sortable: false
   },
   {
+    field: 'isAI',
+    headerName: 'AI',
+    flex: 1,
+    sortable: false
+  },
+  {
     field: 'pos',
     headerName: 'POS',
     valueGetter: (params) => {
@@ -114,15 +120,6 @@ export const GAMES_COLUMNS = [
     field: 'threepa',
     headerName: '3PA',
     type: 'number',
-    flex: 1,
-    sortable: false
-  },
-  {
-    field: 'gameScore',
-    headerName: 'GmScr',
-    type: 'number',
-    description:
-      'Game Score is a rough measure of a player`s productivity for a single game, per game',
     flex: 1,
     sortable: false
   }
