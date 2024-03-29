@@ -1,4 +1,4 @@
-import { PER, League, Similarity } from './Tabs';
+import { PER, League, Similarity, Awards } from './Tabs';
 
 export const TAB_LABELS = [
   {
@@ -9,6 +9,9 @@ export const TAB_LABELS = [
   },
   {
     label: 'NBA Comparison'
+  },
+  {
+    label: 'Awards'
   }
 ];
 
@@ -24,6 +27,10 @@ export const TAB_CONFIG = [
   {
     label: 'NBA Comparison',
     component: <Similarity />
+  },
+  {
+    label: 'Awards',
+    component: <Awards />
   }
 ];
 

@@ -24,7 +24,7 @@ import { useSnackbar } from 'notistack';
 import { AlgoliaSearch } from 'components/AlgoliaSearch';
 import { ConfirmationModal } from 'components/Modal';
 import { fetchPlayerAndGames, updatePlayerDetails, deletePlayer } from 'fb';
-import { recalculateLeagueAverages, recalculatePlayerAverages } from 'rest';
+import { recalculateLeagueAverages, recalculatePlayerAverages, recalculateAwards } from 'rest';
 import { GAMES_COLUMNS } from './constants';
 
 export function Dashboard() {
@@ -59,6 +59,19 @@ export function Dashboard() {
       enqueueSnackbar('League Averages Recalculated', { variant: 'success' });
     } catch (err) {
       enqueueSnackbar('Error recalculating league averages, please try again', {
+        variant: 'error'
+      });
+    }
+    setLoading(false);
+  }, [enqueueSnackbar]);
+
+  const handleRecalculateAwards = useCallback(async () => {
+    setLoading(true);
+    try {
+      await recalculateAwards();
+      enqueueSnackbar('Awards Recalculated', { variant: 'success' });
+    } catch (err) {
+      enqueueSnackbar('Error recalculating awards, please try again', {
         variant: 'error'
       });
     }
@@ -171,8 +184,17 @@ export function Dashboard() {
           }}>
           Recalculate Player Averages
         </Button>
-        <Button variant="contained" color="primary" onClick={handleRecalculateLeagueAverages}>
+        <Button
+          variant="contained"
+          sx={{
+            marginRight: 1
+          }}
+          color="primary"
+          onClick={handleRecalculateLeagueAverages}>
           Recalculate League Averages
+        </Button>
+        <Button variant="contained" color="primary" onClick={handleRecalculateAwards}>
+          Generate Awards
         </Button>
       </Grid>
       <Grid sx={{ py: 4 }} xs={12} item>

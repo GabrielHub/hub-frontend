@@ -12,11 +12,6 @@ What can you do with it?
 4. View positional and league data
 
 ### TODOS:
-> Awards
-- Calculate MVP (min 25 gp)
-- Calculate All-NBA (positionless) (min 25 gp)
-- Positional MVPs (min 25 gp) including best lock (start recording by opp = pg)
-- best/worst shooters (min 3pa), other analysis (high/low usage, efg%, +- etc.)
 > Discord webhooks
 - Update a rankings channel for each ranking threshold change
 - reach: update roles based on rating?
