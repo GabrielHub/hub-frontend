@@ -34,17 +34,8 @@ import AdsClickIcon from '@mui/icons-material/AdsClick';
 import SecurityIcon from '@mui/icons-material/Security';
 import { Loading } from 'components/Loading';
 import { fetchAwards, fetchLeagueAverages } from 'rest';
-import { POSITION_READABLE } from '../../../../constants';
-
-/** Helper function to format position to readable */
-const formatPosition = (position) => {
-  if (position?.length) {
-    return `(${POSITION_READABLE[parseInt(position[0], 10)]}/${
-      POSITION_READABLE[parseInt(position[1], 10)]
-    })`;
-  }
-  return '';
-};
+import { AwardCard } from './AwardCard';
+import { formatPosition } from './utils';
 
 export function Awards() {
   const { enqueueSnackbar } = useSnackbar();
@@ -241,939 +232,233 @@ export function Awards() {
         </Card>
       </Grid>
       <Grid xs={12} md={4} item>
-        <Card style={{ height: '100%' }}>
-          <CardHeader
-            avatar={
-              <Avatar sx={{ bgcolor: amber[600] }} aria-label="MVP">
-                <Typography
-                  variant="body2"
-                  style={{ color: theme.palette.getContrastText(amber[600]) }}>
-                  MVP
-                </Typography>
-              </Avatar>
-            }
-            title={
-              <Typography variant="h6" color="text.primary">
-                Most Valuable Player
-              </Typography>
-            }
-            subheader={
-              <>
-                <Typography
-                  sx={{ display: 'inline' }}
-                  component="span"
-                  variant="body2"
-                  color="text.primary">
-                  Highest PER of all players
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Minimum 25 games played
-                </Typography>
-              </>
-            }
-          />
-          <CardContent>
-            <Divider />
-            <List disablePadding>
-              <ListItem>
-                <ListItemButton component={RouterLink} to={`/players/${awardData?.mvp.id}`}>
-                  <ListItemIcon>
-                    <EmojiEventsIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={awardData?.mvp.name}
-                    secondary={formatPosition(awardData?.mvp.positions)}
-                  />
-                </ListItemButton>
-              </ListItem>
-            </List>
-            <Typography
-              sx={{ p: 1 }}
-              variant="body2"
-              color="text.secondary"
-              align="right"
-              gutterBottom>
-              League Avg: {leagueData?.PER}
-            </Typography>
-          </CardContent>
-        </Card>
+        <AwardCard
+          title="Most Valuable Player"
+          subheader="Highest PER of all players"
+          subheaderMin="Minimum 25 games played"
+          iconComponent={<EmojiEventsIcon />}
+          avatarTitle="MVP"
+          avatarColor={amber[600]}
+          playerId={awardData?.mvp.id}
+          name={awardData?.mvp.name}
+          positions={awardData?.mvp.positions}
+          values={['']}
+          leagueAvg={[leagueData?.PER]}
+        />
       </Grid>
       <Grid xs={12} md={4} item>
-        <Card style={{ height: '100%' }}>
-          <CardHeader
-            avatar={
-              <Avatar sx={{ bgcolor: deepOrange[700] }} aria-label="DPOY">
-                <Typography
-                  variant="body2"
-                  style={{ color: theme.palette.getContrastText(deepOrange[700]) }}>
-                  DPOY
-                </Typography>
-              </Avatar>
-            }
-            title={
-              <Typography variant="h6" color="text.primary">
-                Defensive Player of The Year
-              </Typography>
-            }
-            subheader={
-              <>
-                <Typography
-                  sx={{ display: 'inline' }}
-                  component="span"
-                  variant="body2"
-                  color="text.primary">
-                  Lowest Defensive Rating of all players
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Minimum 25 games played
-                </Typography>
-              </>
-            }
-          />
-          <CardContent>
-            <Divider />
-            <List disablePadding>
-              <ListItem>
-                <ListItemButton component={RouterLink} to={`/players/${awardData?.dpoy.id}`}>
-                  <ListItemIcon>
-                    <EmojiEventsIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={awardData?.dpoy.name}
-                    secondary={`${formatPosition(awardData?.dpoy.positions)} - ${
-                      awardData?.dpoy.value
-                    }`}
-                  />
-                </ListItemButton>
-              </ListItem>
-            </List>
-            <Typography
-              sx={{ p: 1 }}
-              variant="body2"
-              color="text.secondary"
-              align="right"
-              gutterBottom>
-              League Avg: {Math.round((leagueData?.drtg || 0) * 10) / 10}
-            </Typography>
-          </CardContent>
-        </Card>
+        <AwardCard
+          title="Defensive Player of The Year"
+          subheader="Lowest Defensive Rating of all players"
+          subheaderMin="Minimum 25 games played"
+          iconComponent={<EmojiEventsIcon />}
+          avatarTitle="DPOY"
+          avatarColor={deepOrange[700]}
+          playerId={awardData?.dpoy.id}
+          name={awardData?.dpoy.name}
+          positions={awardData?.dpoy.positions}
+          values={[`${awardData?.dpoy.value} Drtg`]}
+          leagueAvg={[`${Math.round((leagueData?.drtg || 0) * 10) / 10} Drtg`]}
+        />
       </Grid>
       <Grid xs={12} md={4} item>
-        <Card style={{ height: '100%' }}>
-          <CardHeader
-            avatar={
-              <Avatar sx={{ bgcolor: deepOrange[400] }} aria-label="LOTY">
-                <LockIcon />
-              </Avatar>
-            }
-            title={
-              <Typography variant="h6" color="text.primary">
-                Lock-Down of The Year
-              </Typography>
-            }
-            subheader={
-              <>
-                <Typography
-                  sx={{ display: 'inline' }}
-                  component="span"
-                  variant="body2"
-                  color="text.primary">
-                  Lowest Defensive Rating based on games defending Point Guards
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Minimum 25 games played guarding PGs
-                </Typography>
-              </>
-            }
-          />
-          <CardContent>
-            <Divider />
-            <List disablePadding>
-              <ListItem>
-                <ListItemButton component={RouterLink} to={`/players/${awardData?.poaDefender.id}`}>
-                  <ListItemIcon>
-                    <LockIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={awardData?.poaDefender.name}
-                    secondary={`${awardData?.poaDefender.value}`}
-                  />
-                </ListItemButton>
-              </ListItem>
-            </List>
-            <Typography
-              sx={{ p: 1 }}
-              variant="body2"
-              color="text.secondary"
-              align="right"
-              gutterBottom>
-              League Avg: {Math.round((leagueData?.drtg || 0) * 10) / 10}
-            </Typography>
-          </CardContent>
-        </Card>
+        <AwardCard
+          title="Lock-Down of The Year"
+          subheader="Lowest Defensive Rating based on games defending Point Guards"
+          subheaderMin="Minimum 25 games played guarding PGs"
+          iconComponent={<LockIcon />}
+          avatarColor={deepOrange[400]}
+          playerId={awardData?.poaDefender.id}
+          name={awardData?.poaDefender.name}
+          positions={awardData?.poaDefender.positions}
+          values={[`${awardData?.poaDefender.value} Drtg`]}
+          leagueAvg={[`${Math.round((leagueData?.drtg || 0) * 10) / 10} Drtg`]}
+        />
       </Grid>
       <Grid xs={12} md={3} item>
-        <Card style={{ height: '100%' }}>
-          <CardHeader
-            avatar={
-              <Avatar sx={{ bgcolor: green[400] }} aria-label="Best Shooter">
-                <ModeStandbyIcon />
-              </Avatar>
-            }
-            title={
-              <Typography variant="h6" color="text.primary">
-                Best Shooter
-              </Typography>
-            }
-            subheader={
-              <>
-                <Typography
-                  sx={{ display: 'inline' }}
-                  component="span"
-                  variant="body2"
-                  color="text.primary">
-                  Highest 3P% weighted against 3PA and 3P Attempt Rate
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Minimum 82 3PA
-                </Typography>
-              </>
-            }
-          />
-          <CardContent>
-            <Divider />
-            <List disablePadding>
-              <ListItem>
-                <ListItemButton component={RouterLink} to={`/players/${awardData?.bestShooter.id}`}>
-                  <ListItemIcon>
-                    <ModeStandbyIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={awardData?.bestShooter.name}
-                    secondary={
-                      <>
-                        <Typography
-                          sx={{ display: 'inline' }}
-                          component="span"
-                          variant="body2"
-                          color="text.primary">
-                          {formatPosition(awardData?.bestShooter.positions)}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {`${awardData?.bestShooter.value.split(' ')[0]} 3P% `}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {`${awardData?.bestShooter.value.split(' ')[2]}% 3Par `}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {`${awardData?.bestShooter.value.split(' ')[1]} 3PA `}
-                        </Typography>
-                      </>
-                    }
-                  />
-                </ListItemButton>
-              </ListItem>
-            </List>
-            <Typography
-              sx={{ p: 1 }}
-              variant="body2"
-              color="text.secondary"
-              align="right"
-              gutterBottom>
-              League Avg: {Math.round((leagueData?.threepPerc || 0) * 10) / 10} 3P%
-            </Typography>
-          </CardContent>
-        </Card>
+        <AwardCard
+          title="Best Shooter"
+          subheader="Highest 3P% weighted against 3PA and 3P Attempt Rate"
+          subheaderMin="Minimum 82 3PA"
+          iconComponent={<ModeStandbyIcon />}
+          avatarColor={green[400]}
+          playerId={awardData?.bestShooter.id}
+          name={awardData?.bestShooter.name}
+          positions={awardData?.bestShooter.positions}
+          values={[
+            `${awardData?.bestShooter.value.split(' ')[0]} 3P%`,
+            `${awardData?.bestShooter.value.split(' ')[2]}% 3Par`,
+            `${awardData?.bestShooter.value.split(' ')[1]} 3PA`
+          ]}
+          leagueAvg={[
+            `${Math.round((leagueData?.threepPerc || 0) * 10) / 10} 3P%`,
+            `${Math.round((leagueData?.threepAR || 0) * 10) / 10}% 3Par`,
+            `${Math.round((leagueData?.threepa || 0) * 10) / 10} 3PA`
+          ]}
+        />
       </Grid>
       <Grid xs={12} md={3} item>
-        <Card style={{ height: '100%' }}>
-          <CardHeader
-            avatar={
-              <Avatar sx={{ bgcolor: red[500] }} aria-label="Worst Shooter">
-                <HighlightOffIcon />
-              </Avatar>
-            }
-            title={
-              <Typography variant="h6" color="text.primary">
-                Worst Shooter
-              </Typography>
-            }
-            subheader={
-              <>
-                <Typography
-                  sx={{ display: 'inline' }}
-                  component="span"
-                  variant="body2"
-                  color="text.primary">
-                  Lowest 3P% weighted against 3P Attempt Rate
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Minimum 82 3PA
-                </Typography>
-              </>
-            }
-          />
-          <CardContent>
-            <Divider />
-            <List disablePadding>
-              <ListItem>
-                <ListItemButton
-                  component={RouterLink}
-                  to={`/players/${awardData?.worstShooter.id}`}>
-                  <ListItemIcon>
-                    <HighlightOffIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={awardData?.worstShooter.name}
-                    secondary={
-                      <>
-                        <Typography
-                          sx={{ display: 'inline' }}
-                          component="span"
-                          variant="body2"
-                          color="text.primary">
-                          {formatPosition(awardData?.worstShooter.positions)}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {`${awardData?.worstShooter.value.split(' ')[0]} 3P% `}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {`${awardData?.worstShooter.value.split(' ')[1]}% 3Par `}
-                        </Typography>
-                      </>
-                    }
-                  />
-                </ListItemButton>
-              </ListItem>
-            </List>
-            <Typography
-              sx={{ p: 1 }}
-              variant="body2"
-              color="text.secondary"
-              align="right"
-              gutterBottom>
-              League Avg: {Math.round((leagueData?.threepPerc || 0) * 10) / 10} 3P%
-            </Typography>
-          </CardContent>
-        </Card>
+        <AwardCard
+          title="Worst Shooter"
+          subheader="Lowest 3P% weighted against 3P Attempt Rate"
+          subheaderMin="Minimum 82 3PA"
+          iconComponent={<HighlightOffIcon />}
+          avatarColor={red[500]}
+          playerId={awardData?.worstShooter.id}
+          name={awardData?.worstShooter.name}
+          positions={awardData?.worstShooter.positions}
+          values={[
+            `${awardData?.worstShooter.value.split(' ')[0]} 3P%`,
+            `${awardData?.worstShooter.value.split(' ')[1]}% 3Par`
+          ]}
+          leagueAvg={[
+            `${Math.round((leagueData?.threepPerc || 0) * 10) / 10} 3P%`,
+            `${Math.round((leagueData?.threepAR || 0) * 10) / 10}% 3Par`
+          ]}
+        />
       </Grid>
       <Grid xs={12} md={3} item>
-        <Card style={{ height: '100%' }}>
-          <CardHeader
-            avatar={
-              <Avatar sx={{ bgcolor: green[600] }} aria-label="Most Efficient">
-                <LightbulbIcon />
-              </Avatar>
-            }
-            title={
-              <Typography variant="h6" color="text.primary">
-                Most Efficient
-              </Typography>
-            }
-            subheader={
-              <>
-                <Typography
-                  sx={{ display: 'inline' }}
-                  component="span"
-                  variant="body2"
-                  color="text.primary">
-                  Highest Effective Field Goal Percentage
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Minimum 300 FGA
-                </Typography>
-              </>
-            }
-          />
-          <CardContent>
-            <Divider />
-            <List disablePadding>
-              <ListItem>
-                <ListItemButton
-                  component={RouterLink}
-                  to={`/players/${awardData?.mostEfficient.id}`}>
-                  <ListItemIcon>
-                    <LightbulbIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={awardData?.mostEfficient.name}
-                    secondary={
-                      <>
-                        <Typography
-                          sx={{ display: 'inline' }}
-                          component="span"
-                          variant="body2"
-                          color="text.primary">
-                          {formatPosition(awardData?.mostEfficient.positions)}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {`${awardData?.mostEfficient.value} EFG% `}
-                        </Typography>
-                      </>
-                    }
-                  />
-                </ListItemButton>
-              </ListItem>
-            </List>
-            <Typography
-              sx={{ p: 1 }}
-              variant="body2"
-              color="text.secondary"
-              align="right"
-              gutterBottom>
-              League Avg: {Math.round((leagueData?.efgPerc || 0) * 10) / 10} eFG%
-            </Typography>
-          </CardContent>
-        </Card>
+        <AwardCard
+          title="Most Efficient"
+          subheader="Highest Effective Field Goal Percentage"
+          subheaderMin="Minimum 300 FGA"
+          iconComponent={<LightbulbIcon />}
+          avatarColor={green[600]}
+          playerId={awardData?.mostEfficient.id}
+          name={awardData?.mostEfficient.name}
+          positions={awardData?.mostEfficient.positions}
+          values={[`${awardData?.mostEfficient.value} EFG%`]}
+          leagueAvg={[`${Math.round((leagueData?.efgPerc || 0) * 10) / 10} eFG%`]}
+        />
       </Grid>
       <Grid xs={12} md={3} item>
-        <Card style={{ height: '100%' }}>
-          <CardHeader
-            avatar={
-              <Avatar sx={{ bgcolor: red[300] }} aria-label="Least Efficient">
-                <PauseIcon />
-              </Avatar>
-            }
-            title={
-              <Typography variant="h6" color="text.primary">
-                Least Efficient
-              </Typography>
-            }
-            subheader={
-              <>
-                <Typography
-                  sx={{ display: 'inline' }}
-                  component="span"
-                  variant="body2"
-                  color="text.primary">
-                  Lowest Effective Field Goal Percentage
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Minimum 300 FGA
-                </Typography>
-              </>
-            }
-          />
-          <CardContent>
-            <Divider />
-            <List disablePadding>
-              <ListItem>
-                <ListItemButton
-                  component={RouterLink}
-                  to={`/players/${awardData?.leastEfficient.id}`}>
-                  <ListItemIcon>
-                    <PauseIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={awardData?.leastEfficient.name}
-                    secondary={
-                      <>
-                        <Typography
-                          sx={{ display: 'inline' }}
-                          component="span"
-                          variant="body2"
-                          color="text.primary">
-                          {formatPosition(awardData?.leastEfficient.positions)}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {`${awardData?.leastEfficient.value} EFG% `}
-                        </Typography>
-                      </>
-                    }
-                  />
-                </ListItemButton>
-              </ListItem>
-            </List>
-            <Typography
-              sx={{ p: 1 }}
-              variant="body2"
-              color="text.secondary"
-              align="right"
-              gutterBottom>
-              League Avg: {Math.round((leagueData?.efgPerc || 0) * 10) / 10} eFG%
-            </Typography>
-          </CardContent>
-        </Card>
+        <AwardCard
+          title="Least Efficient"
+          subheader="Lowest Effective Field Goal Percentage"
+          subheaderMin="Minimum 300 FGA"
+          iconComponent={<PauseIcon />}
+          avatarColor={red[300]}
+          playerId={awardData?.leastEfficient.id}
+          name={awardData?.leastEfficient.name}
+          positions={awardData?.leastEfficient.positions}
+          values={[`${awardData?.leastEfficient.value} EFG%`]}
+          leagueAvg={[`${Math.round((leagueData?.efgPerc || 0) * 10) / 10} eFG%`]}
+        />
       </Grid>
       <Grid xs={12} md={4} item>
-        <Card style={{ height: '100%' }}>
-          <CardHeader
-            avatar={
-              <Avatar sx={{ bgcolor: green.A400 }} aria-label="Most Active">
-                <SportsEsportsIcon />
-              </Avatar>
-            }
-            title={
-              <Typography variant="h6" color="text.primary">
-                Most Active
-              </Typography>
-            }
-            subheader={
-              <Typography
-                sx={{ display: 'inline' }}
-                component="span"
-                variant="body2"
-                color="text.primary">
-                Most Games Played
-              </Typography>
-            }
-          />
-          <CardContent>
-            <Divider />
-            <List disablePadding>
-              <ListItem>
-                <ListItemButton component={RouterLink} to={`/players/${awardData?.mostActive.id}`}>
-                  <ListItemIcon>
-                    <SportsEsportsIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={awardData?.mostActive.name}
-                    secondary={
-                      <>
-                        <Typography
-                          sx={{ display: 'inline' }}
-                          component="span"
-                          variant="body2"
-                          color="text.primary">
-                          {formatPosition(awardData?.mostActive.positions)}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {`${awardData?.mostActive.value} Games Played `}
-                        </Typography>
-                      </>
-                    }
-                  />
-                </ListItemButton>
-              </ListItem>
-            </List>
-            <Typography
-              sx={{ p: 1 }}
-              variant="body2"
-              color="text.secondary"
-              align="right"
-              gutterBottom>
-              League Avg: {Math.round(leagueData?.gp)}
-            </Typography>
-          </CardContent>
-        </Card>
+        <AwardCard
+          title="Most Active"
+          subheader="Most Games Played"
+          iconComponent={<SportsEsportsIcon />}
+          avatarColor={green.A400}
+          playerId={awardData?.mostActive.id}
+          name={awardData?.mostActive.name}
+          positions={awardData?.mostActive.positions}
+          values={[`${awardData?.mostActive.value} games played`]}
+          leagueAvg={[`${Math.round(leagueData?.gp) || 0} games played`]}
+        />
       </Grid>
       <Grid xs={12} md={4} item>
-        <Card style={{ height: '100%' }}>
-          <CardHeader
-            avatar={
-              <Avatar sx={{ bgcolor: blueGrey[900] }} aria-label="Ball Hog Award">
-                <SportsBasketballIcon />
-              </Avatar>
-            }
-            title={
-              <Typography variant="h6" color="text.primary">
-                Ball Hog Award
-              </Typography>
-            }
-            subheader={
-              <>
-                <Typography
-                  sx={{ display: 'inline' }}
-                  component="span"
-                  variant="body2"
-                  color="text.primary">
-                  Highest Usage Rate
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Minimum 25 games played
-                </Typography>
-              </>
-            }
-          />
-          <CardContent>
-            <Divider />
-            <List disablePadding>
-              <ListItem>
-                <ListItemButton component={RouterLink} to={`/players/${awardData?.mostUsed.id}`}>
-                  <ListItemIcon>
-                    <SportsBasketballIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={awardData?.mostUsed.name}
-                    secondary={
-                      <>
-                        <Typography
-                          sx={{ display: 'inline' }}
-                          component="span"
-                          variant="body2"
-                          color="text.primary">
-                          {formatPosition(awardData?.mostUsed.positions)}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {`${awardData?.mostUsed.value} USG% `}
-                        </Typography>
-                      </>
-                    }
-                  />
-                </ListItemButton>
-              </ListItem>
-            </List>
-            <Typography
-              sx={{ p: 1 }}
-              variant="body2"
-              color="text.secondary"
-              align="right"
-              gutterBottom>
-              League Avg: {Math.round((leagueData?.usageRate || 0) * 10) / 10} USG%
-            </Typography>
-          </CardContent>
-        </Card>
+        <AwardCard
+          title="Ball Hog Award"
+          subheader="Highest Usage Rate"
+          subheaderMin="Minimum 25 games played"
+          iconComponent={<SportsBasketballIcon />}
+          avatarColor={blueGrey[900]}
+          playerId={awardData?.mostUsed.id}
+          name={awardData?.mostUsed.name}
+          positions={awardData?.mostUsed.positions}
+          values={[`${awardData?.mostUsed.value} USG%`]}
+          leagueAvg={[`${Math.round((leagueData?.usageRate || 0) * 10) / 10} USG%`]}
+        />
       </Grid>
       <Grid xs={12} md={4} item>
-        <Card style={{ height: '100%' }}>
-          <CardHeader
-            avatar={
-              <Avatar sx={{ bgcolor: blueGrey[200] }} aria-label="Team Player Award">
-                <SnoozeIcon />
-              </Avatar>
-            }
-            title={
-              <Typography variant="h6" color="text.primary">
-                Team Player Award
-              </Typography>
-            }
-            subheader={
-              <>
-                <Typography
-                  sx={{ display: 'inline' }}
-                  component="span"
-                  variant="body2"
-                  color="text.primary">
-                  Lowest Usage Rate
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Minimum 25 games played
-                </Typography>
-              </>
-            }
-          />
-          <CardContent>
-            <Divider />
-            <List disablePadding>
-              <ListItem>
-                <ListItemButton component={RouterLink} to={`/players/${awardData?.leastUsed.id}`}>
-                  <ListItemIcon>
-                    <SnoozeIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={awardData?.leastUsed.name}
-                    secondary={
-                      <>
-                        <Typography
-                          sx={{ display: 'inline' }}
-                          component="span"
-                          variant="body2"
-                          color="text.primary">
-                          {formatPosition(awardData?.leastUsed.positions)}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {`${awardData?.leastUsed.value} USG% `}
-                        </Typography>
-                      </>
-                    }
-                  />
-                </ListItemButton>
-              </ListItem>
-            </List>
-            <Typography
-              sx={{ p: 1 }}
-              variant="body2"
-              color="text.secondary"
-              align="right"
-              gutterBottom>
-              League Avg: {Math.round((leagueData?.usageRate || 0) * 10) / 10} USG%
-            </Typography>
-          </CardContent>
-        </Card>
+        <AwardCard
+          title="Team Player Award"
+          subheader="Lowest Usage Rate"
+          subheaderMin="Minimum 25 games played"
+          iconComponent={<SnoozeIcon />}
+          avatarColor={blueGrey[200]}
+          playerId={awardData?.leastUsed.id}
+          name={awardData?.leastUsed.name}
+          positions={awardData?.leastUsed.positions}
+          values={[`${awardData?.leastUsed.value} USG%`]}
+          leagueAvg={[`${Math.round((leagueData?.usageRate || 0) * 10) / 10} USG%`]}
+        />
       </Grid>
       <Grid xs={12} md item>
-        <Card style={{ height: '100%', minWidth: '300px' }}>
-          <CardHeader
-            avatar={
-              <Avatar sx={{ bgcolor: red[900] }} aria-label="Shot Chucker Award">
-                <DangerousIcon />
-              </Avatar>
-            }
-            title={
-              <Typography variant="h6" color="text.primary">
-                Shot Chucker Award
-              </Typography>
-            }
-            subheader={
-              <>
-                <Typography
-                  sx={{ display: 'inline' }}
-                  component="span"
-                  variant="body2"
-                  color="text.primary">
-                  Lowest EFG% wieghted against FGA
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Minimum 300 FGA
-                </Typography>
-              </>
-            }
-          />
-          <CardContent>
-            <Divider />
-            <List disablePadding>
-              <ListItem>
-                <ListItemButton component={RouterLink} to={`/players/${awardData?.shotChucker.id}`}>
-                  <ListItemIcon>
-                    <DangerousIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={awardData?.shotChucker.name}
-                    secondary={
-                      <>
-                        <Typography
-                          sx={{ display: 'inline' }}
-                          component="span"
-                          variant="body2"
-                          color="text.primary">
-                          {formatPosition(awardData?.shotChucker.positions)}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {`${awardData?.shotChucker.value.split(' ')[0]} EFG% `}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {`${awardData?.shotChucker.value.split(' ')[1]} FGA `}
-                        </Typography>
-                      </>
-                    }
-                  />
-                </ListItemButton>
-              </ListItem>
-            </List>
-            <Typography
-              sx={{ p: 1 }}
-              variant="body2"
-              color="text.secondary"
-              align="right"
-              gutterBottom>
-              League Avg: {Math.round(leagueData?.fga)} FGA, {Math.round(leagueData?.efgPerc)} EFG%
-            </Typography>
-          </CardContent>
-        </Card>
+        <AwardCard
+          title="Shot Chucker Award"
+          subheader="Lowest EFG% wieghted against FGA"
+          subheaderMin="Minimum 300 FGA"
+          iconComponent={<DangerousIcon />}
+          avatarColor={red[900]}
+          playerId={awardData?.shotChucker.id}
+          name={awardData?.shotChucker.name}
+          positions={awardData?.shotChucker.positions}
+          values={[
+            `${awardData?.shotChucker.value.split(' ')[0]} EFG%`,
+            `${awardData?.shotChucker.value.split(' ')[1]} FGA`
+          ]}
+          leagueAvg={[
+            `${Math.round((leagueData?.fga || 0) * 10) / 10} FGA`,
+            `${Math.round((leagueData?.efgPerc || 0) * 10) / 10} eFG%`
+          ]}
+        />
       </Grid>
       <Grid xs={12} md item>
-        <Card style={{ height: '100%', minWidth: '300px' }}>
-          <CardHeader
-            avatar={
-              <Avatar sx={{ bgcolor: pink[300] }} aria-label="Fastbreak Player Award">
-                <SpeedIcon />
-              </Avatar>
-            }
-            title={
-              <Typography variant="h6" color="text.primary">
-                Fastbreak Player Award
-              </Typography>
-            }
-            subheader={
-              <>
-                <Typography
-                  sx={{ display: 'inline' }}
-                  component="span"
-                  variant="body2"
-                  color="text.primary">
-                  Highest Pace weighted with FGA
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Minimum 25 games played
-                </Typography>
-              </>
-            }
-          />
-          <CardContent>
-            <Divider />
-            <List disablePadding>
-              <ListItem>
-                <ListItemButton
-                  component={RouterLink}
-                  to={`/players/${awardData?.fastbreakPlayer.id}`}>
-                  <ListItemIcon>
-                    <SpeedIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={awardData?.fastbreakPlayer.name}
-                    secondary={
-                      <>
-                        <Typography
-                          sx={{ display: 'inline' }}
-                          component="span"
-                          variant="body2"
-                          color="text.primary">
-                          {formatPosition(awardData?.fastbreakPlayer.positions)}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {`${awardData?.fastbreakPlayer.value.split(' ')[0]} Pace `}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {`${awardData?.fastbreakPlayer.value.split(' ')[1]} FGA `}
-                        </Typography>
-                      </>
-                    }
-                  />
-                </ListItemButton>
-              </ListItem>
-            </List>
-            <Typography
-              sx={{ p: 1 }}
-              variant="body2"
-              color="text.secondary"
-              align="right"
-              gutterBottom>
-              League Avg: {Math.round(leagueData?.pace)} Pace, {Math.round(leagueData?.fga)} FGA
-            </Typography>
-          </CardContent>
-        </Card>
+        <AwardCard
+          title="Fastbreak Player Award"
+          subheader="Highest Pace weighted with FGA"
+          subheaderMin="Minimum 25 games played"
+          iconComponent={<SpeedIcon />}
+          avatarColor={pink[200]}
+          playerId={awardData?.fastbreakPlayer.id}
+          name={awardData?.fastbreakPlayer.name}
+          positions={awardData?.fastbreakPlayer.positions}
+          values={[
+            `${awardData?.fastbreakPlayer.value.split(' ')[0]} Pace`,
+            `${awardData?.fastbreakPlayer.value.split(' ')[1]} FGA`
+          ]}
+          leagueAvg={[
+            `${Math.round((leagueData?.pace || 0) * 10) / 10} Pace`,
+            `${Math.round((leagueData?.fga || 0) * 10) / 10} FGA`
+          ]}
+        />
       </Grid>
       <Grid xs={12} md item>
-        <Card style={{ height: '100%', minWidth: '300px' }}>
-          <CardHeader
-            avatar={
-              <Avatar sx={{ bgcolor: purple.A200 }} aria-label="Most Attacked Award">
-                <AdsClickIcon />
-              </Avatar>
-            }
-            title={
-              <Typography variant="h6" color="text.primary">
-                Trae Young Award
-              </Typography>
-            }
-            subheader={
-              <>
-                <Typography
-                  sx={{ display: 'inline' }}
-                  component="span"
-                  variant="body2"
-                  color="text.primary">
-                  Most Opponent Field Goal Attempts (most hunted player)
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Minimum 300 oFGA
-                </Typography>
-              </>
-            }
-          />
-          <CardContent>
-            <Divider />
-            <List disablePadding>
-              <ListItem>
-                <ListItemButton
-                  component={RouterLink}
-                  to={`/players/${awardData?.mostAttacked.id}`}>
-                  <ListItemIcon>
-                    <AdsClickIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={awardData?.mostAttacked.name}
-                    secondary={
-                      <>
-                        <Typography
-                          sx={{ display: 'inline' }}
-                          component="span"
-                          variant="body2"
-                          color="text.primary">
-                          {formatPosition(awardData?.mostAttacked.positions)}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {`${awardData?.mostAttacked.value} Opponent FGA `}
-                        </Typography>
-                      </>
-                    }
-                  />
-                </ListItemButton>
-              </ListItem>
-            </List>
-            <Typography
-              sx={{ p: 1 }}
-              variant="body2"
-              color="text.secondary"
-              align="right"
-              gutterBottom>
-              League Avg: {Math.round(leagueData?.fga)} oFGA
-            </Typography>
-          </CardContent>
-        </Card>
+        <AwardCard
+          title="Prey Award"
+          subheader="Most Opponent Field Goal Attempts"
+          subheaderMin="Minimum 300 oFGA"
+          iconComponent={<AdsClickIcon />}
+          avatarColor={pink[700]}
+          playerId={awardData?.mostAttacked.id}
+          name={awardData?.mostAttacked.name}
+          positions={awardData?.mostAttacked.positions}
+          values={[`${awardData?.mostAttacked.value} Opponent FGA`]}
+          leagueAvg={[`${Math.round((leagueData?.fga || 0) * 10) / 10} oFGA`]}
+        />
       </Grid>
       <Grid xs={12} md item>
-        <Card style={{ height: '100%', minWidth: '300px' }}>
-          <CardHeader
-            avatar={
-              <Avatar sx={{ bgcolor: purple.A400 }} aria-label="Intimidator Award">
-                <SecurityIcon />
-              </Avatar>
-            }
-            title={
-              <Typography variant="h6" color="text.primary">
-                Intimidator Award
-              </Typography>
-            }
-            subheader={
-              <>
-                <Typography
-                  sx={{ display: 'inline' }}
-                  component="span"
-                  variant="body2"
-                  color="text.primary">
-                  Lowest Opponent Effective Field Goal Percentage weighted against Opponent Field
-                  Goal Attempts
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Minimum 300 oFGA
-                </Typography>
-              </>
-            }
-          />
-          <CardContent>
-            <Divider />
-            <List disablePadding>
-              <ListItem>
-                <ListItemButton
-                  component={RouterLink}
-                  to={`/players/${awardData?.bestIntimidator.id}`}>
-                  <ListItemIcon>
-                    <SecurityIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={awardData?.bestIntimidator.name}
-                    secondary={
-                      <>
-                        <Typography
-                          sx={{ display: 'inline' }}
-                          component="span"
-                          variant="body2"
-                          color="text.primary">
-                          {formatPosition(awardData?.bestIntimidator.positions)}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {`${awardData?.bestIntimidator.value.split(' ')[0]} oEFG% `}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {`${awardData?.bestIntimidator.value.split(' ')[1]} oFGA `}
-                        </Typography>
-                      </>
-                    }
-                  />
-                </ListItemButton>
-              </ListItem>
-            </List>
-            <Typography
-              sx={{ p: 1 }}
-              variant="body2"
-              color="text.secondary"
-              align="right"
-              gutterBottom>
-              League Avg: {Math.round(leagueData?.efgPerc)} oEFG%
-            </Typography>
-          </CardContent>
-        </Card>
+        <AwardCard
+          title="Intimidator Award"
+          subheader="Lowest Opponent Effective Field Goal Percentage weighted against Opponent Field Goal Attempts"
+          subheaderMin="Minimum 300 oFGA"
+          iconComponent={<SecurityIcon />}
+          avatarColor={purple.A400}
+          playerId={awardData?.bestIntimidator.id}
+          name={awardData?.bestIntimidator.name}
+          positions={awardData?.bestIntimidator.positions}
+          values={[
+            `${awardData?.bestIntimidator.value.split(' ')[0]} oEFG%`,
+            `${awardData?.bestIntimidator.value.split(' ')[1]} oFGA`
+          ]}
+          leagueAvg={[
+            `${Math.round((leagueData?.efgPerc || 0) * 10) / 10} oEFG%`,
+            `${Math.round((leagueData?.fga || 0) * 10) / 10} oFGA`
+          ]}
+        />
       </Grid>
     </Grid>
   );
