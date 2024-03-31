@@ -12,7 +12,8 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Divider
+  Divider,
+  Grid
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { formatPosition } from './utils';
@@ -78,24 +79,24 @@ export function AwardCard(props) {
               <ListItemText
                 primary={name}
                 secondary={
-                  <>
-                    <Typography
-                      sx={{ display: 'inline' }}
-                      component="span"
-                      variant="body2"
-                      color="text.primary">
-                      {formatPosition(positions)}
-                    </Typography>
-                    {values.map((value) => (
+                  <Grid container>
+                    <Grid xs={12} item>
                       <Typography
-                        key={value}
+                        sx={{ display: 'inline' }}
+                        component="span"
                         variant="body2"
-                        color="text.secondary"
-                        component="span">
-                        {value}
+                        color="text.primary">
+                        {formatPosition(positions)}
                       </Typography>
+                    </Grid>
+                    {values.map((value) => (
+                      <Grid xs={12} item key={value}>
+                        <Typography variant="body2" color="text.secondary" component="span">
+                          {value}
+                        </Typography>
+                      </Grid>
                     ))}
-                  </>
+                  </Grid>
                 }
               />
             </ListItemButton>
