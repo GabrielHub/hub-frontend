@@ -1,5 +1,5 @@
 import { getPercentValues } from 'utils';
-import { NameCell } from 'components/PlayerGrid';
+import { NameCell, GamesPlayedCell } from 'components/PlayerGrid';
 
 export const OVERALL_PLAYERS_COLUMNS = [
   {
@@ -28,12 +28,15 @@ export const OVERALL_PLAYERS_COLUMNS = [
     sortable: false
   },
   {
-    field: 'aPERGamesPlayed',
+    field: 'gp',
     headerName: 'GP',
+    description:
+      'Games Played. Less than 5 games played is too small a sample size, and less than 25 is not accurate enough to be reliable.',
     type: 'number',
-    description: 'This is not games played, but the number of PER games recorded',
-    flex: 1,
-    sortable: false
+    renderCell: (params) => {
+      return <GamesPlayedCell value={params.value} />;
+    },
+    flex: 1
   },
   {
     field: 'ortg',

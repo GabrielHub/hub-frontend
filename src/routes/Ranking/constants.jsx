@@ -185,6 +185,13 @@ export const OVERALL_PLAYERS_COLUMNS = [
     flex: 1
   },
   {
+    field: 'astToRatio',
+    headerName: 'AST/TO',
+    type: 'number',
+    flex: 1,
+    sortable: false
+  },
+  {
     field: 'fgPerc',
     headerName: 'FG%',
     type: 'number',
@@ -298,5 +305,6 @@ export const VISIBILITY_MODEL = {
   threepm: false,
   threepa: false,
   ftm: false,
-  fta: false
+  fta: false,
+  astToRatio: false
 };

@@ -1,14 +1,14 @@
 import axios from 'axios';
 import { FIREBASE_BASE_URL } from 'constants';
 
-export const fetchPlayerData = async (playerID, position) => {
+export const fetchPlayerData = async (playerID, position, lock) => {
   const response = {};
 
   await axios
     .get(
       `${FIREBASE_BASE_URL}/lookupPlayer?playerID=${playerID}${
         position ? `&position=${position}` : ''
-      }`
+      }${lock ? `&lock=${lock}` : ''}`
     )
     .then((res) => {
       response.data = res.data;

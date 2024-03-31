@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState, useMemo } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import {
@@ -36,24 +36,14 @@ export function PlayerData() {
   const [leagueData, setLeagueData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [position, setPosition] = useState(0);
+  const [filterByLock, setFilterByLock] = useState(false);
+  /** Only initially fetch positionOptions, as they don't exist on other positional data */
+  const [positionOptions, setPositionOptions] = useState([]);
   const [showLeagueComparisons, setShowLeagueComparisons] = useState(false);
-
-  const POSITION_OPTIONS = useMemo(
-    () =>
-      playerData
-        ? Object.keys(POSITION_READABLE)
-            .filter((pos) => Object.prototype.hasOwnProperty.call(playerData.positions, pos))
-            .map((pos) => ({
-              value: pos,
-              label: POSITION_READABLE[pos]
-            }))
-        : [],
-    [playerData]
-  );
 
   const getPlayerData = useCallback(async () => {
     setIsLoading(true);
-    const { data, error } = await fetchPlayerData(playerID, position);
+    const { data, error } = await fetchPlayerData(playerID, position, filterByLock ? 1 : 0);
     if (error) {
       enqueueSnackbar('Error reading data, please try a different user', { variant: 'error' });
     } else {
@@ -62,13 +52,25 @@ export function PlayerData() {
       setLeagueData(data.leagueData);
     }
     setIsLoading(false);
-  }, [enqueueSnackbar, playerID, position]);
+  }, [enqueueSnackbar, filterByLock, playerID, position]);
 
   useEffect(() => {
     if (playerID) {
       getPlayerData();
     }
   }, [getPlayerData, playerID, position]);
+
+  useEffect(() => {
+    if (playerData && !positionOptions.length) {
+      const options = Object.keys(POSITION_READABLE)
+        .filter((pos) => Object.prototype.hasOwnProperty.call(playerData.positions, pos))
+        .map((pos) => ({
+          value: pos,
+          label: POSITION_READABLE[pos]
+        }));
+      setPositionOptions(options);
+    }
+  }, [playerData, positionOptions]);
 
   const getComparisonIcon = (playerStat, leagueStat, stat) => {
     if (playerStat > leagueStat + 1) {
@@ -92,33 +94,44 @@ export function PlayerData() {
             sx={{
               paddingBottom: 8
             }}
+            spacing={1}
             container
             item>
-            <Grid xs={6} item>
+            <Grid xs item>
               <Button variant="outlined" onClick={() => navigate(-1)}>
                 Go Back
               </Button>
             </Grid>
-            <Grid xs={6} item>
-              <FormControl fullWidth>
-                <Select
-                  value={position}
-                  onChange={(e) => setPosition(e.target.value)}
-                  size="small"
-                  sx={{ height: 1 }}
-                  native
-                  autoFocus>
-                  <option value={0}>All</option>
-                  {POSITION_OPTIONS.map((pos) => (
-                    <option value={pos.value} key={pos.value}>
-                      {pos.label}
-                    </option>
-                  ))}
-                </Select>
-                <FormHelperText id="position-filter-helper-text" align="center">
-                  Filter By Position
-                </FormHelperText>
-              </FormControl>
+            {Boolean(positionOptions.length) && (
+              <Grid xs item>
+                <FormControl fullWidth>
+                  <Select
+                    value={position}
+                    onChange={(e) => setPosition(e.target.value)}
+                    size="small"
+                    sx={{ height: 1 }}
+                    native
+                    autoFocus>
+                    <option value={0}>All</option>
+                    {positionOptions.map((pos) => (
+                      <option value={pos.value} key={pos.value}>
+                        {pos.label}
+                      </option>
+                    ))}
+                  </Select>
+                  <FormHelperText id="position-filter-helper-text" align="center">
+                    Filter By Position
+                  </FormHelperText>
+                </FormControl>
+              </Grid>
+            )}
+            <Grid xs item>
+              <FormControlLabel
+                control={
+                  <Switch checked={filterByLock} onChange={() => setFilterByLock(!filterByLock)} />
+                }
+                label="Filter By Lock"
+              />
             </Grid>
           </Grid>
           <Grid xs={10} sx={{ marginBottom: 4 }} container item>
