@@ -48,28 +48,28 @@ export const AverageStatsColumns = [
 
 export const EfficiencyStatsColumns = [
   {
-    field: 'fga',
-    headerName: 'FGA'
-  },
-  {
     field: 'fgm',
     headerName: 'FGM'
   },
   {
-    field: 'threepa',
-    headerName: '3PA'
+    field: 'fga',
+    headerName: 'FGA'
   },
   {
     field: 'threepm',
     headerName: '3PM'
   },
   {
-    field: 'fta',
-    headerName: 'FTA'
+    field: 'threepa',
+    headerName: '3PA'
   },
   {
     field: 'ftm',
     headerName: 'FTM'
+  },
+  {
+    field: 'fta',
+    headerName: 'FTA'
   },
   {
     field: 'fgPerc',
@@ -116,11 +116,11 @@ export const AdvancedStatsColumns = [
   },
   {
     field: 'dd',
-    headerName: 'Double Doubles'
+    headerName: 'DD'
   },
   {
     field: 'td',
-    headerName: 'Triple Doubles'
+    headerName: 'TD'
   }
 ];
 

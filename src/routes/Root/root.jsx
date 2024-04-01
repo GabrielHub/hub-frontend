@@ -90,7 +90,7 @@ export function Root() {
               </Typography>
             </CardContent>
             <CardActions>
-              <Button size="small" onClick={() => navigate('/analysis')}>
+              <Button size="small" onClick={() => navigate('/analysis/league')}>
                 View Analysis
               </Button>
             </CardActions>

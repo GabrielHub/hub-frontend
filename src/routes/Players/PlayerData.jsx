@@ -12,6 +12,18 @@ import {
   Switch,
   Divider
 } from '@mui/material';
+import {
+  lime,
+  green,
+  lightGreen,
+  blueGrey,
+  pink,
+  cyan,
+  lightBlue,
+  purple,
+  yellow
+} from '@mui/material/colors';
+import { PieChart, pieArcLabelClasses } from '@mui/x-charts/PieChart';
 import SportsBasketballIcon from '@mui/icons-material/SportsBasketball';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
 import InsightsIcon from '@mui/icons-material/Insights';
@@ -315,6 +327,133 @@ export function PlayerData() {
               </Grid>
             </Grid>
           </Grid>
+
+          {playerData && (
+            <Grid xs={12} md={6} sx={{ p: 4 }} container item>
+              <Grid xs={12} item>
+                <Typography align="left" variant="h4">
+                  Shot Chart
+                </Typography>
+                <Typography align="left" variant="body2" color="text.secondary">
+                  {playerData.fga} FGA | {playerData.efgPerc} eFG%
+                </Typography>
+              </Grid>
+              <Grid xs={12} item>
+                <PieChart
+                  series={[
+                    {
+                      arcLabel: ({ label }) => label,
+                      arcLabelMinAngle: 45,
+                      highlightScope: { faded: 'global', highlighted: 'item' },
+                      faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
+                      data: [
+                        {
+                          id: 0,
+                          value: playerData.twopa,
+                          label: 'Paint and Midrange',
+                          color: lime.A400
+                        },
+                        {
+                          id: 1,
+                          value: playerData.threepa,
+                          label: '3 Pointers',
+                          color: green.A400
+                        },
+                        {
+                          id: 2,
+                          value: playerData.fta,
+                          label: 'Free Throws',
+                          color: lightGreen.A400
+                        }
+                      ]
+                    }
+                  ]}
+                  sx={{
+                    [`& .${pieArcLabelClasses.root}`]: {
+                      fill: blueGrey[800],
+                      fontWeight: 'bold'
+                    }
+                  }}
+                  slotProps={{
+                    legend: {
+                      hidden: true
+                    }
+                  }}
+                  height={400}
+                />
+              </Grid>
+            </Grid>
+          )}
+
+          {playerData && (
+            <Grid xs={12} md={6} sx={{ p: 4 }} container item>
+              <Grid xs={12} item>
+                <Typography align="right" variant="h4">
+                  Individual Possessions
+                </Typography>
+                <Typography align="right" variant="body2" color="text.secondary">
+                  {playerData.fga + playerData.tov + playerData.ast + playerData.fta * 0.44} est.
+                  possessions | {playerData.usageRate} USG%
+                </Typography>
+              </Grid>
+              <Grid xs={12} item>
+                <PieChart
+                  series={[
+                    {
+                      arcLabel: ({ label }) => label,
+                      arcLabelMinAngle: 45,
+                      highlightScope: { faded: 'global', highlighted: 'item' },
+                      faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
+                      data: [
+                        {
+                          id: 0,
+                          value: playerData.fga - playerData.fgm,
+                          label: 'Missed Shot',
+                          color: cyan[100]
+                        },
+                        {
+                          id: 1,
+                          value: playerData.fgm,
+                          label: 'Made Shot',
+                          color: lightBlue[300]
+                        },
+                        {
+                          id: 2,
+                          value: playerData.fta * 0.44,
+                          label: 'Drawn Foul',
+                          color: purple.A200
+                        },
+                        {
+                          id: 3,
+                          value: playerData.tov,
+                          label: 'Turnover',
+                          color: pink.A200
+                        },
+                        {
+                          id: 4,
+                          value: playerData.ast,
+                          label: 'Assist',
+                          color: yellow[400]
+                        }
+                      ]
+                    }
+                  ]}
+                  sx={{
+                    [`& .${pieArcLabelClasses.root}`]: {
+                      fill: 'black',
+                      fontWeight: 'bold'
+                    }
+                  }}
+                  slotProps={{
+                    legend: {
+                      hidden: true
+                    }
+                  }}
+                  height={400}
+                />
+              </Grid>
+            </Grid>
+          )}
 
           <Grid xs={12} xl={6} sx={{ p: 4 }} item>
             <StatCard
