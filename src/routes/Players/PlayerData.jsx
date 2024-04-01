@@ -10,19 +10,28 @@ import {
   FormControlLabel,
   FormHelperText,
   Switch,
-  Tooltip
+  Divider,
+  Card,
+  CardHeader,
+  CardContent
 } from '@mui/material';
+import SportsBasketballIcon from '@mui/icons-material/SportsBasketball';
+import WhatshotIcon from '@mui/icons-material/Whatshot';
+import InsightsIcon from '@mui/icons-material/Insights';
+import LockIcon from '@mui/icons-material/Lock';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { fetchPlayerData } from 'rest';
 import { Loading } from 'components/Loading';
-import { THEME_COLORS, POSITION_READABLE } from 'constants';
+import { POSITION_READABLE } from 'constants';
 import { GameGrid } from 'components/GameGrid';
 import {
-  PLAYER_AVERAGES_DEFENSE,
-  PLAYER_AVERAGES_MISC,
-  PLAYER_AVERAGES_OFFENSE,
-  RECENT_GAMES_COLUMNS
+  AverageStatsColumns,
+  EfficiencyStatsColumns,
+  AdvancedStatsColumns,
+  DefensiveEfficiencyStatsColumns,
+  RECENT_GAMES_COLUMNS,
+  RATING_COLOR_MAP
 } from './constants';
 
 // TODO Career Highs
@@ -87,9 +96,157 @@ export function PlayerData() {
   return (
     <>
       <Loading isLoading={isLoading} />
-
       {playerData && (
-        <Grid sx={{ padding: 1 }} justifyContent="center" container>
+        <Grid container>
+          <Grid
+            sx={{
+              backgroundColor: RATING_COLOR_MAP[playerData.ratingString],
+              color: '#fff'
+            }}
+            xs={12}
+            container
+            item>
+            <Grid xs={12} sm={6} container item sx={{ position: 'relative' }} alignItems="center">
+              <Button
+                variant="outlined"
+                onClick={() => navigate(-1)}
+                sx={{
+                  position: 'absolute',
+                  top: 4,
+                  left: 4,
+                  color: 'white',
+                  borderColor: 'white'
+                }} // Absolutely position the button
+              >
+                Go Back
+              </Button>
+              <Grid xs={12} justifyContent="center" alignItems="flex-end" container item>
+                <Typography variant="h2" align="center">
+                  <b>{playerData.name.toUpperCase()}</b>
+                </Typography>
+              </Grid>
+              <Grid xs={12} justifyContent="center" alignItems="flex-start" container item>
+                {playerData.positions && (!position || position === '0') && (
+                  <Typography align="center" variant="body2">
+                    {playerData.ratingString} |{' '}
+                    {Object.entries(playerData.positions)
+                      .sort((a, b) => b[1] - a[1])
+                      .slice(0, 2)
+                      .map((posValue) => POSITION_READABLE[posValue[0]])
+                      .join('/')}
+                  </Typography>
+                )}
+                {!playerData.positions && (
+                  <Typography align="center" variant="body2">
+                    {playerData.ratingString} | {POSITION_READABLE[position]}
+                  </Typography>
+                )}
+              </Grid>
+            </Grid>
+            <Grid xs={12} sm={6} justifyContent="center" container item>
+              <Grid
+                xs={12}
+                sx={{
+                  py: 2,
+                  borderBottom: '2px solid white',
+                  borderLeft: '2px solid white'
+                }}
+                alignItems="center"
+                container
+                item>
+                <Grid xs item>
+                  <Typography align="center" variant="body1">
+                    PPG
+                  </Typography>
+                  <Typography align="center" variant="body1">
+                    <b>{playerData.pts}</b>
+                  </Typography>
+                </Grid>
+                <Divider orientation="vertical" flexItem sx={{ bgcolor: 'white', my: 1 }} />
+                <Grid xs item>
+                  <Typography align="center" variant="body1">
+                    RPG
+                  </Typography>
+                  <Typography align="center" variant="body1">
+                    <b>{playerData.treb}</b>
+                  </Typography>
+                </Grid>
+                <Divider orientation="vertical" flexItem sx={{ bgcolor: 'white', my: 1 }} />
+                <Grid xs item>
+                  <Typography align="center" variant="body1">
+                    APG
+                  </Typography>
+                  <Typography align="center" variant="body1">
+                    <b>{playerData.ast}</b>
+                  </Typography>
+                </Grid>
+                <Divider orientation="vertical" flexItem sx={{ bgcolor: 'white', my: 1 }} />
+                <Grid xs item>
+                  <Typography align="center" variant="body1">
+                    <b>Rating</b>
+                  </Typography>
+                  <Typography align="center" variant="body1">
+                    <b>{Math.round(playerData.rating * 10) / 10}</b>
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid
+                xs={12}
+                sx={{ py: 2, borderBottom: '2px solid white', borderLeft: '2px solid white' }}
+                alignItems="center"
+                container
+                item>
+                <Grid xs={4} item>
+                  <Typography align="center" variant="body1">
+                    PER
+                  </Typography>
+                  <Typography align="center" variant="body1">
+                    <b>{Math.round(playerData.PER * 10) / 10}</b>
+                  </Typography>
+                </Grid>
+                <Grid xs={4} item>
+                  <Typography align="center" variant="body1">
+                    ORtg
+                  </Typography>
+                  <Typography align="center" variant="body1">
+                    <b>{playerData.ortg}</b>
+                  </Typography>
+                </Grid>
+                <Grid xs={4} item>
+                  <Typography align="center" variant="body1">
+                    DRtg
+                  </Typography>
+                  <Typography align="center" variant="body1">
+                    <b>{playerData.drtg}</b>
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid
+                xs={12}
+                sx={{ py: 2, borderLeft: '2px solid white' }}
+                alignItems="center"
+                container
+                item>
+                <Grid xs={6} item>
+                  <Typography align="center" variant="body1">
+                    GP
+                  </Typography>
+                  <Typography align="center" variant="body1">
+                    <b>{playerData.gp}</b>
+                  </Typography>
+                </Grid>
+                <Grid xs={6} item>
+                  <Typography align="center" variant="body1">
+                    FT%
+                  </Typography>
+                  <Typography align="center" variant="body1">
+                    <b>{playerData.ftPerc}</b>
+                  </Typography>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+
           <Grid
             xs={12}
             justifyContent="space-between"
@@ -99,11 +256,6 @@ export function PlayerData() {
             spacing={1}
             container
             item>
-            <Grid xs item>
-              <Button variant="outlined" onClick={() => navigate(-1)}>
-                Go Back
-              </Button>
-            </Grid>
             {Boolean(positionOptions) && (
               <Grid xs item>
                 <FormControl fullWidth>
@@ -127,69 +279,17 @@ export function PlayerData() {
                 </FormControl>
               </Grid>
             )}
-            <Grid xs item>
-              <FormControlLabel
-                control={
-                  <Switch checked={filterByLock} onChange={() => setFilterByLock(!filterByLock)} />
-                }
-                label="Filter By Lock"
-              />
-            </Grid>
-          </Grid>
-          <Grid xs={10} sx={{ marginBottom: 4 }} container item>
-            <Grid
-              sx={{
-                borderRadius: 25,
-                border: `4px solid ${THEME_COLORS.LIGHT}`,
-                backgroundColor: THEME_COLORS.LIGHT,
-                padding: 2
-              }}
-              justifyContent="center"
-              alignItems="center"
-              xs
-              item
-              container>
-              <Grid xs md={8} item>
-                <Tooltip title={playerData.alias.join(', ')} enterTouchDelay={0}>
-                  <Typography
-                    align="center"
-                    variant="h3"
-                    sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    {playerData.name}
-                  </Typography>
-                </Tooltip>
-              </Grid>
-              <Grid xs justifyContent="flex-end" alignItems="center" container item>
-                <Grid xs md={3} item>
-                  <Typography>
-                    <b>GP:</b> {playerData.gp}
-                  </Typography>
-                </Grid>
-                <Grid xs md={4} item>
-                  <Typography>
-                    <b>FT%:</b> {playerData.ftPerc}
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid xs={12} alignItems="center" container item>
-              {(!position || position === '0') && (
-                <Grid xs item>
-                  <Typography align="center" variant="body1">
-                    <b>Position:</b>{' '}
-                    {Object.entries(playerData.positions)
-                      .sort((a, b) => b[1] - a[1])
-                      .slice(0, 2)
-                      .map((posValue) => POSITION_READABLE[posValue[0]])
-                      .join('/')}
-                  </Typography>
-                </Grid>
-              )}
-
+            <Grid xs container item>
               <Grid xs item>
-                <Typography align="center" variant="body1">
-                  <b>{playerData.ratingString}:</b> {Math.round(playerData.rating * 10) / 10}
-                </Typography>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={filterByLock}
+                      onChange={() => setFilterByLock(!filterByLock)}
+                    />
+                  }
+                  label="Filter By Lock"
+                />
               </Grid>
               <Grid xs item>
                 <FormControlLabel
@@ -205,122 +305,156 @@ export function PlayerData() {
             </Grid>
           </Grid>
 
-          <Grid xs={12} item />
-
-          {/* TABLE FOR OFFENSIVE BASIC STATS */}
-          <Grid xs={12} sm={6} md sx={{ margin: 4 }} container item>
-            <Grid
-              sx={{
-                borderRadius: 10,
-                backgroundColor: THEME_COLORS.LIGHT,
-                border: '4px solid #59dcbb',
-                color: THEME_COLORS.DARK,
-                padding: 2
-              }}
-              justifyContent="center"
-              alignItems="center"
-              xs
-              item
-              container>
-              <Grid xs={12} sx={{ paddingBottom: 4 }} item>
-                <Typography align="center" variant="h5" gutterBottom>
-                  <b>Player Averages - Offense</b>
-                </Typography>
-              </Grid>
-              <Grid xs={12} sx={{ paddingBottom: 4 }} item>
-                <Typography align="center" variant="h5" gutterBottom>
-                  <b>PER {Math.round(playerData.PER * 10) / 10}</b>
-                </Typography>
-              </Grid>
-              {PLAYER_AVERAGES_OFFENSE.map((stat) => (
-                <Grid xs={stat.size} key={stat.header} sx={{ padding: 2 }} item>
-                  <Typography align="center" variant="h6">
-                    <b>{stat.header}</b>
-                  </Typography>
-                  <Typography align="center" variant="h6">
-                    <b>{playerData[stat.field]}</b>
-                    {showLeagueComparisons &&
-                      leagueData &&
-                      leagueData[stat.field] &&
-                      getComparisonIcon(playerData[stat.field], leagueData[stat.field], stat.field)}
-                  </Typography>
+          <Grid xs={12} xl={6} sx={{ p: 4 }} item>
+            <Card sx={{ height: '100%' }}>
+              <CardHeader
+                sx={{ bgcolor: RATING_COLOR_MAP[playerData.ratingString] }}
+                title={
+                  <Grid alignItems="center" justifyContent="space-between" container>
+                    <Typography variant="h6" color="white">
+                      Average Stats
+                    </Typography>
+                    <SportsBasketballIcon sx={{ color: 'white' }} />
+                  </Grid>
+                }
+              />
+              <CardContent>
+                <Grid container>
+                  {AverageStatsColumns.map((stat) => (
+                    <Grid xs key={stat.headerName} sx={{ padding: 2 }} item>
+                      <Typography align="center" variant="h6">
+                        <b>{stat.headerName}</b>
+                      </Typography>
+                      <Typography align="center" variant="h6">
+                        <b>{playerData[stat.field]}</b>
+                        {showLeagueComparisons &&
+                          leagueData &&
+                          leagueData[stat.field] &&
+                          getComparisonIcon(
+                            playerData[stat.field],
+                            leagueData[stat.field],
+                            stat.field
+                          )}
+                      </Typography>
+                    </Grid>
+                  ))}
                 </Grid>
-              ))}
-            </Grid>
+              </CardContent>
+            </Card>
           </Grid>
 
-          {/* TABLE FOR DEFENSIVE BASIC STATS */}
-          <Grid xs={12} sm={6} md sx={{ margin: 4 }} container item>
-            <Grid
-              sx={{
-                borderRadius: 10,
-                backgroundColor: THEME_COLORS.LIGHT,
-                border: '4px solid #ff96c2',
-                color: THEME_COLORS.DARK,
-                padding: 2
-              }}
-              justifyContent="center"
-              alignItems="center"
-              xs
-              item
-              container>
-              <Grid xs={12} sx={{ paddingBottom: 4 }} item>
-                <Typography align="center" variant="h5" gutterBottom>
-                  <b>Player Averages - Defense</b>
-                </Typography>
-              </Grid>
-              {PLAYER_AVERAGES_DEFENSE.map((stat) => (
-                <Grid xs={stat.size} key={stat.header} sx={{ padding: 2 }} item>
-                  <Typography align="center" variant="h6">
-                    <b>{stat.header}</b>
-                  </Typography>
-                  <Typography align="center" variant="h6">
-                    <b>{playerData[stat.field]}</b>
-                    {showLeagueComparisons &&
-                      leagueData &&
-                      leagueData[stat.field] &&
-                      getComparisonIcon(playerData[stat.field], leagueData[stat.field], stat.field)}
-                  </Typography>
+          <Grid xs={12} xl={6} sx={{ p: 4 }} item>
+            <Card sx={{ height: '100%' }}>
+              <CardHeader
+                sx={{ bgcolor: RATING_COLOR_MAP[playerData.ratingString] }}
+                title={
+                  <Grid alignItems="center" justifyContent="space-between" container>
+                    <Typography variant="h6" color="white">
+                      Efficiency
+                    </Typography>
+                    <WhatshotIcon sx={{ color: 'white' }} />
+                  </Grid>
+                }
+              />
+              <CardContent>
+                <Grid container>
+                  {EfficiencyStatsColumns.map((stat) => (
+                    <Grid xs key={stat.headerName} sx={{ padding: 2 }} item>
+                      <Typography align="center" variant="h6">
+                        <b>{stat.headerName}</b>
+                      </Typography>
+                      <Typography align="center" variant="h6">
+                        <b>{playerData[stat.field]}</b>
+                        {showLeagueComparisons &&
+                          leagueData &&
+                          leagueData[stat.field] &&
+                          getComparisonIcon(
+                            playerData[stat.field],
+                            leagueData[stat.field],
+                            stat.field
+                          )}
+                      </Typography>
+                    </Grid>
+                  ))}
                 </Grid>
-              ))}
-            </Grid>
+              </CardContent>
+            </Card>
           </Grid>
 
-          {/* TABLE FOR MISC BASIC STATS */}
-          <Grid xs={12} md={12} sx={{ margin: 4 }} container item>
-            <Grid
-              sx={{
-                borderRadius: 10,
-                backgroundColor: THEME_COLORS.LIGHT,
-                border: '4px solid #9293f0',
-                color: THEME_COLORS.DARK,
-                padding: 2
-              }}
-              justifyContent="center"
-              alignItems="center"
-              xs
-              item
-              container>
-              <Grid xs={12} sx={{ paddingBottom: 4 }} item>
-                <Typography align="center" variant="h5" gutterBottom>
-                  <b>Extra Stats</b>
-                </Typography>
-              </Grid>
-              {PLAYER_AVERAGES_MISC.map((stat) => (
-                <Grid xs={stat.size} key={stat.header} sx={{ padding: 2 }} item>
-                  <Typography align="center" variant="h6">
-                    <b>{stat.header}</b>
-                  </Typography>
-                  <Typography align="center" variant="h6">
-                    <b>{playerData[stat.field]}</b>
-                    {showLeagueComparisons &&
-                      leagueData &&
-                      leagueData[stat.field] &&
-                      getComparisonIcon(playerData[stat.field], leagueData[stat.field], stat.field)}
-                  </Typography>
+          <Grid xs={12} xl={6} sx={{ p: 4 }} item>
+            <Card sx={{ height: '100%' }}>
+              <CardHeader
+                sx={{ bgcolor: RATING_COLOR_MAP[playerData.ratingString] }}
+                title={
+                  <Grid alignItems="center" justifyContent="space-between" container>
+                    <Typography variant="h6" color="white">
+                      Advanced Stats
+                    </Typography>
+                    <InsightsIcon sx={{ color: 'white' }} />
+                  </Grid>
+                }
+              />
+              <CardContent>
+                <Grid container>
+                  {AdvancedStatsColumns.map((stat) => (
+                    <Grid xs key={stat.headerName} sx={{ padding: 2 }} item>
+                      <Typography align="center" variant="h6">
+                        <b>{stat.headerName}</b>
+                      </Typography>
+                      <Typography align="center" variant="h6">
+                        <b>{playerData[stat.field]}</b>
+                        {showLeagueComparisons &&
+                          leagueData &&
+                          leagueData[stat.field] &&
+                          getComparisonIcon(
+                            playerData[stat.field],
+                            leagueData[stat.field],
+                            stat.field
+                          )}
+                      </Typography>
+                    </Grid>
+                  ))}
                 </Grid>
-              ))}
-            </Grid>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid xs={12} xl={6} sx={{ p: 4 }} item>
+            <Card sx={{ height: '100%' }}>
+              <CardHeader
+                sx={{ bgcolor: RATING_COLOR_MAP[playerData.ratingString] }}
+                title={
+                  <Grid alignItems="center" justifyContent="space-between" container>
+                    <Typography variant="h6" color="white">
+                      Defensive Efficiency
+                    </Typography>
+                    <LockIcon sx={{ color: 'white' }} />
+                  </Grid>
+                }
+              />
+              <CardContent>
+                <Grid container>
+                  {DefensiveEfficiencyStatsColumns.map((stat) => (
+                    <Grid xs key={stat.headerName} sx={{ padding: 2 }} item>
+                      <Typography align="center" variant="h6">
+                        <b>{stat.headerName}</b>
+                      </Typography>
+                      <Typography align="center" variant="h6">
+                        <b>{playerData[stat.field]}</b>
+                        {showLeagueComparisons &&
+                          leagueData &&
+                          leagueData[stat.field] &&
+                          getComparisonIcon(
+                            playerData[stat.field],
+                            leagueData[stat.field],
+                            stat.field
+                          )}
+                      </Typography>
+                    </Grid>
+                  ))}
+                </Grid>
+              </CardContent>
+            </Card>
           </Grid>
 
           {/* Last 5 games */}

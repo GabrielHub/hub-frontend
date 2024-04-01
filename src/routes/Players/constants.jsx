@@ -1,6 +1,160 @@
 import { POSITION_READABLE } from 'constants';
 import { NameCell, GamesPlayedCell } from 'components/PlayerGrid';
 
+export const RATING_COLOR_MAP = {
+  GLeague: '#f8bba6',
+  Bench: '#ff9292',
+  Rotation: '#86fda5',
+  Starter: '#55b7ff',
+  SecondOption: '#6171ff',
+  AllStar: '#f595cb',
+  Superstar: '#c88927'
+};
+
+export const AverageStatsColumns = [
+  {
+    field: 'pts',
+    headerName: 'PTS'
+  },
+  {
+    field: 'treb',
+    headerName: 'REB'
+  },
+  {
+    field: 'ast',
+    headerName: 'AST'
+  },
+  {
+    field: 'stl',
+    headerName: 'STL'
+  },
+  {
+    field: 'blk',
+    headerName: 'BLK'
+  },
+  {
+    field: 'pf',
+    headerName: 'FOUL'
+  },
+  {
+    field: 'tov',
+    headerName: 'TO'
+  },
+  {
+    field: 'plusMinus',
+    headerName: '+/-'
+  }
+];
+
+export const EfficiencyStatsColumns = [
+  {
+    field: 'fga',
+    headerName: 'FGA'
+  },
+  {
+    field: 'fgm',
+    headerName: 'FGM'
+  },
+  {
+    field: 'threepa',
+    headerName: '3PA'
+  },
+  {
+    field: 'threepm',
+    headerName: '3PM'
+  },
+  {
+    field: 'fta',
+    headerName: 'FTA'
+  },
+  {
+    field: 'ftm',
+    headerName: 'FTM'
+  },
+  {
+    field: 'fgPerc',
+    headerName: 'FG%'
+  },
+  {
+    field: 'threePerc',
+    headerName: '3P%'
+  },
+  {
+    field: 'efgPerc',
+    headerName: 'eFG%'
+  },
+  {
+    field: 'tsPerc',
+    headerName: 'TS%'
+  }
+];
+
+export const AdvancedStatsColumns = [
+  {
+    field: 'pace',
+    headerName: 'PACE'
+  },
+  {
+    field: 'usageRate',
+    headerName: 'USG%'
+  },
+  {
+    field: 'threepAR',
+    headerName: '3PA%'
+  },
+  {
+    field: 'astPerc',
+    headerName: 'AST%'
+  },
+  {
+    field: 'tovPerc',
+    headerName: 'TO%'
+  },
+  {
+    field: 'astToRatio',
+    headerName: 'AST/TO'
+  },
+  {
+    field: 'dd',
+    headerName: 'Double Doubles'
+  },
+  {
+    field: 'td',
+    headerName: 'Triple Doubles'
+  }
+];
+
+export const DefensiveEfficiencyStatsColumns = [
+  {
+    field: 'oFGA',
+    headerName: 'oFGA'
+  },
+  {
+    field: 'oFGM',
+    headerName: 'oFGM'
+  },
+  {
+    field: 'o3PA',
+    headerName: 'o3PA'
+  },
+  {
+    field: 'o3PM',
+    headerName: 'o3PM'
+  },
+  {
+    field: 'oFGPerc',
+    headerName: 'oFG%'
+  },
+  {
+    field: 'o3PPerc',
+    headerName: 'o3P%'
+  },
+  {
+    field: 'oEFGPerc',
+    headerName: 'oEFG%'
+  }
+];
+
 export const RECENT_PLAYERS_COLUMNS = [
   {
     field: 'name',
@@ -113,227 +267,6 @@ export const RECENT_PLAYERS_DEFAULT_SORTS = {
   type: 'desc'
 };
 
-// * For Offense Stat Box
-export const PLAYER_AVERAGES_OFFENSE = [
-  {
-    field: 'usageRate',
-    header: 'USG%',
-    size: 4,
-    tooltip: false
-  },
-  {
-    field: 'ortg',
-    header: 'ORTG',
-    size: 4,
-    tooltip: false
-  },
-  {
-    field: 'pace',
-    header: 'Pace',
-    size: 4,
-    tooltip: false
-  },
-  {
-    field: 'pts',
-    header: 'PTS',
-    size: 3,
-    tooltip: false
-  },
-  {
-    field: 'treb',
-    header: 'REB',
-    size: 3,
-    tooltip: false
-  },
-  {
-    field: 'ast',
-    header: 'AST',
-    size: 3,
-    tooltip: false
-  },
-  {
-    field: 'tov',
-    header: 'TO',
-    size: 3,
-    tooltip: false
-  },
-  {
-    field: 'fgPerc',
-    header: 'FG%',
-    size: 3,
-    tooltip: false
-  },
-  {
-    field: 'threePerc',
-    header: '3P%',
-    size: 3,
-    tooltip: false
-  },
-  {
-    field: 'efgPerc',
-    header: 'EFG%',
-    size: 3,
-    tooltip: false
-  },
-  {
-    field: 'tsPerc',
-    header: 'TS%',
-    size: 3,
-    tooltip: false
-  }
-];
-
-// * For Offense Stat Box
-export const PLAYER_AVERAGES_DEFENSE = [
-  {
-    field: 'drtg',
-    header: 'DRTG',
-    size: 4,
-    tooltip: false
-  },
-  {
-    field: 'drebPerc',
-    header: 'DREB%',
-    size: 4,
-    tooltip: false
-  },
-  {
-    field: 'stl',
-    header: 'STL',
-    size: 4,
-    tooltip: false
-  },
-  {
-    field: 'blk',
-    header: 'BLK',
-    size: 4,
-    tooltip: false
-  },
-  {
-    field: 'pf',
-    header: 'FOULS',
-    size: 4,
-    tooltip: false
-  },
-  {
-    field: 'oFGPerc',
-    header: 'oFG%',
-    size: 4,
-    tooltip: false
-  },
-  {
-    field: 'o3PPerc',
-    header: 'o3P%',
-    size: 4,
-    tooltip: false
-  },
-  {
-    field: 'oEFGPerc',
-    header: 'oEFG%',
-    size: 4,
-    tooltip: false
-  }
-];
-
-export const PLAYER_AVERAGES_MISC = [
-  {
-    field: 'dd',
-    header: 'DD',
-    size: 3,
-    tooltip: false
-  },
-  {
-    field: 'td',
-    header: 'TD',
-    size: 3,
-    tooltip: false
-  },
-  {
-    field: 'qd',
-    header: 'QD',
-    size: 3,
-    tooltip: false
-  },
-  {
-    field: 'threepAR',
-    header: '3P Attempt Rate',
-    size: 3,
-    tooltip: false
-  },
-  {
-    field: 'fgm',
-    header: 'FGM',
-    size: 3,
-    tooltip: false
-  },
-  {
-    field: 'fga',
-    header: 'FGA',
-    size: 3,
-    tooltip: false
-  },
-  {
-    field: 'threepm',
-    header: '3PM',
-    size: 3,
-    tooltip: false
-  },
-  {
-    field: 'threepa',
-    header: '3PA',
-    size: 3,
-    tooltip: false
-  },
-  {
-    field: 'oFGM',
-    header: 'oFGM',
-    size: 3,
-    tooltip: false
-  },
-  {
-    field: 'oFGA',
-    header: 'oFGA',
-    size: 3,
-    tooltip: false
-  },
-  {
-    field: 'o3PM',
-    header: 'o3PM',
-    size: 3,
-    tooltip: false
-  },
-  {
-    field: 'o3PA',
-    header: 'o3PA',
-    size: 3,
-    tooltip: false
-  },
-  {
-    field: 'twopm',
-    header: '2PM',
-    size: 3,
-    tooltip: false
-  },
-  {
-    field: 'twopa',
-    header: '2PA',
-    size: 3,
-    tooltip: false
-  },
-  {
-    field: 'fta',
-    header: 'FTA',
-    size: 3,
-    tooltip: false
-  },
-  {
-    field: 'ftm',
-    header: 'FTM',
-    size: 3,
-    tooltip: false
-  }
-];
-
 export const RECENT_GAMES_COLUMNS = [
   {
     field: '_createdAt',
@@ -341,6 +274,15 @@ export const RECENT_GAMES_COLUMNS = [
     valueGetter: (params) => {
       // eslint-disable-next-line no-underscore-dangle
       return new Date(params.value._seconds * 1000).toLocaleDateString('en-US');
+    },
+    flex: 1,
+    sortable: false
+  },
+  {
+    field: 'isAI',
+    headerName: 'AI',
+    valueGetter: (params) => {
+      return params.value ? 'AI' : 'User';
     },
     flex: 1,
     sortable: false
