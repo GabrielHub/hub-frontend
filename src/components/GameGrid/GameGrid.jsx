@@ -1,48 +1,31 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { useSnackbar } from 'notistack';
-import { Grid } from '@mui/material';
+import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { DataGrid } from '@mui/x-data-grid';
-import { fetchLastGames } from 'rest';
-
-// * There are not enough games to put a hard limit.
-const NUMBER_OF_GAMES = 100;
 
 export function GameGrid(props) {
-  const { columns, playerID } = props;
-  const { enqueueSnackbar } = useSnackbar();
-  const [rows, setRows] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  const getTableRows = useCallback(async () => {
-    setLoading(true);
-    const queryParams = {
-      playerID,
-      numOfGames: NUMBER_OF_GAMES
-    };
-    const { data, error } = await fetchLastGames(queryParams);
-    if (error) {
-      setLoading(false);
-      enqueueSnackbar('Error reading data, please try again', { variant: 'error' });
-    } else {
-      setRows(data);
-      setLoading(false);
-    }
-  }, [enqueueSnackbar, playerID]);
-
-  useEffect(() => {
-    getTableRows();
-  }, [getTableRows]);
+  const { columns, gameData } = props;
 
   return (
-    <Grid xs={12} sx={{ height: 375 }} item>
-      <DataGrid rows={rows} columns={columns} loading={loading} autoPageSize />
+    <Grid xs={12} sx={{ p: 4 }} item>
+      <Accordion>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography component="span" align="center" variant="h5" gutterBottom>
+            Games Played (Last 100)
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails sx={{ height: 395 }}>
+          <DataGrid rows={gameData} columns={columns} autoPageSize />
+        </AccordionDetails>
+      </Accordion>
     </Grid>
   );
 }
 
 GameGrid.propTypes = {
-  playerID: PropTypes.string.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  gameData: PropTypes.any.isRequired,
   columns: PropTypes.arrayOf(
     PropTypes.objectOf(
       PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool, PropTypes.func])

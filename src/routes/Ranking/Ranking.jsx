@@ -19,11 +19,8 @@ export function Ranking() {
       </Grid>
       <Grid xs={12} item>
         <Accordion>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header">
-            <Typography>How is this calculated?</Typography>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography component="span">How is this calculated?</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Typography gutterBottom>

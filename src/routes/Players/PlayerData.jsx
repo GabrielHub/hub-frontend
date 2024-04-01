@@ -10,18 +10,13 @@ import {
   FormControlLabel,
   FormHelperText,
   Switch,
-  Divider,
-  Card,
-  CardHeader,
-  CardContent
+  Divider
 } from '@mui/material';
 import SportsBasketballIcon from '@mui/icons-material/SportsBasketball';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
 import InsightsIcon from '@mui/icons-material/Insights';
 import LockIcon from '@mui/icons-material/Lock';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import { fetchPlayerData } from 'rest';
+import { fetchPlayerData, fetchLastGames } from 'rest';
 import { Loading } from 'components/Loading';
 import { POSITION_READABLE } from 'constants';
 import { GameGrid } from 'components/GameGrid';
@@ -33,8 +28,11 @@ import {
   RECENT_GAMES_COLUMNS,
   RATING_COLOR_MAP
 } from './constants';
+import { StatCard } from './StatCard';
+import { TrendsGraph } from './TrendsGraph';
 
-// TODO Career Highs
+// * There are not enough games to put a hard limit.
+const NUMBER_OF_GAMES = 100;
 
 export function PlayerData() {
   const { playerID } = useParams();
@@ -43,6 +41,7 @@ export function PlayerData() {
 
   const [playerData, setPlayerData] = useState(null);
   const [leagueData, setLeagueData] = useState(null);
+  const [gameData, setGameData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [position, setPosition] = useState(0);
   const [filterByLock, setFilterByLock] = useState(false);
@@ -71,6 +70,23 @@ export function PlayerData() {
     }
   }, [getPlayerData, playerID, position]);
 
+  const getTableRows = useCallback(async () => {
+    const queryParams = {
+      playerID,
+      numOfGames: NUMBER_OF_GAMES
+    };
+    const { data, error } = await fetchLastGames(queryParams);
+    if (error) {
+      enqueueSnackbar('Error reading data, please try again', { variant: 'error' });
+    } else {
+      setGameData(data);
+    }
+  }, [enqueueSnackbar, playerID]);
+
+  useEffect(() => {
+    getTableRows();
+  }, [getTableRows]);
+
   useEffect(() => {
     if (playerData?.positions && !positionOptions) {
       const options = Object.keys(POSITION_READABLE)
@@ -82,16 +98,6 @@ export function PlayerData() {
       setPositionOptions(options);
     }
   }, [playerData, positionOptions]);
-
-  const getComparisonIcon = (playerStat, leagueStat, stat) => {
-    if (playerStat > leagueStat + 1) {
-      return <ArrowUpwardIcon style={{ color: stat !== 'drtg' ? 'green' : 'red' }} />;
-    }
-    if (playerStat < leagueStat - 1) {
-      return <ArrowDownwardIcon style={{ color: stat !== 'drtg' ? 'red' : 'green' }} />;
-    }
-    return null;
-  };
 
   return (
     <>
@@ -311,164 +317,55 @@ export function PlayerData() {
           </Grid>
 
           <Grid xs={12} xl={6} sx={{ p: 4 }} item>
-            <Card sx={{ height: '100%' }}>
-              <CardHeader
-                sx={{ bgcolor: RATING_COLOR_MAP[playerData.ratingString] }}
-                title={
-                  <Grid alignItems="center" justifyContent="space-between" container>
-                    <Typography variant="h6" color="white">
-                      Average Stats
-                    </Typography>
-                    <SportsBasketballIcon sx={{ color: 'white' }} />
-                  </Grid>
-                }
-              />
-              <CardContent>
-                <Grid container>
-                  {AverageStatsColumns.map((stat) => (
-                    <Grid xs key={stat.headerName} sx={{ padding: 2 }} item>
-                      <Typography align="center" variant="h6">
-                        <b>{stat.headerName}</b>
-                      </Typography>
-                      <Typography align="center" variant="h6">
-                        <b>{playerData[stat.field]}</b>
-                        {showLeagueComparisons &&
-                          leagueData &&
-                          leagueData[stat.field] &&
-                          getComparisonIcon(
-                            playerData[stat.field],
-                            leagueData[stat.field],
-                            stat.field
-                          )}
-                      </Typography>
-                    </Grid>
-                  ))}
-                </Grid>
-              </CardContent>
-            </Card>
+            <StatCard
+              playerData={playerData}
+              leagueData={leagueData}
+              showLeagueComparisons={showLeagueComparisons}
+              columns={AverageStatsColumns}
+              title="Average Stats"
+              color={RATING_COLOR_MAP[playerData.ratingString]}
+              icon={<SportsBasketballIcon sx={{ color: 'white' }} />}
+            />
           </Grid>
 
           <Grid xs={12} xl={6} sx={{ p: 4 }} item>
-            <Card sx={{ height: '100%' }}>
-              <CardHeader
-                sx={{ bgcolor: RATING_COLOR_MAP[playerData.ratingString] }}
-                title={
-                  <Grid alignItems="center" justifyContent="space-between" container>
-                    <Typography variant="h6" color="white">
-                      Efficiency
-                    </Typography>
-                    <WhatshotIcon sx={{ color: 'white' }} />
-                  </Grid>
-                }
-              />
-              <CardContent>
-                <Grid container>
-                  {EfficiencyStatsColumns.map((stat) => (
-                    <Grid xs key={stat.headerName} sx={{ padding: 2 }} item>
-                      <Typography align="center" variant="h6">
-                        <b>{stat.headerName}</b>
-                      </Typography>
-                      <Typography align="center" variant="h6">
-                        <b>{playerData[stat.field]}</b>
-                        {showLeagueComparisons &&
-                          leagueData &&
-                          leagueData[stat.field] &&
-                          getComparisonIcon(
-                            playerData[stat.field],
-                            leagueData[stat.field],
-                            stat.field
-                          )}
-                      </Typography>
-                    </Grid>
-                  ))}
-                </Grid>
-              </CardContent>
-            </Card>
+            <StatCard
+              playerData={playerData}
+              leagueData={leagueData}
+              showLeagueComparisons={showLeagueComparisons}
+              columns={EfficiencyStatsColumns}
+              title="Efficiency Stats"
+              color={RATING_COLOR_MAP[playerData.ratingString]}
+              icon={<WhatshotIcon sx={{ color: 'white' }} />}
+            />
           </Grid>
 
           <Grid xs={12} xl={6} sx={{ p: 4 }} item>
-            <Card sx={{ height: '100%' }}>
-              <CardHeader
-                sx={{ bgcolor: RATING_COLOR_MAP[playerData.ratingString] }}
-                title={
-                  <Grid alignItems="center" justifyContent="space-between" container>
-                    <Typography variant="h6" color="white">
-                      Advanced Stats
-                    </Typography>
-                    <InsightsIcon sx={{ color: 'white' }} />
-                  </Grid>
-                }
-              />
-              <CardContent>
-                <Grid container>
-                  {AdvancedStatsColumns.map((stat) => (
-                    <Grid xs key={stat.headerName} sx={{ padding: 2 }} item>
-                      <Typography align="center" variant="h6">
-                        <b>{stat.headerName}</b>
-                      </Typography>
-                      <Typography align="center" variant="h6">
-                        <b>{playerData[stat.field]}</b>
-                        {showLeagueComparisons &&
-                          leagueData &&
-                          leagueData[stat.field] &&
-                          getComparisonIcon(
-                            playerData[stat.field],
-                            leagueData[stat.field],
-                            stat.field
-                          )}
-                      </Typography>
-                    </Grid>
-                  ))}
-                </Grid>
-              </CardContent>
-            </Card>
+            <StatCard
+              playerData={playerData}
+              leagueData={leagueData}
+              showLeagueComparisons={showLeagueComparisons}
+              columns={AdvancedStatsColumns}
+              title="Advanced Stats"
+              color={RATING_COLOR_MAP[playerData.ratingString]}
+              icon={<InsightsIcon sx={{ color: 'white' }} />}
+            />
           </Grid>
 
           <Grid xs={12} xl={6} sx={{ p: 4 }} item>
-            <Card sx={{ height: '100%' }}>
-              <CardHeader
-                sx={{ bgcolor: RATING_COLOR_MAP[playerData.ratingString] }}
-                title={
-                  <Grid alignItems="center" justifyContent="space-between" container>
-                    <Typography variant="h6" color="white">
-                      Defensive Efficiency
-                    </Typography>
-                    <LockIcon sx={{ color: 'white' }} />
-                  </Grid>
-                }
-              />
-              <CardContent>
-                <Grid container>
-                  {DefensiveEfficiencyStatsColumns.map((stat) => (
-                    <Grid xs key={stat.headerName} sx={{ padding: 2 }} item>
-                      <Typography align="center" variant="h6">
-                        <b>{stat.headerName}</b>
-                      </Typography>
-                      <Typography align="center" variant="h6">
-                        <b>{playerData[stat.field]}</b>
-                        {showLeagueComparisons &&
-                          leagueData &&
-                          leagueData[stat.field] &&
-                          getComparisonIcon(
-                            playerData[stat.field],
-                            leagueData[stat.field],
-                            stat.field
-                          )}
-                      </Typography>
-                    </Grid>
-                  ))}
-                </Grid>
-              </CardContent>
-            </Card>
+            <StatCard
+              playerData={playerData}
+              leagueData={leagueData}
+              showLeagueComparisons={showLeagueComparisons}
+              columns={DefensiveEfficiencyStatsColumns}
+              title="Defensive Efficiency"
+              color={RATING_COLOR_MAP[playerData.ratingString]}
+              icon={<LockIcon sx={{ color: 'white' }} />}
+            />
           </Grid>
 
-          {/* Last 5 games */}
-          <Grid xs={12} item>
-            <Typography align="center" variant="h5" gutterBottom>
-              Games Played (Last 100)
-            </Typography>
-          </Grid>
-          <GameGrid playerID={playerID} columns={RECENT_GAMES_COLUMNS} />
+          {gameData && <GameGrid columns={RECENT_GAMES_COLUMNS} gameData={gameData} />}
+          {gameData && <TrendsGraph gameData={gameData} />}
         </Grid>
       )}
     </>
