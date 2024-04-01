@@ -392,8 +392,10 @@ export function PlayerData() {
                   Individual Possessions
                 </Typography>
                 <Typography align="right" variant="body2" color="text.secondary">
-                  {playerData.fga + playerData.tov + playerData.ast + playerData.fta * 0.44} est.
-                  possessions | {playerData.usageRate} USG%
+                  {Math.round(
+                    playerData.fga + playerData.tov + playerData.ast + playerData.fta * 0.44
+                  )}{' '}
+                  est. possessions | {playerData.usageRate} USG%
                 </Typography>
               </Grid>
               <Grid xs={12} item>
