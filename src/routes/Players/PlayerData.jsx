@@ -144,7 +144,7 @@ export function PlayerData() {
                 </Typography>
               </Grid>
               <Grid xs={12} justifyContent="center" alignItems="flex-start" container item>
-                {playerData?.positions && (!position || position === '0') && (
+                {playerData?.positions && !filterByLock && (
                   <Typography align="center" variant="body2">
                     {playerData.ratingString} |{' '}
                     {Object.entries(playerData.positions)
@@ -154,7 +154,7 @@ export function PlayerData() {
                       .join('/')}
                   </Typography>
                 )}
-                {!playerData?.positions && (
+                {!playerData?.positions && !filterByLock && (
                   <Typography align="center" variant="body2">
                     {playerData.ratingString} | {POSITION_READABLE[position]}
                   </Typography>
