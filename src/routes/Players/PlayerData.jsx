@@ -72,7 +72,7 @@ export function PlayerData() {
   }, [getPlayerData, playerID, position]);
 
   useEffect(() => {
-    if (playerData && !positionOptions) {
+    if (playerData?.positions && !positionOptions) {
       const options = Object.keys(POSITION_READABLE)
         .filter((pos) => Object.prototype.hasOwnProperty.call(playerData.positions, pos))
         .map((pos) => ({
@@ -126,7 +126,7 @@ export function PlayerData() {
                 </Typography>
               </Grid>
               <Grid xs={12} justifyContent="center" alignItems="flex-start" container item>
-                {playerData.positions && (!position || position === '0') && (
+                {playerData?.positions && (!position || position === '0') && (
                   <Typography align="center" variant="body2">
                     {playerData.ratingString} |{' '}
                     {Object.entries(playerData.positions)
@@ -136,7 +136,7 @@ export function PlayerData() {
                       .join('/')}
                   </Typography>
                 )}
-                {!playerData.positions && (
+                {!playerData?.positions && (
                   <Typography align="center" variant="body2">
                     {playerData.ratingString} | {POSITION_READABLE[position]}
                   </Typography>
@@ -268,7 +268,7 @@ export function PlayerData() {
                     autoFocus>
                     <option value={0}>All</option>
                     {positionOptions.map((pos) => (
-                      <option value={pos.value} key={pos.value}>
+                      <option value={pos.value} key={`${pos} ${pos?.value}`}>
                         {pos.label}
                       </option>
                     ))}
