@@ -10,6 +10,7 @@ import { Login } from './Login';
 import { PrivateRoute } from './PrivateRoute';
 import { Dashboard } from './Dashboard';
 import { Games } from './Games';
+import { League, PER, Similarity, Awards } from './Analysis/Tabs';
 
 export const routerConfig = [
   {
@@ -28,7 +29,25 @@ export const routerConfig = [
       },
       {
         path: '/analysis',
-        element: <Analysis />
+        element: <Analysis />,
+        children: [
+          {
+            path: 'league', //* Default to league averages
+            element: <League />
+          },
+          {
+            path: 'per',
+            element: <PER />
+          },
+          {
+            path: 'similarity',
+            element: <Similarity />
+          },
+          {
+            path: 'awards',
+            element: <Awards />
+          }
+        ]
       },
       {
         path: '/players',

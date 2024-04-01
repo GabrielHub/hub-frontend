@@ -1,15 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Tabs, Tab, Box } from '@mui/material';
 import PropTypes from 'prop-types';
-import { TAB_CONFIG, TAB_LABELS } from './config';
-// import { PlayerGrid } from 'components/PlayerGrid';
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`
-  };
-}
+import { useOutlet, useNavigate } from 'react-router-dom';
+import { TAB_CONFIG } from './config';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -34,25 +27,36 @@ TabPanel.propTypes = {
 };
 
 export function Analysis() {
-  const [tabValue, setTabValue] = useState(0);
+  const navigate = useNavigate();
+  const outlet = useOutlet();
 
   const handleChange = (event, newValue) => {
-    setTabValue(newValue);
+    navigate(TAB_CONFIG[newValue].path);
   };
+
+  let currentTabIndex = TAB_CONFIG.findIndex((tab) => tab.path === window.location.pathname);
+  currentTabIndex = currentTabIndex === -1 ? 0 : currentTabIndex;
+
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={tabValue} onChange={handleChange} variant="scrollable" scrollButtons="auto">
-          {TAB_LABELS.map(({ label }, index) => (
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            <Tab key={label} label={label} {...a11yProps(index)} />
+        <Tabs
+          value={currentTabIndex}
+          onChange={handleChange}
+          variant="scrollable"
+          scrollButtons="auto">
+          {TAB_CONFIG.map(({ label, path }, index) => (
+            <Tab
+              key={path}
+              label={label}
+              id={`simple-tab-${index}`}
+              aria-controls={`simple-tabpanel-${index}`}
+            />
           ))}
         </Tabs>
-        {TAB_CONFIG.map(({ label, component }, index) => (
-          <TabPanel key={`key-${label}`} value={tabValue} index={index}>
-            {component}
-          </TabPanel>
-        ))}
+        <TabPanel value={currentTabIndex} index={currentTabIndex}>
+          {outlet}
+        </TabPanel>
       </Box>
     </Box>
   );

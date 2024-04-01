@@ -26,7 +26,7 @@ export function Root() {
         </Grid>
       </Grid>
       <Grid xs justifyContent="space-around" container item>
-        <Grid sx={{ padding: 2 }} xs={4} lg={3} item>
+        <Grid sx={{ padding: 2 }} xs lg={3} item>
           <Card sx={{ minWidth: 275, padding: 2, border: ' 4px solid #e8cab2' }} variant="outlined">
             <CardContent>
               <Grid alignItems="center" container>
@@ -62,7 +62,7 @@ export function Root() {
             </CardActions>
           </Card>
         </Grid>
-        <Grid sx={{ padding: 2 }} xs={4} lg={3} item>
+        <Grid sx={{ padding: 2 }} xs lg={3} item>
           <Card sx={{ minWidth: 275, padding: 2, border: ' 4px solid #edd6ff' }} variant="outlined">
             <CardContent>
               <Grid alignItems="center" container>
@@ -96,7 +96,7 @@ export function Root() {
             </CardActions>
           </Card>
         </Grid>
-        <Grid sx={{ padding: 2 }} xs={4} lg={3} item>
+        <Grid sx={{ padding: 2 }} xs lg={3} item>
           <Card sx={{ minWidth: 275, padding: 2, border: ' 4px solid #a8b8ba' }} variant="outlined">
             <CardContent>
               <Grid alignItems="center" container>

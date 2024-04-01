@@ -9,7 +9,25 @@ export const navConfig = [
   },
   {
     title: 'ANALYSIS',
-    path: '/analysis'
+    path: '/analysis',
+    children: [
+      {
+        title: 'LEAGUE AVERAGES',
+        path: '/analysis/league'
+      },
+      {
+        title: 'PER LEADERS',
+        path: '/analysis/per'
+      },
+      {
+        title: 'NBA COMPARISON',
+        path: '/analysis/similarity'
+      },
+      {
+        title: 'AWARDS',
+        path: '/analysis/awards'
+      }
+    ]
   },
   {
     title: 'UPLOAD',
