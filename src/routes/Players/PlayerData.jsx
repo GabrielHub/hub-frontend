@@ -141,6 +141,11 @@ export function PlayerData() {
                     {playerData.ratingString} | {POSITION_READABLE[position]}
                   </Typography>
                 )}
+                {Boolean(filterByLock) && (
+                  <Typography align="center" variant="body2">
+                    {playerData.ratingString} | Guarding PG
+                  </Typography>
+                )}
               </Grid>
             </Grid>
             <Grid xs={12} sm={6} justifyContent="center" container item>
