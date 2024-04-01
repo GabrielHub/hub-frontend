@@ -7,7 +7,7 @@ export const statNames = {
   threepm: '3PM',
   oreb: 'OREB',
   dreb: 'DREB',
-  treb: 'TREB',
+  treb: 'REB',
   ast: 'AST',
   stl: 'STL',
   blk: 'BLK',
@@ -30,49 +30,31 @@ export const statNames = {
   gp: 'Games Played'
 };
 
-export const totalStatsToSkip = [
-  'tovPerc',
-  'threepPerc',
-  'fgPerc',
-  'efgPerc',
-  'threepAR',
-  'astToRatio',
-  'PER',
-  'aPER',
-  'ortg',
-  'drtg',
-  'pace',
-  'usageRate',
-  'threepAR'
-];
-
 export const basicStats = [
-  'fga',
-  'fgm',
-  'fta',
-  'ftm',
-  'threepa',
-  'threepm',
-  'oreb',
-  'dreb',
+  'pts',
   'treb',
   'ast',
   'stl',
   'blk',
   'tov',
   'pf',
-  'pts'
+  'fga',
+  'fgm',
+  'fta',
+  'ftm',
+  'threepa',
+  'threepm'
 ];
+
 export const advancedStats = [
+  'ortg',
+  'drtg',
+  'fgPerc',
+  'efgPerc',
   'tovPerc',
   'threepPerc',
   'threepAR',
   'usageRate',
-  'aPER',
-  'fgPerc',
-  'efgPerc',
-  'ortg',
-  'drtg',
   'astToRatio',
   'PER',
   'pace',

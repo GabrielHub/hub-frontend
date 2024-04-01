@@ -42,7 +42,7 @@ export function Analysis() {
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={tabValue} onChange={handleChange}>
+        <Tabs value={tabValue} onChange={handleChange} variant="scrollable" scrollButtons="auto">
           {TAB_LABELS.map(({ label }, index) => (
             // eslint-disable-next-line react/jsx-props-no-spreading
             <Tab key={label} label={label} {...a11yProps(index)} />

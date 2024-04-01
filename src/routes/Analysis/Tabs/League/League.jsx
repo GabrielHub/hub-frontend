@@ -3,7 +3,7 @@ import { useSnackbar } from 'notistack';
 import { Grid, Typography, Card, CardContent } from '@mui/material';
 import { Loading } from 'components/Loading';
 import { fetchLeagueAverages } from 'rest';
-import { basicStats, advancedStats, totalStatsToSkip, statNames } from './config';
+import { basicStats, advancedStats, statNames } from './config';
 
 export function League() {
   const { enqueueSnackbar } = useSnackbar();
@@ -45,14 +45,13 @@ export function League() {
             <Typography variant="h6">Basic Stats</Typography>
           </Grid>
           <Grid container item spacing={2}>
-            {Object.entries(leagueData)
-              .filter(([key]) => basicStats.includes(key))
-              .map(([key, value]) => (
+            {leagueData &&
+              basicStats.map((key) => (
                 <Grid key={key} xs={12} sm={6} md={4} lg={3} item>
                   <Card>
                     <CardContent>
                       <Typography>
-                        <b>{statNames[key] || key}:</b> {Number(value).toFixed(1)}
+                        <b>{statNames[key] || key}:</b> {Math.round(leagueData[key] * 10) / 10}
                       </Typography>
                     </CardContent>
                   </Card>
@@ -63,14 +62,13 @@ export function League() {
             <Typography variant="h6">Advanced Stats</Typography>
           </Grid>
           <Grid container item spacing={2}>
-            {Object.entries(leagueData)
-              .filter(([key]) => advancedStats.includes(key))
-              .map(([key, value]) => (
+            {leagueData &&
+              advancedStats.map((key) => (
                 <Grid key={key} xs={12} sm={6} md={4} lg={3} item>
                   <Card>
                     <CardContent>
                       <Typography>
-                        <b>{statNames[key] || key}:</b> {Number(value).toFixed(1)}
+                        <b>{statNames[key] || key}:</b> {Math.round(leagueData[key] * 10) / 10}
                       </Typography>
                     </CardContent>
                   </Card>
@@ -81,14 +79,13 @@ export function League() {
             <Typography variant="h6">League Totals</Typography>
           </Grid>
           <Grid container item spacing={2}>
-            {Object.entries(leagueData.totalStats)
-              .filter(([key]) => !totalStatsToSkip.includes(key))
-              .map(([key, value]) => (
+            {leagueData &&
+              basicStats.map((key) => (
                 <Grid key={key} xs={12} sm={6} md={4} lg={3} item>
                   <Card>
                     <CardContent>
                       <Typography>
-                        <b>{statNames[key] || key}:</b> {Math.round(value)}
+                        <b>{statNames[key] || key}:</b> {Math.round(leagueData.totalStats[key])}
                       </Typography>
                     </CardContent>
                   </Card>
