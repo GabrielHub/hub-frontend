@@ -31,7 +31,7 @@ const keyToLabel = {
 };
 
 export function TrendsGraph(props) {
-  const { gameData } = props;
+  const { gameData, positionFilter } = props;
 
   const [selectedStats, setSelectedStats] = useState(['pts']);
   const [numGames, setNumGames] = useState(25);
@@ -40,22 +40,27 @@ export function TrendsGraph(props) {
     setSelectedStats(event.target.value);
   };
 
-  const formattedGameData = useMemo(
-    () =>
-      gameData
-        .map((game, index) => {
-          const formattedGame = {
-            id: index
-          };
-          Object.keys(keyToLabel).forEach((key) => {
-            formattedGame[key] = game[key];
-          });
-          return formattedGame;
-        })
-        .sort((a, b) => b.playedAt - a.playedAt)
-        .slice(0, numGames),
-    [gameData, numGames]
-  );
+  const formattedGameData = useMemo(() => {
+    let filteredGameData = gameData;
+
+    const positionFilterNumber = Number(positionFilter);
+    if (positionFilterNumber && positionFilterNumber >= 1 && positionFilterNumber <= 5) {
+      filteredGameData = gameData.filter((game) => game.pos === positionFilterNumber);
+    }
+
+    return filteredGameData
+      .map((game, index) => {
+        const formattedGame = {
+          id: index
+        };
+        Object.keys(keyToLabel).forEach((key) => {
+          formattedGame[key] = game[key];
+        });
+        return formattedGame;
+      })
+      .sort((a, b) => b.playedAt - a.playedAt)
+      .slice(0, numGames);
+  }, [gameData, numGames, positionFilter]);
 
   return (
     <Grid xs={12} sx={{ p: 4 }} item>
@@ -95,7 +100,9 @@ export function TrendsGraph(props) {
               />
             </Grid>
           </Grid>
+          {/* use key to force a rerender. Otherwise the line gets weird when positionFilter is updated */}
           <LineChart
+            key={positionFilter}
             colors={mangoFusionPalette}
             series={selectedStats.map((key) => ({
               dataKey: key,
@@ -120,7 +127,12 @@ export function TrendsGraph(props) {
 
 TrendsGraph.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
-  gameData: PropTypes.any.isRequired
+  gameData: PropTypes.any.isRequired,
+  positionFilter: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+};
+
+TrendsGraph.defaultProps = {
+  positionFilter: 0
 };
 
 export default {};

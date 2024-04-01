@@ -365,7 +365,7 @@ export function PlayerData() {
           </Grid>
 
           {gameData && <GameGrid columns={RECENT_GAMES_COLUMNS} gameData={gameData} />}
-          {gameData && <TrendsGraph gameData={gameData} />}
+          {gameData && <TrendsGraph gameData={gameData} positionFilter={position} />}
         </Grid>
       )}
     </>
