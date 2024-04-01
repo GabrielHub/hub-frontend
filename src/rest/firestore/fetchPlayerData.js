@@ -7,7 +7,7 @@ export const fetchPlayerData = async (playerID, position, lock) => {
   await axios
     .get(
       `${FIREBASE_BASE_URL}/lookupPlayer?playerID=${playerID}${
-        position ? `&position=${position}` : ''
+        position && position !== '0' ? `&position=${position}` : ''
       }${lock ? `&lock=${lock}` : ''}`
     )
     .then((res) => {

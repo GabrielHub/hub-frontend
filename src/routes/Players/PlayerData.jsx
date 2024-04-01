@@ -38,14 +38,16 @@ export function PlayerData() {
   const [position, setPosition] = useState(0);
   const [filterByLock, setFilterByLock] = useState(false);
   /** Only initially fetch positionOptions, as they don't exist on other positional data */
-  const [positionOptions, setPositionOptions] = useState([]);
+  const [positionOptions, setPositionOptions] = useState(null);
   const [showLeagueComparisons, setShowLeagueComparisons] = useState(false);
 
   const getPlayerData = useCallback(async () => {
     setIsLoading(true);
     const { data, error } = await fetchPlayerData(playerID, position, filterByLock ? 1 : 0);
     if (error) {
-      enqueueSnackbar('Error reading data, please try a different user', { variant: 'error' });
+      enqueueSnackbar(error?.response?.data || 'Error reading data, please try a different user', {
+        variant: 'error'
+      });
     } else {
       // * Players should always have a name, alias and FTPerc
       setPlayerData(data.playerData);
@@ -61,7 +63,7 @@ export function PlayerData() {
   }, [getPlayerData, playerID, position]);
 
   useEffect(() => {
-    if (playerData && !positionOptions.length) {
+    if (playerData && !positionOptions) {
       const options = Object.keys(POSITION_READABLE)
         .filter((pos) => Object.prototype.hasOwnProperty.call(playerData.positions, pos))
         .map((pos) => ({
@@ -102,7 +104,7 @@ export function PlayerData() {
                 Go Back
               </Button>
             </Grid>
-            {Boolean(positionOptions.length) && (
+            {Boolean(positionOptions) && (
               <Grid xs item>
                 <FormControl fullWidth>
                   <Select
@@ -171,16 +173,19 @@ export function PlayerData() {
               </Grid>
             </Grid>
             <Grid xs={12} alignItems="center" container item>
-              <Grid xs item>
-                <Typography align="center" variant="body1">
-                  <b>Position:</b>{' '}
-                  {Object.entries(playerData.positions)
-                    .sort((a, b) => b[1] - a[1])
-                    .slice(0, 2)
-                    .map((posValue) => POSITION_READABLE[posValue[0]])
-                    .join('/')}
-                </Typography>
-              </Grid>
+              {(!position || position === '0') && (
+                <Grid xs item>
+                  <Typography align="center" variant="body1">
+                    <b>Position:</b>{' '}
+                    {Object.entries(playerData.positions)
+                      .sort((a, b) => b[1] - a[1])
+                      .slice(0, 2)
+                      .map((posValue) => POSITION_READABLE[posValue[0]])
+                      .join('/')}
+                  </Typography>
+                </Grid>
+              )}
+
               <Grid xs item>
                 <Typography align="center" variant="body1">
                   <b>{playerData.ratingString}:</b> {Math.round(playerData.rating * 10) / 10}
