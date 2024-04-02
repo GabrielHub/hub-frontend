@@ -32,6 +32,7 @@ import { fetchPlayerData, fetchLastGames } from 'rest';
 import { Loading } from 'components/Loading';
 import { POSITION_READABLE } from 'constants';
 import { GameGrid } from 'components/GameGrid';
+import { getReadablePositions } from 'utils';
 import {
   AverageStatsColumns,
   EfficiencyStatsColumns,
@@ -147,11 +148,7 @@ export function PlayerData() {
                 {playerData?.positions && !filterByLock && (
                   <Typography align="center" variant="body2">
                     {playerData.ratingString} |{' '}
-                    {Object.entries(playerData.positions)
-                      .sort((a, b) => b[1] - a[1])
-                      .slice(0, 2)
-                      .map((posValue) => POSITION_READABLE[posValue[0]])
-                      .join('/')}
+                    {getReadablePositions(playerData.positions, 2) || 'No Positions'}
                   </Typography>
                 )}
                 {!playerData?.positions && !filterByLock && (
@@ -392,10 +389,7 @@ export function PlayerData() {
                   Individual Possessions
                 </Typography>
                 <Typography align="right" variant="body2" color="text.secondary">
-                  {Math.round(
-                    playerData.fga + playerData.tov + playerData.ast + playerData.fta * 0.44
-                  )}{' '}
-                  est. possessions | {playerData.usageRate} USG%
+                  {playerData?.estPoss} est. possessions | {playerData.usageRate} USG%
                 </Typography>
               </Grid>
               <Grid xs={12} item>

@@ -143,7 +143,7 @@ export function Similarity() {
         item
         spacing={2}
         sx={{ flexDirection: { xs: 'column', sm: 'row' }, alignItems: 'flex-start' }}>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12}>
           <AlgoliaSearch handleClick={handlePlayerSelection} />
         </Grid>
         <Grid item xs>

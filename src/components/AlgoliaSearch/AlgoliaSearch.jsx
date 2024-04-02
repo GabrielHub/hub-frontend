@@ -14,12 +14,10 @@ export function AlgoliaSearch(props) {
   return (
     <InstantSearch searchClient={searchClient} indexName="players" routing>
       <Grid container>
-        <Grid xs={3} item>
+        <Grid xs item>
           <SearchBox />
         </Grid>
-        <Grid xs item>
-          <Hits handleClick={handleClick} />
-        </Grid>
+        <Hits handleClick={handleClick} />
       </Grid>
     </InstantSearch>
   );
