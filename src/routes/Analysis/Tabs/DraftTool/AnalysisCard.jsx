@@ -102,7 +102,11 @@ function TeamCard(props) {
           {players.map((player) => (
             <Grid
               key={player.name}
-              sx={{ border: `1px solid ${RATING_COLOR_MAP[player.rating]}`, p: 1 }}
+              sx={{
+                border: `1px solid ${RATING_COLOR_MAP[player.rating]}`,
+                backgroundColor: `${RATING_COLOR_MAP[player.rating]}10`,
+                p: 1
+              }}
               container>
               <Grid xs={12} item>
                 <Typography variant="h6" align="center" gutterBottom>

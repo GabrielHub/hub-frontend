@@ -115,7 +115,7 @@ export function PlayerData() {
     <>
       <Loading isLoading={isLoading} />
       {playerData && (
-        <Grid container>
+        <Grid sx={{ backgroundColor: `${RATING_COLOR_MAP[playerData.ratingString]}10` }} container>
           <Grid
             sx={{
               backgroundColor: RATING_COLOR_MAP[playerData.ratingString],

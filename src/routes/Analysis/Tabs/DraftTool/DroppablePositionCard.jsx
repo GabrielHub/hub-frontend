@@ -57,6 +57,7 @@ export function DroppablePositionCard(props) {
     }
     setStyle({
       border: borderStyle,
+      backgroundColor: `${RATING_COLOR_MAP?.[team?.player?.ratingString] || blueGrey[600]}10`,
       padding: 4
     });
   }, [currentlyDragging, isEligible, isOver, team.player]);
