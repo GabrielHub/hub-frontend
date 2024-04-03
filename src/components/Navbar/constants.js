@@ -26,6 +26,10 @@ export const navConfig = [
       {
         title: 'AWARDS',
         path: '/analysis/awards'
+      },
+      {
+        title: 'DRAFT TOOL',
+        path: '/analysis/draft'
       }
     ]
   },

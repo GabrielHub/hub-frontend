@@ -79,7 +79,7 @@ export function Dashboard() {
   }, [enqueueSnackbar]);
 
   const handlePlayerSelect = useCallback(
-    async (objectID) => {
+    async ({ objectID }) => {
       setLoading(true);
       try {
         const { player, games } = await fetchPlayerAndGames(objectID);
@@ -118,7 +118,7 @@ export function Dashboard() {
 
     try {
       await updatePlayerDetails(playerID, name, validAliases, ftPerc);
-      await handlePlayerSelect(playerID);
+      await handlePlayerSelect({ objectID: playerID });
       enqueueSnackbar('Player Updated', { variant: 'success' });
     } catch (err) {
       enqueueSnackbar('Error updating player, please try again', { variant: 'error' });

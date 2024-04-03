@@ -62,7 +62,7 @@ export function Hits(props) {
         hits.map((hit) => (
           <Grid key={hit.objectID} xs item>
             <Card
-              onClick={() => handleClick(hit.objectID)}
+              onClick={() => handleClick(hit)}
               sx={{
                 padding: 2,
                 transition: '0.3s',

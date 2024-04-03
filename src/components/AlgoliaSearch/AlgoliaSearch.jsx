@@ -10,21 +10,28 @@ import { SearchBox } from './SearchBox';
 const searchClient = algoliasearch(ALGOLIA_PROJECT_ID, ALGOLIA_KEY);
 
 export function AlgoliaSearch(props) {
-  const { handleClick } = props;
+  const { handleClick, showStats, showPositions } = props;
   return (
     <InstantSearch searchClient={searchClient} indexName="players" routing>
       <Grid container>
         <Grid xs item>
           <SearchBox />
         </Grid>
-        <Hits handleClick={handleClick} />
+        <Hits handleClick={handleClick} showPositions={showPositions} showStats={showStats} />
       </Grid>
     </InstantSearch>
   );
 }
 
 AlgoliaSearch.propTypes = {
-  handleClick: PropTypes.func.isRequired
+  handleClick: PropTypes.func.isRequired,
+  showStats: PropTypes.bool,
+  showPositions: PropTypes.bool
+};
+
+AlgoliaSearch.defaultProps = {
+  showStats: false,
+  showPositions: false
 };
 
 export default {};

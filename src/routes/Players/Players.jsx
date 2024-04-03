@@ -8,7 +8,7 @@ import { RECENT_PLAYERS_COLUMNS, RECENT_PLAYERS_DEFAULT_SORTS } from './constant
 export function Players() {
   const navigate = useNavigate();
 
-  const handleNavigation = (objectID) => {
+  const handleNavigation = ({ objectID }) => {
     navigate(`/players/${objectID}`);
   };
 
@@ -20,7 +20,7 @@ export function Players() {
         </Typography>
       </Grid>
       <Grid xs={12} container alignItems="center" item>
-        <AlgoliaSearch handleClick={handleNavigation} />
+        <AlgoliaSearch handleClick={handleNavigation} showStats />
       </Grid>
       <Grid xs={12} item sx={{ paddingBottom: 16 }} />
       <Grid xs={12} item>

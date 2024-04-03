@@ -85,7 +85,8 @@ export function Similarity() {
   );
 
   const handlePlayerSelection = useCallback(
-    (playerID) => {
+    (player) => {
+      const playerID = player.objectID;
       setIsLoading(true);
       getPlayerData(playerID);
       setPlayerIDValue(playerID);

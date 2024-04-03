@@ -10,7 +10,7 @@ import { Login } from './Login';
 import { PrivateRoute } from './PrivateRoute';
 import { Dashboard } from './Dashboard';
 import { Games } from './Games';
-import { League, PER, Similarity, Awards } from './Analysis/Tabs';
+import { League, PER, Similarity, Awards, DraftTool } from './Analysis/Tabs';
 
 export const routerConfig = [
   {
@@ -46,6 +46,10 @@ export const routerConfig = [
           {
             path: 'awards',
             element: <Awards />
+          },
+          {
+            path: 'draft',
+            element: <DraftTool />
           }
         ]
       },
