@@ -1,8 +1,8 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { useState } from 'react';
+import { TransitionGroup } from 'react-transition-group';
 import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { useSnackbar } from 'notistack';
-import { Grid, Typography } from '@mui/material';
+import { Grid, Typography, Collapse } from '@mui/material';
 import { fetchPlayerDataByPosition } from 'rest';
 import { Loading } from 'components/Loading';
 import { DraftHeader } from './DraftHeader';
@@ -246,13 +246,15 @@ export function DraftTool() {
               Draft Board
             </Typography>
           </Grid>
-          {draftPool.map((player) => (
-            <DraggablePlayerCard
-              key={player.id}
-              player={player}
-              onRemove={handleRemoveFromDraftPool}
-            />
-          ))}
+          <TransitionGroup component={null}>
+            {draftPool.map((player) => (
+              <Collapse orientation="horizontal" key={player.name} component={Grid}>
+                <div>
+                  <DraggablePlayerCard player={player} onRemove={handleRemoveFromDraftPool} />
+                </div>
+              </Collapse>
+            ))}
+          </TransitionGroup>
         </Grid>
         <Grid xs={12} sx={{ my: 2 }} item>
           <TeamAnalysis teams={teams} />

@@ -33,6 +33,7 @@
     "react-multi-carousel": "^2.8.2",
     "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
+    "react-transition-group": "^4.4.5",
     "sort-by": "^1.2.0",
     "tesseract.js": "^4.0.3",
     "upscaler": "^1.0.0-beta.19",

@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useDraggable } from '@dnd-kit/core';
-import { Grid, Typography, Card, CardHeader, CardContent, IconButton } from '@mui/material';
+import { Box, Typography, Card, CardHeader, CardContent, IconButton } from '@mui/material';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import { POSITION_READABLE } from 'constants';
 
@@ -20,12 +20,13 @@ export function DraggablePlayerCard(props) {
   const style = transform
     ? {
         transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
-        position: 'relative'
+        position: 'relative',
+        m: 1
       }
-    : { position: 'relative' };
+    : { position: 'relative', m: 1 };
 
   return (
-    <Grid item xs sx={style} key={player.id} ref={setNodeRef}>
+    <Box sx={style} ref={setNodeRef}>
       {!player.added && (
         <IconButton
           size="large"
@@ -37,7 +38,6 @@ export function DraggablePlayerCard(props) {
           <RemoveCircleIcon sx={{ color: 'red' }} />
         </IconButton>
       )}
-
       <Card
         sx={{
           height: '100%',
@@ -64,7 +64,7 @@ export function DraggablePlayerCard(props) {
           </CardContent>
         )}
       </Card>
-    </Grid>
+    </Box>
   );
 }
 
