@@ -9,9 +9,13 @@ import {
   CardHeader,
   CardContent,
   CardActions,
-  Button
+  Button,
+  FormControl,
+  Select,
+  FormHelperText
 } from '@mui/material';
-import { red, green, blue } from '@mui/material/colors';
+import { red, green, blueGrey } from '@mui/material/colors';
+import { RATING_COLOR_MAP, POSITION_READABLE } from 'constants';
 
 const STAT_CONFIG = [
   { key: 'pts', label: 'PTS', xs: 4, md: 3 },
@@ -29,7 +33,7 @@ const STAT_CONFIG = [
 ];
 
 export function DroppablePositionCard(props) {
-  const { onRemove, currentlyDragging, team } = props;
+  const { onRemove, currentlyDragging, team, handleChangeDefender } = props;
   const { isOver, setNodeRef } = useDroppable({
     id: team.id,
     data: {
@@ -45,7 +49,9 @@ export function DroppablePositionCard(props) {
   );
 
   useEffect(() => {
-    let borderStyle = team.player ? `2px solid ${blue[600]}` : `2px dashed black`;
+    let borderStyle = team.player
+      ? `2px solid ${RATING_COLOR_MAP?.[team.player.ratingString] || blueGrey[600]}`
+      : `2px dashed ${blueGrey[600]}`;
     if (isOver) {
       borderStyle = isEligible ? `2px solid ${green.A200}` : `2px solid ${red.A200}`;
     }
@@ -59,7 +65,35 @@ export function DroppablePositionCard(props) {
     <Grid item xs={12} ref={setNodeRef}>
       <Card sx={style}>
         <CardHeader
-          title={`${team.positionReadable} ${team.player ? `- ${team.player.name}` : ''}`}
+          title={
+            <Grid justifyContent="space-between" container>
+              <Grid item xs={6}>
+                <Typography variant="h5" color="text.primary">
+                  {`${team.positionReadable} ${team.player ? `- ${team.player.name}` : ''}`}
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <FormControl fullWidth>
+                  <Select
+                    value={team.defender}
+                    onChange={(e) => handleChangeDefender(team.id, e.target.value)}
+                    size="small"
+                    sx={{ height: 1 }}
+                    native
+                    autoFocus>
+                    {[1, 2, 3, 4, 5].map((pos) => (
+                      <option value={pos} key={`${pos}`}>
+                        {POSITION_READABLE[pos]}
+                      </option>
+                    ))}
+                  </Select>
+                  <FormHelperText id="position-filter-helper-text" align="center">
+                    Defensive Matchup
+                  </FormHelperText>
+                </FormControl>
+              </Grid>
+            </Grid>
+          }
           subheader={!team.player ? 'No player added' : `${team.player.ratingString}`}
         />
         {team.player && (
@@ -101,6 +135,7 @@ DroppablePositionCard.propTypes = {
     id: PropTypes.string,
     position: PropTypes.number,
     positionReadable: PropTypes.string,
+    defender: PropTypes.number,
     player: PropTypes.shape({
       id: PropTypes.string,
       name: PropTypes.string,
@@ -132,6 +167,7 @@ DroppablePositionCard.propTypes = {
     })
   }).isRequired,
   onRemove: PropTypes.func.isRequired,
+  handleChangeDefender: PropTypes.func.isRequired,
   currentlyDragging: PropTypes.shape({
     playerId: PropTypes.string,
     playerPositions: PropTypes.arrayOf(PropTypes.number)

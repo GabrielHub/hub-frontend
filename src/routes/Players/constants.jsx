@@ -1,16 +1,6 @@
 import { POSITION_READABLE } from 'constants';
 import { NameCell, GamesPlayedCell } from 'components/PlayerGrid';
 
-export const RATING_COLOR_MAP = {
-  GLeague: '#f8bba6',
-  Bench: '#ff9292',
-  Rotation: '#86fda5',
-  Starter: '#55b7ff',
-  SecondOption: '#6171ff',
-  AllStar: '#f595cb',
-  Superstar: '#c88927'
-};
-
 export const AverageStatsColumns = [
   {
     field: 'pts',

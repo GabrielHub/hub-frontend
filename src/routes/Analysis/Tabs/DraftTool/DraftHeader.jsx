@@ -28,17 +28,21 @@ export function DraftHeader(props) {
             <Grid item xs={12}>
               <Card sx={{ marginBottom: 4 }}>
                 <CardHeader
-                  title="Draft Pool Selector"
+                  title="Lineup Selector"
                   subheader="This tool will help you analyze the best draft picks for your team."
                 />
                 <CardContent>
                   <Typography variant="body1" gutterBottom>
-                    Pick the pool of players you want to draft by searching a name and clicking on
-                    their player card
+                    Add draftable players to the board by searching a name and clicking their player
+                    card
                   </Typography>
                   <Typography variant="body1" gutterBottom>
-                    Drag and drop players from the draft pool onto the draft board. When finished ,
-                    Team analysis will automatically show up below the draft board
+                    Drag and drop players from the draft board onto a position. When finished, Team
+                    analysis will automatically show up above the teams
+                  </Typography>
+                  <Typography variant="body1" gutterBottom>
+                    You can use this tool to do simple side by side comparisons of players by their
+                    positional stats
                   </Typography>
                 </CardContent>
               </Card>

@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { useSnackbar } from 'notistack';
 import { Grid, Typography } from '@mui/material';
@@ -21,20 +21,88 @@ export function DraftTool() {
   const [isLoading, setIsLoading] = useState(false);
   const [draftPool, setDraftPool] = useState([]);
   const [teams, setTeams] = useState([
-    { id: 'team-1-1', position: 1, positionReadable: 'Point Guard', player: null, team: 1 },
-    { id: 'team-1-2', position: 2, positionReadable: 'Shooting Guard', player: null, team: 1 },
-    { id: 'team-1-3', position: 3, positionReadable: 'Small Forward', player: null, team: 1 },
-    { id: 'team-1-4', position: 4, positionReadable: 'Power Forward', player: null, team: 1 },
-    { id: 'team-1-5', position: 5, positionReadable: 'Center', player: null, team: 1 },
-    { id: 'team-2-1', position: 1, positionReadable: 'Point Guard', player: null, team: 2 },
-    { id: 'team-2-2', position: 2, positionReadable: 'Shooting Guard', player: null, team: 2 },
-    { id: 'team-2-3', position: 3, positionReadable: 'Small Forward', player: null, team: 2 },
-    { id: 'team-2-4', position: 4, positionReadable: 'Power Forward', player: null, team: 2 },
-    { id: 'team-2-5', position: 5, positionReadable: 'Center', player: null, team: 2 }
+    {
+      id: 'team-1-1',
+      position: 1,
+      positionReadable: 'Point Guard',
+      player: null,
+      team: 1,
+      defender: 1
+    },
+    {
+      id: 'team-1-2',
+      position: 2,
+      positionReadable: 'Shooting Guard',
+      player: null,
+      team: 1,
+      defender: 2
+    },
+    {
+      id: 'team-1-3',
+      position: 3,
+      positionReadable: 'Small Forward',
+      player: null,
+      team: 1,
+      defender: 3
+    },
+    {
+      id: 'team-1-4',
+      position: 4,
+      positionReadable: 'Power Forward',
+      player: null,
+      team: 1,
+      defender: 4
+    },
+    {
+      id: 'team-1-5',
+      position: 5,
+      positionReadable: 'Center',
+      player: null,
+      team: 1,
+      defender: 5
+    },
+    {
+      id: 'team-2-1',
+      position: 1,
+      positionReadable: 'Point Guard',
+      player: null,
+      team: 2,
+      defender: 1
+    },
+    {
+      id: 'team-2-2',
+      position: 2,
+      positionReadable: 'Shooting Guard',
+      player: null,
+      team: 2,
+      defender: 2
+    },
+    {
+      id: 'team-2-3',
+      position: 3,
+      positionReadable: 'Small Forward',
+      player: null,
+      team: 2,
+      defender: 3
+    },
+    {
+      id: 'team-2-4',
+      position: 4,
+      positionReadable: 'Power Forward',
+      player: null,
+      team: 2,
+      defender: 4
+    },
+    {
+      id: 'team-2-5',
+      position: 5,
+      positionReadable: 'Center',
+      player: null,
+      team: 2,
+      defender: 5
+    }
   ]);
   const [currentlyDragging, setCurrentlyDragging] = useState(null);
-
-  const enableAnalysis = useMemo(() => teams.every((team) => team.player), [teams]);
 
   const handleDragEnd = async (event) => {
     const { active, over } = event;
@@ -154,6 +222,14 @@ export function DraftTool() {
     );
   };
 
+  const handleChangeDefender = (teamId, defenderPosition) => {
+    setTeams((prevTeams) =>
+      prevTeams.map((team) =>
+        team.id === teamId ? { ...team, defender: parseInt(defenderPosition, 10) } : team
+      )
+    );
+  };
+
   return (
     <DndContext
       sensors={sensors}
@@ -165,8 +241,8 @@ export function DraftTool() {
         <DraftHeader handleAddToDraftPool={handleAddToDraftPool} />
 
         <Grid item container xs={12} sx={{ my: 4 }} alignItems="stretch" spacing={1}>
-          <Grid item xs={12} justifyContent="space-between" alignItems="center" container>
-            <Typography variant="h4" gutterBottom>
+          <Grid item xs={12} justifyContent="center" alignItems="center" container>
+            <Typography variant="h4" align="center" gutterBottom>
               Draft Board
             </Typography>
           </Grid>
@@ -179,14 +255,9 @@ export function DraftTool() {
           ))}
         </Grid>
         <Grid xs={12} sx={{ my: 2 }} item>
-          {enableAnalysis && <TeamAnalysis teams={teams} />}
+          <TeamAnalysis teams={teams} />
         </Grid>
         <Grid item container xs={6} spacing={1} sx={{ px: 2 }}>
-          <Grid item xs={12}>
-            <Typography variant="h4" gutterBottom>
-              Team 1
-            </Typography>
-          </Grid>
           {teams
             .filter((t) => t.team === 1)
             .map((config) => (
@@ -195,15 +266,11 @@ export function DraftTool() {
                 team={config}
                 onRemove={handleRemoveFromTeam}
                 currentlyDragging={currentlyDragging}
+                handleChangeDefender={handleChangeDefender}
               />
             ))}
         </Grid>
         <Grid item container xs={6} spacing={1} sx={{ px: 2 }}>
-          <Grid item xs={12}>
-            <Typography variant="h4" gutterBottom>
-              Team 2
-            </Typography>
-          </Grid>
           {teams
             .filter((t) => t.team === 2)
             .map((config) => (
@@ -212,6 +279,7 @@ export function DraftTool() {
                 team={config}
                 onRemove={handleRemoveFromTeam}
                 currentlyDragging={currentlyDragging}
+                handleChangeDefender={handleChangeDefender}
               />
             ))}
         </Grid>

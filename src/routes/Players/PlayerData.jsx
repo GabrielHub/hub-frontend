@@ -30,7 +30,7 @@ import InsightsIcon from '@mui/icons-material/Insights';
 import LockIcon from '@mui/icons-material/Lock';
 import { fetchPlayerData, fetchLastGames } from 'rest';
 import { Loading } from 'components/Loading';
-import { POSITION_READABLE } from 'constants';
+import { POSITION_READABLE, RATING_COLOR_MAP } from 'constants';
 import { GameGrid } from 'components/GameGrid';
 import { getReadablePositions } from 'utils';
 import {
@@ -38,8 +38,7 @@ import {
   EfficiencyStatsColumns,
   AdvancedStatsColumns,
   DefensiveEfficiencyStatsColumns,
-  RECENT_GAMES_COLUMNS,
-  RATING_COLOR_MAP
+  RECENT_GAMES_COLUMNS
 } from './constants';
 import { StatCard } from './StatCard';
 import { TrendsGraph } from './TrendsGraph';

@@ -8,6 +8,16 @@ export const FIREBASE_KEY = process.env.REACT_APP_FIREBASE_API_KEY;
 // TODO Currently broken so unused
 export const MIN_GAMES = 3;
 
+export const RATING_COLOR_MAP = {
+  GLeague: '#f8bba6',
+  Bench: '#ff9292',
+  Rotation: '#86fda5',
+  Starter: '#55b7ff',
+  SecondOption: '#6171ff',
+  AllStar: '#f595cb',
+  Superstar: '#c88927'
+};
+
 export const STAT_PER_TYPES = {
   DEFAULT: 'PerGame',
   PER_36: 'Per36',
