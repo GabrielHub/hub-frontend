@@ -13,6 +13,7 @@ import {
   Box
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { RATING_COLOR_MAP } from 'constants';
 
 function TeamCard(props) {
   const { title, totals, efficiency, players, projectedDifferences } = props;
@@ -99,9 +100,12 @@ function TeamCard(props) {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           {players.map((player) => (
-            <Grid key={player.name} container>
+            <Grid
+              key={player.name}
+              sx={{ border: `1px solid ${RATING_COLOR_MAP[player.rating]}`, p: 1 }}
+              container>
               <Grid xs={12} item>
-                <Typography variant="h6" gutterBottom>
+                <Typography variant="h6" align="center" gutterBottom>
                   {player.name}
                 </Typography>
               </Grid>
@@ -341,6 +345,7 @@ export function TeamAnalysis(props) {
 
             return {
               name: player.name,
+              rating: player.ratingString,
               estPoss,
               estPts,
               estTurnovers,
