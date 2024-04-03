@@ -53,14 +53,16 @@ export function DraggablePlayerCard(props) {
             .map((pos) => POSITION_READABLE[pos])
             .join('/')}`}
         />
-        <CardContent>
-          <Typography variant="body1" gutterBottom>
-            <b>{player.pts}</b> PTS | <b>{player.reb}</b> REB | <b>{player.ast}</b> AST
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            <b>{player.stl}</b> STL | <b>{player.blk}</b> BLK | <b>{player.tov}</b> TOV
-          </Typography>
-        </CardContent>
+        {!player.added && (
+          <CardContent>
+            <Typography variant="body1" gutterBottom>
+              <b>{player.pts}</b> PTS | <b>{player.reb}</b> REB | <b>{player.ast}</b> AST
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+              <b>{player.stl}</b> STL | <b>{player.blk}</b> BLK | <b>{player.tov}</b> TOV
+            </Typography>
+          </CardContent>
+        )}
       </Card>
     </Grid>
   );
