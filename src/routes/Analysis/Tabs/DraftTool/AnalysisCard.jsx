@@ -320,11 +320,18 @@ export function TeamAnalysis(props) {
       return team
         .map(({ player, defender: defenderPosition }) => {
           const defender = opposingTeam.find((t) => t.position === defenderPosition)?.player;
-          if (player && defender) {
+          let o2Perc;
+          let o3Perc;
+          if (defender) {
             const o2pa = defender.ofga - defender.o3pa;
             const o2pm = defender.ofgm - defender.o3pm;
-            const o2Perc = o2pa ? (o2pm / o2pa) * 100 : 0;
-            const o3Perc = defender.o3pa ? (defender.o3pm / defender.o3pa) * 100 : 0;
+            o2Perc = o2pa ? (o2pm / o2pa) * 100 : 0;
+            o3Perc = defender.o3pa ? (defender.o3pm / defender.o3pa) * 100 : 0;
+          } else {
+            o2Perc = player?.twoPerc || 0;
+            o3Perc = player?.threePerc || 0;
+          }
+          if (player) {
             const est2Perc = player.twoPerc + (player.twoPerc - o2Perc) / 2;
             const est3Perc = player.threePerc + (player.threePerc - o3Perc) / 2;
 
