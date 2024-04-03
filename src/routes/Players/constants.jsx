@@ -116,20 +116,20 @@ export const AdvancedStatsColumns = [
 
 export const DefensiveEfficiencyStatsColumns = [
   {
-    field: 'oFGA',
-    headerName: 'oFGA'
-  },
-  {
     field: 'oFGM',
     headerName: 'oFGM'
   },
   {
-    field: 'o3PA',
-    headerName: 'o3PA'
+    field: 'oFGA',
+    headerName: 'oFGA'
   },
   {
     field: 'o3PM',
     headerName: 'o3PM'
+  },
+  {
+    field: 'o3PA',
+    headerName: 'o3PA'
   },
   {
     field: 'oFGPerc',

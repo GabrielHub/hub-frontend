@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDroppable } from '@dnd-kit/core';
@@ -58,19 +57,42 @@ export function DroppablePositionCard(props) {
     setStyle({
       border: borderStyle,
       backgroundColor: `${RATING_COLOR_MAP?.[team?.player?.ratingString] || blueGrey[600]}10`,
-      padding: 4
+      padding: 4,
+      position: 'relative',
+      textAlign: 'center',
+      fontWeight: 'bold',
+      '::before': {
+        content: `"${team.positionReadable}"`,
+        position: 'absolute',
+        bottom: 50,
+        left: 25,
+        opacity: 0.1,
+        fontSize: '6em',
+        zIndex: 1
+      },
+      '> *': {
+        position: 'relative',
+        zIndex: 2
+      }
     });
-  }, [currentlyDragging, isEligible, isOver, team.player]);
+  }, [currentlyDragging, isEligible, isOver, team]);
 
   return (
     <Grid item xs={12} ref={setNodeRef}>
       <Card sx={style}>
         <CardHeader
+          sx={{
+            backgroundColor: `${RATING_COLOR_MAP?.[team?.player?.ratingString] || blueGrey[100]}50`,
+            borderRadius: '4px'
+          }}
           title={
             <Grid justifyContent="space-between" container>
               <Grid item xs={6}>
-                <Typography variant="h5" color="text.primary">
-                  {`${team.positionReadable} ${team.player ? `- ${team.player.name}` : ''}`}
+                <Typography variant="h5" align="left" color="text.primary">
+                  <b>{`${team.player ? `${team.player.name}` : ''}`}</b>
+                </Typography>
+                <Typography align="left" variant="body1" color="text.secondary">
+                  <b>{!team.player ? 'No player added' : `${team.player.ratingString}`}</b>
                 </Typography>
               </Grid>
               <Grid item xs={6}>
@@ -95,7 +117,6 @@ export function DroppablePositionCard(props) {
               </Grid>
             </Grid>
           }
-          subheader={!team.player ? 'No player added' : `${team.player.ratingString}`}
         />
         {team.player && (
           <>

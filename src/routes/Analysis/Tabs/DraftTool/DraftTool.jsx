@@ -24,7 +24,7 @@ export function DraftTool() {
     {
       id: 'team-1-1',
       position: 1,
-      positionReadable: 'Point Guard',
+      positionReadable: 'PG',
       player: null,
       team: 1,
       defender: 1
@@ -32,7 +32,7 @@ export function DraftTool() {
     {
       id: 'team-1-2',
       position: 2,
-      positionReadable: 'Shooting Guard',
+      positionReadable: 'SG',
       player: null,
       team: 1,
       defender: 2
@@ -40,7 +40,7 @@ export function DraftTool() {
     {
       id: 'team-1-3',
       position: 3,
-      positionReadable: 'Small Forward',
+      positionReadable: 'SF',
       player: null,
       team: 1,
       defender: 3
@@ -48,7 +48,7 @@ export function DraftTool() {
     {
       id: 'team-1-4',
       position: 4,
-      positionReadable: 'Power Forward',
+      positionReadable: 'PF',
       player: null,
       team: 1,
       defender: 4
@@ -56,7 +56,7 @@ export function DraftTool() {
     {
       id: 'team-1-5',
       position: 5,
-      positionReadable: 'Center',
+      positionReadable: 'C',
       player: null,
       team: 1,
       defender: 5
@@ -64,7 +64,7 @@ export function DraftTool() {
     {
       id: 'team-2-1',
       position: 1,
-      positionReadable: 'Point Guard',
+      positionReadable: 'PG',
       player: null,
       team: 2,
       defender: 1
@@ -72,7 +72,7 @@ export function DraftTool() {
     {
       id: 'team-2-2',
       position: 2,
-      positionReadable: 'Shooting Guard',
+      positionReadable: 'SG',
       player: null,
       team: 2,
       defender: 2
@@ -80,7 +80,7 @@ export function DraftTool() {
     {
       id: 'team-2-3',
       position: 3,
-      positionReadable: 'Small Forward',
+      positionReadable: 'SF',
       player: null,
       team: 2,
       defender: 3
@@ -88,7 +88,7 @@ export function DraftTool() {
     {
       id: 'team-2-4',
       position: 4,
-      positionReadable: 'Power Forward',
+      positionReadable: 'PF',
       player: null,
       team: 2,
       defender: 4
@@ -96,7 +96,7 @@ export function DraftTool() {
     {
       id: 'team-2-5',
       position: 5,
-      positionReadable: 'Center',
+      positionReadable: 'C',
       player: null,
       team: 2,
       defender: 5

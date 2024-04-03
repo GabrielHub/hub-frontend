@@ -3,6 +3,7 @@ import { useHits } from 'react-instantsearch-hooks-web';
 import PropTypes from 'prop-types';
 import { Grid, Card, Typography } from '@mui/material';
 import { getReadablePositions } from 'utils';
+import { RATING_COLOR_MAP } from 'constants';
 
 function CustomCardHeader({ name, positions, showPositions }) {
   return (
@@ -66,8 +67,10 @@ export function Hits(props) {
               sx={{
                 padding: 2,
                 transition: '0.3s',
+                backgroundColor: `${RATING_COLOR_MAP?.[hit?.ratingString]}50`,
+                borderRadius: '4px',
                 '&:hover': {
-                  opacity: 0.7,
+                  opacity: 0.4,
                   cursor: 'pointer'
                 }
               }}>
