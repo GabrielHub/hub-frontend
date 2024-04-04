@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { useSearchBox } from 'react-instantsearch-hooks-web';
+import { useSearchBox } from 'react-instantsearch';
 import { TextField } from '@mui/material';
 
 export function SearchBox() {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHits } from 'react-instantsearch-hooks-web';
+import { useHits } from 'react-instantsearch';
 import PropTypes from 'prop-types';
 import { Grid, Card, Typography } from '@mui/material';
 import { getReadablePositions } from 'utils';

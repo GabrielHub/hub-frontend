@@ -1,5 +1,5 @@
 import React from 'react';
-import { InstantSearch } from 'react-instantsearch-hooks-web';
+import { InstantSearch } from 'react-instantsearch';
 import PropTypes from 'prop-types';
 import algoliasearch from 'algoliasearch/lite';
 import { ALGOLIA_KEY, ALGOLIA_PROJECT_ID } from 'constants';

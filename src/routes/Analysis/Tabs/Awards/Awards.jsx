@@ -428,16 +428,24 @@ export function Awards() {
       </Grid>
       <Grid xs={12} md item>
         <AwardCard
-          title="Prey Award"
-          subheader="Most Opponent Field Goal Attempts"
-          subheaderMin="Minimum 300 oFGA"
+          title="Best Passer Award"
+          subheader="Highest difference of AST%:USG% and TOV%:USG%"
+          subheaderMin="Minimum 25 games played"
           iconComponent={<AdsClickIcon />}
           avatarColor={pink[700]}
-          playerId={awardData?.mostAttacked.id}
-          name={awardData?.mostAttacked.name}
-          positions={awardData?.mostAttacked.positions}
-          values={[`${awardData?.mostAttacked.value} Opponent FGA`]}
-          leagueAvg={[`${Math.round((leagueData?.fga || 0) * 10) / 10} oFGA`]}
+          playerId={awardData?.bestPasser.id}
+          name={awardData?.bestPasser.name}
+          positions={awardData?.bestPasser.positions}
+          values={[
+            `${awardData?.fastbreakPlayer.value.split(' ')[0]} AST`,
+            `${awardData?.fastbreakPlayer.value.split(' ')[1]} TOV`,
+            `${awardData?.fastbreakPlayer.value.split(' ')[2]} USG%`
+          ]}
+          leagueAvg={[
+            `${Math.round((leagueData?.ast || 0) * 10) / 10} AST`,
+            `${Math.round((leagueData?.tov || 0) * 10) / 10} TOV`,
+            `${Math.round((leagueData?.usageRate || 0) * 10) / 10} USG%`
+          ]}
         />
       </Grid>
       <Grid xs={12} md item>
