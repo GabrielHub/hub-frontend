@@ -432,14 +432,14 @@ export function Awards() {
           subheader="Highest difference of AST%:USG% and TOV%:USG%"
           subheaderMin="Minimum 25 games played"
           iconComponent={<AdsClickIcon />}
-          avatarColor={pink[700]}
+          avatarColor={amber[200]}
           playerId={awardData?.bestPasser.id}
           name={awardData?.bestPasser.name}
           positions={awardData?.bestPasser.positions}
           values={[
-            `${awardData?.fastbreakPlayer.value.split(' ')[0]} AST`,
-            `${awardData?.fastbreakPlayer.value.split(' ')[1]} TOV`,
-            `${awardData?.fastbreakPlayer.value.split(' ')[2]} USG%`
+            `${awardData?.bestPasser.value.split(' ')[0]} AST`,
+            `${awardData?.bestPasser.value.split(' ')[1]} TOV`,
+            `${awardData?.bestPasser.value.split(' ')[2]} USG%`
           ]}
           leagueAvg={[
             `${Math.round((leagueData?.ast || 0) * 10) / 10} AST`,
