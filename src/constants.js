@@ -18,6 +18,17 @@ export const RATING_COLOR_MAP = {
   Superstar: '#c88927'
 };
 
+export const RATING_CONFIG = {
+  GLeague: 3,
+  Bench: 4.3,
+  Rotation: 5,
+  Starter: 5.4,
+  SecondOption: 6.5,
+  AllStar: 7.5,
+  /** Highest value is 10 */
+  Superstar: 10
+};
+
 export const STAT_PER_TYPES = {
   DEFAULT: 'PerGame',
   PER_36: 'Per36',

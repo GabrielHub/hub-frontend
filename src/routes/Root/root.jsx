@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Grid, Typography, Card, CardActions, CardContent, Button, Box } from '@mui/material';
 import pixelLogo from '../../images/pixelLogo.png';
 import headerImage from '../../images/headerImage.png';
+import { LastGames, AwardCarousel } from './components';
 
 const bull = (
   <Box component="span" sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}>
@@ -51,7 +52,7 @@ export function Root() {
               color: 'black'
             }}
             gutterBottom>
-            A comprehensive glossary and analytics hub
+            A COMPREHENSIVE GLOSSARY AND ANALYTICS HUB
           </Typography>
           <Typography variant="h6" align="center" sx={{ color: 'black' }}>
             Effortlessly browse through a wealth of statistics, organized in a sleek and visually
@@ -95,6 +96,9 @@ export function Root() {
                 Sort and filter by different fields, hide and show advanced stats
               </Typography>
             </CardContent>
+            <CardContent>
+              <LastGames />
+            </CardContent>
             <CardActions>
               <Button size="small" onClick={() => navigate('/ranking')}>
                 View Rankings
@@ -129,12 +133,16 @@ export function Root() {
               <Typography variant="body2">
                 View NBA comparisons, with data straight from NBA.com <br />
                 Awards tracker with MVP, DPOY and other awards <br />
-                League averages and totals
+                League averages and totals <br />
+                Mock draft tool and player comparisons and projections
               </Typography>
             </CardContent>
+            <CardContent>
+              <AwardCarousel />
+            </CardContent>
             <CardActions>
-              <Button size="small" onClick={() => navigate('/analysis/league')}>
-                View Analysis
+              <Button size="small" onClick={() => navigate('/analysis/awards')}>
+                View Awards Page
               </Button>
             </CardActions>
           </Card>
@@ -172,7 +180,7 @@ export function Root() {
             </CardContent>
             <CardActions>
               <Button size="small" onClick={() => navigate('/players')}>
-                View Players
+                Search Players
               </Button>
             </CardActions>
           </Card>

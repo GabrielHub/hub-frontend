@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { PlayerGrid } from 'components/PlayerGrid';
-import { RATING_CONFIG } from 'utils';
+import { RATING_CONFIG } from 'constants';
 import {
   OVERALL_PLAYERS_COLUMNS,
   OVERALL_PLAYERS_DEFAULT_SORTS,
