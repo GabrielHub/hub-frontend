@@ -132,76 +132,67 @@ export function Similarity() {
   }, [getPlayerData, playerIDValue, perGameDropdown, seasonDropdown, paceAdjust, limit]);
 
   return (
-    <Grid xs={12} sx={{ p: 2 }} container item>
+    <Grid sx={{ maxWidth: 1440, margin: 'auto' }} spacing={1} container>
       <Loading isLoading={isLoading} />
       <Grid xs={12} sx={{ paddingBottom: 2 }} item>
         <Typography variant="h5" gutterBottom>
           NBA Comparison Tool
         </Typography>
       </Grid>
-      <Grid
-        container
-        item
-        spacing={2}
-        sx={{ flexDirection: { xs: 'column', sm: 'row' }, alignItems: 'flex-start' }}>
-        <Grid item xs={12}>
-          <AlgoliaSearch handleClick={handlePlayerSelection} />
-        </Grid>
-        <Grid item xs>
-          <StatAdjustDropdown
-            dropdownValue={perGameDropdown}
-            handleDropdownChange={handleDropdownChange}
-          />
-          <FormControl>
-            <Select value={seasonDropdown} onChange={handleSeasonChange}>
-              {seasonDropdownOptions.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </Select>
-            <FormLabel component="legend">Season</FormLabel>
-          </FormControl>
-        </Grid>
-        <Grid item xs>
-          <FormControl fullWidth>
-            <Select
-              value={position}
-              onChange={(e) => setPosition(e.target.value)}
-              size="small"
-              sx={{ height: 1 }}
-              native
-              autoFocus>
-              <option value={0}>All</option>
-              {POSITION_OPTIONS.map((pos) => (
-                <option value={pos.value} key={pos.value}>
-                  {pos.label}
-                </option>
-              ))}
-            </Select>
-            <FormHelperText id="position-filter-helper-text" align="center">
-              Filter By Position
-            </FormHelperText>
-          </FormControl>
-        </Grid>
-        <Grid item xs>
-          <FormControl>
-            <Select value={limit} onChange={handleLimitChange}>
-              {['3', '4', '5', '6', '7', '8', '9', '10', '11', '12'].map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </Select>
-            <FormLabel component="legend">Number of Players to list</FormLabel>
-          </FormControl>
-        </Grid>
-        <Grid item xs>
-          <FormControlLabel
-            control={<Switch checked={paceAdjust} onChange={handlePaceAdjustChange} />}
-            label="Pace Adjustment"
-          />
-        </Grid>
+      <Grid item xs={12}>
+        <AlgoliaSearch handleClick={handlePlayerSelection} />
+      </Grid>
+      <Grid item xs>
+        <StatAdjustDropdown
+          dropdownValue={perGameDropdown}
+          handleDropdownChange={handleDropdownChange}
+          fullWidth
+        />
+      </Grid>
+      <Grid item xs>
+        <FormControl fullWidth>
+          <Select value={seasonDropdown} onChange={handleSeasonChange}>
+            {seasonDropdownOptions.map((option) => (
+              <MenuItem key={option} value={option}>
+                {option}
+              </MenuItem>
+            ))}
+          </Select>
+          <FormLabel component="legend">Season</FormLabel>
+        </FormControl>
+      </Grid>
+      <Grid item xs>
+        <FormControl fullWidth>
+          <Select value={position} onChange={(e) => setPosition(e.target.value)}>
+            <option value={0}>All</option>
+            {POSITION_OPTIONS.map((pos) => (
+              <option value={pos.value} key={pos.value}>
+                {pos.label}
+              </option>
+            ))}
+          </Select>
+          <FormHelperText id="position-filter-helper-text" align="center">
+            Filter By Position
+          </FormHelperText>
+        </FormControl>
+      </Grid>
+      <Grid item xs>
+        <FormControl fullWidth>
+          <Select value={limit} onChange={handleLimitChange}>
+            {['3', '4', '5', '6', '7', '8', '9', '10', '11', '12'].map((option) => (
+              <MenuItem key={option} value={option}>
+                {option}
+              </MenuItem>
+            ))}
+          </Select>
+          <FormLabel component="legend">Number of Players to list</FormLabel>
+        </FormControl>
+      </Grid>
+      <Grid item xs>
+        <FormControlLabel
+          control={<Switch checked={paceAdjust} onChange={handlePaceAdjustChange} />}
+          label="Pace Adjustment"
+        />
       </Grid>
 
       <Grid xs={12} sx={{ marginTop: 2 }} item>

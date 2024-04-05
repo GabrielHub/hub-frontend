@@ -4,3 +4,4 @@ export * from './calculations';
 export * from './datagrid';
 export * from './adjustPlayerDataByFilter';
 export * from './getReadablePositions';
+export * from './isMobile';

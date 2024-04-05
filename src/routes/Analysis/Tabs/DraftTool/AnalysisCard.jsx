@@ -60,7 +60,7 @@ function TeamCard(props) {
           ))}
           <Grid xs={2} item>
             <Typography align="center" variant="body2" color="text.secondary" gutterBottom>
-              FGM/FGA
+              FG%
             </Typography>
             <Typography align="center" variant="body1">
               <b>
@@ -70,7 +70,7 @@ function TeamCard(props) {
           </Grid>
           <Grid xs={2} item>
             <Typography align="center" variant="body2" color="text.secondary" gutterBottom>
-              3PM/3PA
+              3P%
             </Typography>
             <Typography align="center" variant="body1">
               <b>

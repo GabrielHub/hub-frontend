@@ -259,7 +259,7 @@ export function DraftTool() {
         <Grid xs={12} sx={{ my: 2 }} item>
           <TeamAnalysis teams={teams} />
         </Grid>
-        <Grid item container xs={6} spacing={1} sx={{ px: 2 }}>
+        <Grid item container xs={12} sm={6} spacing={1} sx={{ px: 2 }}>
           {teams
             .filter((t) => t.team === 1)
             .map((config) => (
@@ -272,7 +272,7 @@ export function DraftTool() {
               />
             ))}
         </Grid>
-        <Grid item container xs={6} spacing={1} sx={{ px: 2 }}>
+        <Grid item container xs={12} sm={6} spacing={1} sx={{ px: 2 }}>
           {teams
             .filter((t) => t.team === 2)
             .map((config) => (

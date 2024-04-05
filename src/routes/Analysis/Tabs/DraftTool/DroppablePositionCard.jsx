@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import { red, green, blueGrey } from '@mui/material/colors';
 import { RATING_COLOR_MAP, POSITION_READABLE } from 'constants';
+import { isMobile } from 'utils';
 
 const STAT_CONFIG = [
   { key: 'pts', label: 'PTS', xs: 4, md: 3 },
@@ -119,33 +120,34 @@ export function DroppablePositionCard(props) {
           }
         />
         {team.player && (
-          <>
-            <CardContent>
-              <Grid spacing={1} container>
-                {STAT_CONFIG.map((stat) => (
-                  <Grid item xs={stat.xs} md={stat.md} key={stat.key}>
-                    <Typography align="center" variant="body2" color="text.secondary" gutterBottom>
-                      {stat.label}
-                    </Typography>
-                    <Typography align="center" variant="body1">
-                      <b>{team.player[stat.key]}</b>
-                    </Typography>
-                  </Grid>
-                ))}
-              </Grid>
-            </CardContent>
-            <CardActions>
-              <Button
-                sx={{ color: 'red' }}
-                size="large"
-                onClick={() => {
-                  onRemove(team.player);
-                }}>
-                Deselect Player
-              </Button>
-            </CardActions>
-          </>
+          <CardContent>
+            <Grid spacing={1} container>
+              {STAT_CONFIG.map((stat) => (
+                <Grid item xs={stat.xs} md={stat.md} key={stat.key}>
+                  <Typography align="center" variant="body2" color="text.secondary" gutterBottom>
+                    {stat.label}
+                  </Typography>
+                  <Typography align="center" variant="body1">
+                    <b>{team.player[stat.key]}</b>
+                  </Typography>
+                </Grid>
+              ))}
+            </Grid>
+          </CardContent>
         )}
+        <CardActions>
+          {team.player && (
+            <Button
+              sx={{ color: 'red' }}
+              size="large"
+              onClick={() => {
+                onRemove(team.player);
+              }}>
+              Deselect Player
+            </Button>
+          )}
+          {isMobile() && <Typography align="right">Team {team.team}</Typography>}
+        </CardActions>
       </Card>
     </Grid>
   );

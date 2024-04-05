@@ -27,23 +27,23 @@ CustomCardHeader.propTypes = {
 
 function CustomSubHeader({ pts, reb, ast }) {
   return (
-    <Typography variant="body1">
-      <b>{pts}</b>
-      <Typography component="span" variant="body2">
-        {' '}
-        PTS{' '}
-      </Typography>
-      <b>{reb}</b>
-      <Typography component="span" variant="body2">
-        {' '}
-        REB{' '}
-      </Typography>
-      <b>{ast}</b>
-      <Typography component="span" variant="body2">
-        {' '}
-        AST{' '}
-      </Typography>
-    </Typography>
+    <Grid container>
+      <Grid item xs={12} sm={4}>
+        <Typography component="span" variant="body2">
+          <b>{pts}</b> PTS
+        </Typography>
+      </Grid>
+      <Grid item xs={12} sm={4}>
+        <Typography component="span" variant="body2">
+          <b>{reb}</b> REB
+        </Typography>
+      </Grid>
+      <Grid item xs={12} sm={4}>
+        <Typography component="span" variant="body2">
+          <b>{ast}</b> AST
+        </Typography>
+      </Grid>
+    </Grid>
   );
 }
 
@@ -58,7 +58,7 @@ export function Hits(props) {
   const { hits } = useHits();
 
   return (
-    <Grid xs={12} spacing={1} container item>
+    <Grid xs={12} spacing={1} alignItems="stretch" container item>
       {Boolean(hits.length) &&
         hits.map((hit) => (
           <Grid key={hit.objectID} xs item>
@@ -67,6 +67,8 @@ export function Hits(props) {
               sx={{
                 padding: 2,
                 transition: '0.3s',
+                height: '100%',
+                minWidth: '150px',
                 backgroundColor: `${RATING_COLOR_MAP?.[hit?.ratingString]}50`,
                 borderRadius: '4px',
                 '&:hover': {

@@ -32,7 +32,7 @@ import { fetchPlayerData, fetchLastGames } from 'rest';
 import { Loading } from 'components/Loading';
 import { POSITION_READABLE, RATING_COLOR_MAP } from 'constants';
 import { GameGrid } from 'components/GameGrid';
-import { getReadablePositions } from 'utils';
+import { getReadablePositions, isMobile } from 'utils';
 import {
   AverageStatsColumns,
   EfficiencyStatsColumns,
@@ -112,10 +112,15 @@ export function PlayerData() {
   }, [playerData, positionOptions]);
 
   return (
-    <>
+    <div style={{ backgroundColor: `${RATING_COLOR_MAP[playerData?.ratingString]}10` }}>
       <Loading isLoading={isLoading} />
       {playerData && (
-        <Grid sx={{ backgroundColor: `${RATING_COLOR_MAP[playerData.ratingString]}10` }} container>
+        <Grid
+          sx={{
+            maxWidth: 1440,
+            margin: 'auto'
+          }}
+          container>
           <Grid
             sx={{
               backgroundColor: RATING_COLOR_MAP[playerData.ratingString],
@@ -124,40 +129,51 @@ export function PlayerData() {
             xs={12}
             container
             item>
-            <Grid xs={12} sm={6} container item sx={{ position: 'relative' }} alignItems="center">
-              <Button
-                variant="outlined"
-                onClick={() => navigate(-1)}
-                sx={{
-                  position: 'absolute',
-                  top: 4,
-                  left: 4,
-                  color: 'white',
-                  borderColor: 'white'
-                }} // Absolutely position the button
-              >
-                Go Back
-              </Button>
-              <Grid xs={12} justifyContent="center" alignItems="flex-end" container item>
+            <Grid
+              xs={12}
+              sm={6}
+              container
+              item
+              sx={{ position: 'relative', paddingBottom: isMobile() ? 4 : 0 }}
+              alignItems="center">
+              {!isMobile() && (
+                <Button
+                  variant="outlined"
+                  onClick={() => navigate(-1)}
+                  sx={{
+                    position: 'absolute',
+                    top: 4,
+                    left: 4,
+                    color: 'white',
+                    borderColor: 'white'
+                  }}>
+                  Go Back
+                </Button>
+              )}
+              <Grid
+                xs={12}
+                justifyContent="center"
+                alignItems="center"
+                direction="column"
+                container
+                item>
                 <Typography variant="h2" align="center">
                   <b>{playerData.name.toUpperCase()}</b>
                 </Typography>
-              </Grid>
-              <Grid xs={12} justifyContent="center" alignItems="flex-start" container item>
                 {playerData?.positions && !filterByLock && (
                   <Typography align="center" variant="body2">
-                    {playerData.ratingString} |{' '}
+                    {playerData?.ratingString} |{' '}
                     {getReadablePositions(playerData.positions, 2) || 'No Positions'}
                   </Typography>
                 )}
                 {!playerData?.positions && !filterByLock && (
                   <Typography align="center" variant="body2">
-                    {playerData.ratingString} | {POSITION_READABLE[position]}
+                    {playerData?.ratingString} | {POSITION_READABLE[position]}
                   </Typography>
                 )}
                 {Boolean(filterByLock) && (
                   <Typography align="center" variant="body2">
-                    {playerData.ratingString} | Guarding PG
+                    {playerData?.ratingString} | Guarding PG
                   </Typography>
                 )}
               </Grid>
@@ -168,7 +184,7 @@ export function PlayerData() {
                 sx={{
                   py: 2,
                   borderBottom: '2px solid white',
-                  borderLeft: '2px solid white'
+                  borderLeft: !isMobile() ? '2px solid white' : 'none'
                 }}
                 alignItems="center"
                 container
@@ -211,7 +227,11 @@ export function PlayerData() {
               </Grid>
               <Grid
                 xs={12}
-                sx={{ py: 2, borderBottom: '2px solid white', borderLeft: '2px solid white' }}
+                sx={{
+                  py: 2,
+                  borderBottom: '2px solid white',
+                  borderLeft: !isMobile() ? '2px solid white' : 'none'
+                }}
                 alignItems="center"
                 container
                 item>
@@ -242,7 +262,7 @@ export function PlayerData() {
               </Grid>
               <Grid
                 xs={12}
-                sx={{ py: 2, borderLeft: '2px solid white' }}
+                sx={{ py: 2, borderLeft: !isMobile() ? '2px solid white' : 'none' }}
                 alignItems="center"
                 container
                 item>
@@ -457,7 +477,7 @@ export function PlayerData() {
               showLeagueComparisons={showLeagueComparisons}
               columns={AverageStatsColumns}
               title="Average Stats"
-              color={RATING_COLOR_MAP[playerData.ratingString]}
+              color={RATING_COLOR_MAP[playerData?.ratingString]}
               icon={<SportsBasketballIcon sx={{ color: 'white' }} />}
             />
           </Grid>
@@ -469,7 +489,7 @@ export function PlayerData() {
               showLeagueComparisons={showLeagueComparisons}
               columns={EfficiencyStatsColumns}
               title="Efficiency Stats"
-              color={RATING_COLOR_MAP[playerData.ratingString]}
+              color={RATING_COLOR_MAP[playerData?.ratingString]}
               icon={<WhatshotIcon sx={{ color: 'white' }} />}
             />
           </Grid>
@@ -481,7 +501,7 @@ export function PlayerData() {
               showLeagueComparisons={showLeagueComparisons}
               columns={AdvancedStatsColumns}
               title="Advanced Stats"
-              color={RATING_COLOR_MAP[playerData.ratingString]}
+              color={RATING_COLOR_MAP[playerData?.ratingString]}
               icon={<InsightsIcon sx={{ color: 'white' }} />}
             />
           </Grid>
@@ -493,7 +513,7 @@ export function PlayerData() {
               showLeagueComparisons={showLeagueComparisons}
               columns={DefensiveEfficiencyStatsColumns}
               title="Defensive Efficiency"
-              color={RATING_COLOR_MAP[playerData.ratingString]}
+              color={RATING_COLOR_MAP[playerData?.ratingString]}
               icon={<LockIcon sx={{ color: 'white' }} />}
             />
           </Grid>
@@ -502,7 +522,7 @@ export function PlayerData() {
           {gameData && <TrendsGraph gameData={gameData} positionFilter={position} />}
         </Grid>
       )}
-    </>
+    </div>
   );
 }
 

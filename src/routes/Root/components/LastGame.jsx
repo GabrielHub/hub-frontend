@@ -15,6 +15,7 @@ import {
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
 import { POSITION_READABLE, RATING_COLOR_MAP, RATING_CONFIG } from 'constants';
+import { isMobile } from 'utils';
 
 const VALID_GRADES = ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F'];
 
@@ -104,7 +105,7 @@ export function LastGames() {
             responsive={responsive}
             autoPlay
             infinite
-            centerMode
+            centerMode={!isMobile()}
             autoPlaySpeed={1000 * 6}
             removeArrowOnDeviceType={['tablet', 'mobile']}>
             {games.map((game) => (

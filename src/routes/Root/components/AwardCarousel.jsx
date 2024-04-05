@@ -10,6 +10,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import ModeStandbyIcon from '@mui/icons-material/ModeStandby';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
+import { isMobile } from 'utils';
 
 export function AwardCarousel() {
   const { enqueueSnackbar } = useSnackbar();
@@ -71,7 +72,7 @@ export function AwardCarousel() {
             responsive={responsive}
             autoPlay
             infinite
-            centerMode
+            centerMode={!isMobile()}
             autoPlaySpeed={1000 * 6}
             removeArrowOnDeviceType={['tablet', 'mobile']}>
             <Card sx={{ margin: '10px', minHeight: '25px' }}>
@@ -93,7 +94,7 @@ export function AwardCarousel() {
                   </Avatar>
                 }
                 title="DPOY"
-                subheader={awards?.dpoy?.name}
+                subheader={`${awards?.dpoy?.name} | ${awards?.dpoy?.value} DRtg`}
               />
             </Card>
             <Card sx={{ margin: '10px', minHeight: '25px' }}>
@@ -104,7 +105,7 @@ export function AwardCarousel() {
                   </Avatar>
                 }
                 title="LOCK OF THE YEAR"
-                subheader={awards?.poaDefender?.name}
+                subheader={`${awards?.poaDefender?.name} | ${awards?.poaDefender?.value} DRtg`}
               />
             </Card>
             <Card sx={{ margin: '10px', minHeight: '25px' }}>
@@ -115,7 +116,9 @@ export function AwardCarousel() {
                   </Avatar>
                 }
                 title="MOST EFFICIENT"
-                subheader={awards?.mostEfficient?.name}
+                subheader={`${awards?.mostEfficient?.name} | ${
+                  awards?.mostEfficient?.value.split(' ')[0]
+                } eFG% `}
               />
             </Card>
             <Card sx={{ margin: '10px', minHeight: '25px' }}>
@@ -126,7 +129,6 @@ export function AwardCarousel() {
                   </Avatar>
                 }
                 title="BEST 2 WAY"
-                subheader={awards?.bestTwoWay?.name}
               />
             </Card>
             <Card sx={{ margin: '10px', minHeight: '25px' }}>
@@ -137,7 +139,9 @@ export function AwardCarousel() {
                   </Avatar>
                 }
                 title="BEST SHOOTER"
-                subheader={awards?.bestShooter?.name}
+                subheader={`${awards?.bestShooter?.name} | ${
+                  awards?.bestShooter?.value.split(' ')[0]
+                } 3P%`}
               />
             </Card>
           </Carousel>
