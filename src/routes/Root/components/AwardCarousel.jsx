@@ -4,6 +4,7 @@ import 'react-multi-carousel/lib/styles.css';
 import { useSnackbar } from 'notistack';
 import { fetchAwards } from 'rest';
 import { Card, CardHeader, Typography, CircularProgress, Grid, Avatar } from '@mui/material';
+import { red, yellow, green, pink, lime } from '@mui/material/colors';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import LockIcon from '@mui/icons-material/Lock';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
@@ -76,7 +77,7 @@ export function AwardCarousel() {
             <Card sx={{ margin: '10px', minHeight: '25px' }}>
               <CardHeader
                 avatar={
-                  <Avatar>
+                  <Avatar sx={{ backgroundColor: yellow[400], color: yellow[900] }}>
                     <EmojiEventsIcon />
                   </Avatar>
                 }
@@ -87,7 +88,7 @@ export function AwardCarousel() {
             <Card sx={{ margin: '10px', minHeight: '25px' }}>
               <CardHeader
                 avatar={
-                  <Avatar>
+                  <Avatar sx={{ backgroundColor: yellow[400], color: yellow[900] }}>
                     <EmojiEventsIcon />
                   </Avatar>
                 }
@@ -98,7 +99,7 @@ export function AwardCarousel() {
             <Card sx={{ margin: '10px', minHeight: '25px' }}>
               <CardHeader
                 avatar={
-                  <Avatar>
+                  <Avatar sx={{ backgroundColor: red[400], color: red[900] }}>
                     <LockIcon />
                   </Avatar>
                 }
@@ -109,7 +110,7 @@ export function AwardCarousel() {
             <Card sx={{ margin: '10px', minHeight: '25px' }}>
               <CardHeader
                 avatar={
-                  <Avatar>
+                  <Avatar sx={{ backgroundColor: green[400], color: green[900] }}>
                     <WhatshotIcon />
                   </Avatar>
                 }
@@ -120,7 +121,7 @@ export function AwardCarousel() {
             <Card sx={{ margin: '10px', minHeight: '25px' }}>
               <CardHeader
                 avatar={
-                  <Avatar>
+                  <Avatar sx={{ backgroundColor: pink[400], color: pink[900] }}>
                     <SyncAltIcon />
                   </Avatar>
                 }
@@ -131,7 +132,7 @@ export function AwardCarousel() {
             <Card sx={{ margin: '10px', minHeight: '25px' }}>
               <CardHeader
                 avatar={
-                  <Avatar>
+                  <Avatar sx={{ backgroundColor: lime[400], color: lime[900] }}>
                     <ModeStandbyIcon />
                   </Avatar>
                 }

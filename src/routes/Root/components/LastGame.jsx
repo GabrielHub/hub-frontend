@@ -13,6 +13,7 @@ import {
   Avatar
 } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
+import LockIcon from '@mui/icons-material/Lock';
 import { POSITION_READABLE, RATING_COLOR_MAP, RATING_CONFIG } from 'constants';
 
 const VALID_GRADES = ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F'];
@@ -115,11 +116,7 @@ export function LastGames() {
                   margin: '0 10px'
                 }}>
                 <CardHeader
-                  avatar={
-                    <Avatar>
-                      <PersonIcon />
-                    </Avatar>
-                  }
+                  avatar={<Avatar>{game.oppPos === 1 ? <LockIcon /> : <PersonIcon />}</Avatar>}
                   title={game.name.toUpperCase()}
                   subheader={`${VALID_GRADES.includes(game.grd) ? `${game.grd} | ` : ''}${
                     POSITION_READABLE[game.pos]
