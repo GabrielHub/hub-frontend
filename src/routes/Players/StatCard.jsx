@@ -1,24 +1,37 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Typography, Card, CardHeader, CardContent } from '@mui/material';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import { adjustStatByFilter, calculateLeagueComparisonColor } from 'utils';
 
 export function StatCard(props) {
-  const { playerData, leagueData, showLeagueComparisons, columns, title, color, icon } = props;
+  const {
+    playerData,
+    perGameFilter,
+    leagueData,
+    showLeagueComparisons,
+    columns,
+    title,
+    color,
+    icon
+  } = props;
 
-  const getComparisonIcon = (playerStat, leagueStat, stat) => {
-    if (playerStat > leagueStat + 1) {
-      return <ArrowUpwardIcon style={{ color: stat !== 'drtg' ? 'green' : 'red' }} />;
-    }
-    if (playerStat < leagueStat - 1) {
-      return <ArrowDownwardIcon style={{ color: stat !== 'drtg' ? 'red' : 'green' }} />;
-    }
-    return null;
-  };
+  const getBorderColor = useCallback(
+    (stat) => {
+      if (!showLeagueComparisons) return 'white';
+      const adjustedColor = calculateLeagueComparisonColor(
+        stat.field,
+        playerData?.[stat.field],
+        leagueData?.[stat.field],
+        perGameFilter
+      );
+      if (!adjustedColor) return 'white';
+      return adjustedColor;
+    },
+    [leagueData, perGameFilter, playerData, showLeagueComparisons]
+  );
 
   return (
-    <Card sx={{ height: '100%' }}>
+    <Card sx={{ height: '100%', paddingBottom: 0 }}>
       <CardHeader
         sx={{ bgcolor: color }}
         title={
@@ -30,19 +43,19 @@ export function StatCard(props) {
           </Grid>
         }
       />
-      <CardContent>
+      <CardContent sx={{ padding: 0, '&:last-child': { paddingBottom: 0 } }}>
         <Grid container>
           {columns.map((stat) => (
-            <Grid xs key={stat.headerName} sx={{ padding: 2 }} item>
+            <Grid
+              xs
+              key={stat.headerName}
+              sx={{ px: 1, py: 2, backgroundColor: getBorderColor(stat) }}
+              item>
               <Typography align="center" variant="h6">
                 <b>{stat.headerName}</b>
               </Typography>
               <Typography align="center" variant="h6">
-                <b>{playerData[stat.field]}</b>
-                {showLeagueComparisons &&
-                  leagueData &&
-                  leagueData[stat.field] &&
-                  getComparisonIcon(playerData[stat.field], leagueData[stat.field], stat.field)}
+                <b>{adjustStatByFilter(playerData[stat.field], perGameFilter)}</b>
               </Typography>
             </Grid>
           ))}
@@ -61,7 +74,8 @@ StatCard.propTypes = {
   columns: PropTypes.arrayOf(PropTypes.shape).isRequired,
   title: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
-  icon: PropTypes.node.isRequired
+  icon: PropTypes.node.isRequired,
+  perGameFilter: PropTypes.string.isRequired
 };
 
 StatCard.defaultProps = {

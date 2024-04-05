@@ -105,6 +105,10 @@ export const AdvancedStatsColumns = [
     headerName: 'AST/TO'
   },
   {
+    field: 'gameScore',
+    headerName: 'GmScr'
+  },
+  {
     field: 'dd',
     headerName: 'DD'
   },

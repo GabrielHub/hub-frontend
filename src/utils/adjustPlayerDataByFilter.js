@@ -28,4 +28,14 @@ export const adjustDataByFilter = (data, filter) => {
   return data;
 };
 
+export const adjustStatByFilter = (stat, filter) => {
+  if (filter === STAT_PER_TYPES.PER_36) {
+    return Math.round((stat / playerMinutes) * 36 * 10) / 10;
+  }
+  if (filter === STAT_PER_TYPES.PER_100) {
+    return Math.round((stat / playerMinutes) * 100 * 10) / 10;
+  }
+  return stat;
+};
+
 export default {};

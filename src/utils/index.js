@@ -5,3 +5,4 @@ export * from './datagrid';
 export * from './adjustPlayerDataByFilter';
 export * from './getReadablePositions';
 export * from './isMobile';
+export * from './calculateLeagueComparisonColor';

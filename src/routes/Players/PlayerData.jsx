@@ -30,8 +30,9 @@ import InsightsIcon from '@mui/icons-material/Insights';
 import LockIcon from '@mui/icons-material/Lock';
 import { fetchPlayerData, fetchLastGames } from 'rest';
 import { Loading } from 'components/Loading';
-import { POSITION_READABLE, RATING_COLOR_MAP } from 'constants';
+import { POSITION_READABLE, RATING_COLOR_MAP, STAT_PER_TYPES } from 'constants';
 import { GameGrid } from 'components/GameGrid';
+import { StatAdjustDropdown } from 'components/StatAdjustDropdown';
 import { getReadablePositions, isMobile } from 'utils';
 import {
   AverageStatsColumns,
@@ -59,6 +60,7 @@ export function PlayerData() {
   const [filterByLock, setFilterByLock] = useState(false);
   /** Only initially fetch positionOptions, as they don't exist on other positional data */
   const [positionOptions, setPositionOptions] = useState(null);
+  const [perGameFilter, setPerGameFilter] = useState(STAT_PER_TYPES.DEFAULT);
   const [showLeagueComparisons, setShowLeagueComparisons] = useState(false);
 
   const getPlayerData = useCallback(async () => {
@@ -296,26 +298,29 @@ export function PlayerData() {
             container
             item>
             {Boolean(positionOptions) && (
-              <Grid xs item>
-                <FormControl fullWidth>
-                  <Select
-                    value={position}
-                    onChange={(e) => setPosition(e.target.value)}
-                    size="small"
-                    sx={{ height: 1 }}
-                    native
-                    autoFocus>
-                    <option value={0}>All</option>
-                    {positionOptions.map((pos) => (
-                      <option value={pos.value} key={`${pos} ${pos?.value}`}>
-                        {pos.label}
-                      </option>
-                    ))}
-                  </Select>
-                  <FormHelperText id="position-filter-helper-text" align="center">
-                    Filter By Position
-                  </FormHelperText>
-                </FormControl>
+              <Grid xs container item>
+                <Grid xs={12} sm={6} item>
+                  <FormControl fullWidth>
+                    <Select value={position} onChange={(e) => setPosition(e.target.value)}>
+                      <option value={0}>All</option>
+                      {positionOptions.map((pos) => (
+                        <option value={pos.value} key={`${pos} ${pos?.value}`}>
+                          {pos.label}
+                        </option>
+                      ))}
+                    </Select>
+                    <FormHelperText id="position-filter-helper-text" align="center">
+                      Filter By Position
+                    </FormHelperText>
+                  </FormControl>
+                </Grid>
+                <Grid xs={12} sm={6} item>
+                  <StatAdjustDropdown
+                    dropdownValue={perGameFilter}
+                    handleDropdownChange={(e) => setPerGameFilter(e.target.value)}
+                    fullWidth
+                  />
+                </Grid>
               </Grid>
             )}
             <Grid xs container item>
@@ -338,7 +343,7 @@ export function PlayerData() {
                       onChange={() => setShowLeagueComparisons(!showLeagueComparisons)}
                     />
                   }
-                  label="League Average Comparisons"
+                  label="Compare To League Average"
                 />
               </Grid>
             </Grid>
@@ -478,6 +483,7 @@ export function PlayerData() {
               columns={AverageStatsColumns}
               title="Average Stats"
               color={RATING_COLOR_MAP[playerData?.ratingString]}
+              perGameFilter={perGameFilter}
               icon={<SportsBasketballIcon sx={{ color: 'white' }} />}
             />
           </Grid>
@@ -490,6 +496,7 @@ export function PlayerData() {
               columns={EfficiencyStatsColumns}
               title="Efficiency Stats"
               color={RATING_COLOR_MAP[playerData?.ratingString]}
+              perGameFilter={perGameFilter}
               icon={<WhatshotIcon sx={{ color: 'white' }} />}
             />
           </Grid>
@@ -502,6 +509,7 @@ export function PlayerData() {
               columns={AdvancedStatsColumns}
               title="Advanced Stats"
               color={RATING_COLOR_MAP[playerData?.ratingString]}
+              perGameFilter={perGameFilter}
               icon={<InsightsIcon sx={{ color: 'white' }} />}
             />
           </Grid>
@@ -514,6 +522,7 @@ export function PlayerData() {
               columns={DefensiveEfficiencyStatsColumns}
               title="Defensive Efficiency"
               color={RATING_COLOR_MAP[playerData?.ratingString]}
+              perGameFilter={perGameFilter}
               icon={<LockIcon sx={{ color: 'white' }} />}
             />
           </Grid>
