@@ -33,7 +33,7 @@ import { Loading } from 'components/Loading';
 import { POSITION_READABLE, RATING_COLOR_MAP, STAT_PER_TYPES } from 'constants';
 import { GameGrid } from 'components/GameGrid';
 import { StatAdjustDropdown } from 'components/StatAdjustDropdown';
-import { getReadablePositions, isMobile } from 'utils';
+import { getReadablePositions, isMobile, adjustStatByFilter } from 'utils';
 import {
   AverageStatsColumns,
   EfficiencyStatsColumns,
@@ -196,7 +196,9 @@ export function PlayerData() {
                     PPG
                   </Typography>
                   <Typography align="center" variant="body1">
-                    <b>{playerData.pts}</b>
+                    <b>
+                      {adjustStatByFilter('pts', playerData.pace, playerData.pts, perGameFilter)}
+                    </b>
                   </Typography>
                 </Grid>
                 <Divider orientation="vertical" flexItem sx={{ bgcolor: 'white', my: 1 }} />
@@ -205,7 +207,9 @@ export function PlayerData() {
                     RPG
                   </Typography>
                   <Typography align="center" variant="body1">
-                    <b>{playerData.treb}</b>
+                    <b>
+                      {adjustStatByFilter('treb', playerData.pace, playerData.treb, perGameFilter)}
+                    </b>
                   </Typography>
                 </Grid>
                 <Divider orientation="vertical" flexItem sx={{ bgcolor: 'white', my: 1 }} />
@@ -214,7 +218,9 @@ export function PlayerData() {
                     APG
                   </Typography>
                   <Typography align="center" variant="body1">
-                    <b>{playerData.ast}</b>
+                    <b>
+                      {adjustStatByFilter('ast', playerData.pace, playerData.ast, perGameFilter)}
+                    </b>
                   </Typography>
                 </Grid>
                 <Divider orientation="vertical" flexItem sx={{ bgcolor: 'white', my: 1 }} />
@@ -356,7 +362,8 @@ export function PlayerData() {
                   Shot Chart
                 </Typography>
                 <Typography align="left" variant="body2" color="text.secondary">
-                  {playerData.fga} FGA | {playerData.efgPerc} eFG%
+                  {adjustStatByFilter('fga', playerData.pace, playerData.fga, perGameFilter)} FGA |{' '}
+                  {playerData.efgPerc} eFG%
                 </Typography>
               </Grid>
               <Grid xs={12} item>
@@ -413,7 +420,15 @@ export function PlayerData() {
                   Individual Possessions
                 </Typography>
                 <Typography align="right" variant="body2" color="text.secondary">
-                  {playerData?.estPoss} est. possessions | {playerData.usageRate} USG%
+                  {Math.round(
+                    adjustStatByFilter(
+                      'estPoss',
+                      playerData.pace,
+                      playerData.estPoss,
+                      perGameFilter
+                    )
+                  )}{' '}
+                  est. possessions | {playerData.usageRate} USG%
                 </Typography>
               </Grid>
               <Grid xs={12} item>

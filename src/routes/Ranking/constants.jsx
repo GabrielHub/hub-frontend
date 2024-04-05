@@ -1,4 +1,3 @@
-import { getPercentValues } from 'utils';
 import { round } from 'lodash';
 import { GamesPlayedCell, NameCell, RatingCell } from 'components/PlayerGrid';
 
@@ -47,7 +46,7 @@ export const OVERALL_PLAYERS_COLUMNS = [
     type: 'number',
     description:
       'Usage percentage is an estimate of the percentage of team plays used by a player while they were on the floor',
-    valueGetter: getPercentValues,
+    valueFormatter: ({ value }) => `${value.toLocaleString()}%`,
     flex: 1
   },
   {
@@ -172,7 +171,7 @@ export const OVERALL_PLAYERS_COLUMNS = [
     headerName: 'TOV%',
     type: 'number',
     description: 'Turnover percentage is an estimate of turnovers per 100 plays',
-    valueGetter: getPercentValues,
+    valueFormatter: ({ value }) => `${value.toLocaleString()}%`,
     flex: 1
   },
   {
@@ -181,7 +180,7 @@ export const OVERALL_PLAYERS_COLUMNS = [
     type: 'number',
     description:
       'Assist percentage is an estimate of the percentage of teammate field goals a player assisted while he was on the floor',
-    valueGetter: getPercentValues,
+    valueFormatter: ({ value }) => `${value.toLocaleString()}%`,
     flex: 1
   },
   {
@@ -195,14 +194,14 @@ export const OVERALL_PLAYERS_COLUMNS = [
     field: 'fgPerc',
     headerName: 'FG%',
     type: 'number',
-    valueGetter: getPercentValues,
+    valueFormatter: ({ value }) => `${value.toLocaleString()}%`,
     flex: 1
   },
   {
     field: 'threePerc',
     headerName: '3PT%',
     type: 'number',
-    valueGetter: getPercentValues,
+    valueFormatter: ({ value }) => `${value.toLocaleString()}%`,
     flex: 1
   },
   {
@@ -210,7 +209,7 @@ export const OVERALL_PLAYERS_COLUMNS = [
     headerName: 'EFG%',
     description: 'FG% adjusted for 3 Pointers',
     type: 'number',
-    valueGetter: getPercentValues,
+    valueFormatter: ({ value }) => `${value.toLocaleString()}%`,
     flex: 1
   },
   {
@@ -219,7 +218,7 @@ export const OVERALL_PLAYERS_COLUMNS = [
     type: 'number',
     description:
       'A measure of shooting efficiency that takes into account field goals, 3-point field goals, and free throws',
-    valueGetter: getPercentValues,
+    valueFormatter: ({ value }) => `${value.toLocaleString()}%`,
     flex: 1
   },
   {
@@ -227,7 +226,7 @@ export const OVERALL_PLAYERS_COLUMNS = [
     headerName: '3PaR',
     type: 'number',
     description: 'Percentage of shots taken from 3',
-    valueGetter: getPercentValues,
+    valueFormatter: ({ value }) => `${value.toLocaleString()}%`,
     flex: 1
   },
   {
@@ -240,7 +239,7 @@ export const OVERALL_PLAYERS_COLUMNS = [
     field: 'oFGPerc',
     headerName: 'oFG%',
     description: `Opponent's FG%`,
-    valueGetter: getPercentValues,
+    valueFormatter: ({ value }) => `${value.toLocaleString()}%`,
     type: 'number',
     flex: 1
   },
@@ -249,7 +248,7 @@ export const OVERALL_PLAYERS_COLUMNS = [
     headerName: 'o3P%',
     type: 'number',
     description: `Opponent's 3P%`,
-    valueGetter: getPercentValues,
+    valueFormatter: ({ value }) => `${value.toLocaleString()}%`,
     flex: 1
   },
   {
@@ -257,7 +256,7 @@ export const OVERALL_PLAYERS_COLUMNS = [
     headerName: 'oEFG%',
     type: 'number',
     description: `Opponent's FG% adjusted for 3 Pointers`,
-    valueGetter: getPercentValues,
+    valueFormatter: ({ value }) => `${value.toLocaleString()}%`,
     flex: 1
   },
   {
@@ -265,7 +264,7 @@ export const OVERALL_PLAYERS_COLUMNS = [
     headerName: 'REB%',
     type: 'number',
     description: `The percentage of available rebounds a player obtains while on the floor`,
-    valueGetter: getPercentValues,
+    valueFormatter: ({ value }) => `${value.toLocaleString()}%`,
     flex: 1
   },
   {

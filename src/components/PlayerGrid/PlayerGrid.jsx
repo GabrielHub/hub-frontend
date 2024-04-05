@@ -2,9 +2,10 @@ import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useSnackbar } from 'notistack';
 import { Grid, Button } from '@mui/material';
-import { DataGrid, GridPagination } from '@mui/x-data-grid';
-import { fetchTableData } from 'rest';
+import { DataGrid, GridPagination, GridCell } from '@mui/x-data-grid';
+import { fetchTableData, fetchLeagueAverages } from 'rest';
 import { TableFooterModal } from 'components/Modal';
+import { calculateLeagueComparisonColor, INCORRECT_STAT_MAPPING } from 'utils';
 import { STAT_PER_TYPES } from 'constants';
 import { StatAdjustDropdown } from 'components/StatAdjustDropdown';
 import { adjustDataByFilter } from 'utils/adjustPlayerDataByFilter';
@@ -13,7 +14,7 @@ import { adjustDataByFilter } from 'utils/adjustPlayerDataByFilter';
 const LIMIT = 100;
 
 function Footer(props) {
-  const { dropdownValue, handleDropdownChange } = props;
+  const { dropdownValue, showComparison, handleComparisonChange, handleDropdownChange } = props;
   const [open, setOpen] = useState(false);
 
   const handleClose = () => {
@@ -27,6 +28,9 @@ function Footer(props) {
           dropdownValue={dropdownValue}
           handleDropdownChange={handleDropdownChange}
         />
+        <Button sx={{ textTransform: 'none', ml: 2 }} onClick={handleComparisonChange}>
+          {showComparison ? 'Hide Comparison' : 'Show Comparison'}
+        </Button>
       </Grid>
       <Grid xs={6} item container justifyContent="flex-end" direction="row" alignItems="center">
         <TableFooterModal open={open} handleClose={handleClose} />
@@ -39,10 +43,30 @@ function Footer(props) {
   );
 }
 
+function CustomGridCell({ getBackgroundColor, field, value, ...props }) {
+  return (
+    <GridCell
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      {...props}
+      style={{
+        backgroundColor: getBackgroundColor({ field, value })
+      }}
+    />
+  );
+}
+
+CustomGridCell.propTypes = {
+  getBackgroundColor: PropTypes.func.isRequired,
+  field: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
+};
+
 export function PlayerGrid(props) {
   const { columns, defaultSortField, defaultSortType, visibilityModel } = props;
   const { enqueueSnackbar } = useSnackbar();
   const [dropdownValue, setDropdownValue] = useState(STAT_PER_TYPES.DEFAULT);
+  const [showComparison, setShowComparison] = useState(false);
+  const [comparisonData, setComparisonData] = useState(null);
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(false);
   const [sortModel, setSortModel] = useState([
@@ -54,6 +78,23 @@ export function PlayerGrid(props) {
 
   const handleDropdownChange = (event) => {
     setDropdownValue(event.target.value);
+  };
+
+  const fetchComparisonData = useCallback(async () => {
+    const { data, error } = await fetchLeagueAverages();
+    if (error) {
+      enqueueSnackbar('Error fetching comparison data, please try again', { variant: 'error' });
+    } else {
+      setComparisonData(data);
+    }
+  }, [enqueueSnackbar]);
+
+  useEffect(() => {
+    if (showComparison && !comparisonData) fetchComparisonData();
+  }, [comparisonData, fetchComparisonData, showComparison]);
+
+  const handleComparisonChange = async () => {
+    setShowComparison((prev) => !prev);
   };
 
   const getTableRows = useCallback(async () => {
@@ -79,6 +120,26 @@ export function PlayerGrid(props) {
     getTableRows();
   }, [getTableRows]);
 
+  const getBackgroundColor = useCallback(
+    (stat) => {
+      if (!showComparison || !comparisonData) return 'white';
+      // * Fix broken league stat name
+      const adjustedStatName =
+        stat.field in INCORRECT_STAT_MAPPING ? INCORRECT_STAT_MAPPING[stat.field] : stat.field;
+      const adjustedColor = calculateLeagueComparisonColor(
+        stat.field,
+        stat.value,
+        comparisonData?.[adjustedStatName],
+        dropdownValue,
+        rows?.pace,
+        true
+      );
+      if (!adjustedColor) return 'white';
+      return adjustedColor;
+    },
+    [comparisonData, dropdownValue, rows, showComparison]
+  );
+
   return (
     <Grid xs={12} sx={{ height: 650 }} item>
       <DataGrid
@@ -89,12 +150,18 @@ export function PlayerGrid(props) {
         loading={loading}
         autoPageSize
         slots={{
-          footer: Footer
+          footer: Footer,
+          cell: CustomGridCell
         }}
         slotProps={{
           footer: {
             dropdownValue,
-            handleDropdownChange
+            handleDropdownChange,
+            showComparison,
+            handleComparisonChange
+          },
+          cell: {
+            getBackgroundColor
           }
         }}
         initialState={{
@@ -124,7 +191,9 @@ PlayerGrid.defaultProps = {
 
 Footer.propTypes = {
   dropdownValue: PropTypes.string.isRequired,
-  handleDropdownChange: PropTypes.func.isRequired
+  handleDropdownChange: PropTypes.func.isRequired,
+  showComparison: PropTypes.bool.isRequired,
+  handleComparisonChange: PropTypes.func.isRequired
 };
 
 export default {};

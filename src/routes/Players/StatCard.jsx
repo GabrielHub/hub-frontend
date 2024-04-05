@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Typography, Card, CardHeader, CardContent } from '@mui/material';
-import { adjustStatByFilter, calculateLeagueComparisonColor } from 'utils';
+import { adjustStatByFilter, calculateLeagueComparisonColor, INCORRECT_STAT_MAPPING } from 'utils';
 
 export function StatCard(props) {
   const {
@@ -15,13 +15,17 @@ export function StatCard(props) {
     icon
   } = props;
 
-  const getBorderColor = useCallback(
+  const getBackgroundColor = useCallback(
     (stat) => {
       if (!showLeagueComparisons) return 'white';
+      // * Fix broken league stat name
+      const adjustedStatName =
+        stat.field in INCORRECT_STAT_MAPPING ? INCORRECT_STAT_MAPPING[stat.field] : stat.field;
       const adjustedColor = calculateLeagueComparisonColor(
         stat.field,
         playerData?.[stat.field],
-        leagueData?.[stat.field],
+        leagueData?.[adjustedStatName],
+        playerData?.pace,
         perGameFilter
       );
       if (!adjustedColor) return 'white';
@@ -49,13 +53,20 @@ export function StatCard(props) {
             <Grid
               xs
               key={stat.headerName}
-              sx={{ px: 1, py: 2, backgroundColor: getBorderColor(stat) }}
+              sx={{ px: 1, py: 2, backgroundColor: getBackgroundColor(stat) }}
               item>
               <Typography align="center" variant="h6">
                 <b>{stat.headerName}</b>
               </Typography>
               <Typography align="center" variant="h6">
-                <b>{adjustStatByFilter(playerData[stat.field], perGameFilter)}</b>
+                <b>
+                  {adjustStatByFilter(
+                    stat.field,
+                    playerData.pace,
+                    playerData[stat.field],
+                    perGameFilter
+                  )}
+                </b>
               </Typography>
             </Grid>
           ))}

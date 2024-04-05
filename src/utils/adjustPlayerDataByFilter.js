@@ -1,6 +1,30 @@
 import { STAT_PER_TYPES } from '../constants';
 
-const statsToAdjust = ['pts', 'treb', 'ast', 'stl', 'blk', 'tov', 'pf'];
+const statsToAdjust = [
+  'pts',
+  'treb',
+  'ast',
+  'stl',
+  'blk',
+  'tov',
+  'pf',
+  'fga',
+  'fgm',
+  'threepa',
+  'threepm',
+  'fta',
+  'ftm',
+  'dreb',
+  'oreb',
+  // * Advanced stats
+  'pace',
+  'gameScore',
+  'oFGA',
+  'oFGM',
+  'o3PA',
+  'o3PM',
+  'estPoss'
+];
 const playerMinutes = 20;
 
 export const adjustDataByFilter = (data, filter) => {
@@ -28,14 +52,15 @@ export const adjustDataByFilter = (data, filter) => {
   return data;
 };
 
-export const adjustStatByFilter = (stat, filter) => {
+export const adjustStatByFilter = (stat, pace, value, filter) => {
+  if (!statsToAdjust.includes(stat)) return value;
   if (filter === STAT_PER_TYPES.PER_36) {
-    return Math.round((stat / playerMinutes) * 36 * 10) / 10;
+    return Math.round((value / playerMinutes) * 36 * 10) / 10;
   }
   if (filter === STAT_PER_TYPES.PER_100) {
-    return Math.round((stat / playerMinutes) * 100 * 10) / 10;
+    return Math.round((value / pace) * 100 * 10) / 10;
   }
-  return stat;
+  return value;
 };
 
 export default {};
