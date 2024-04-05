@@ -41,7 +41,7 @@ export function DraggablePlayerCard(props) {
       <Card
         sx={{
           height: '100%',
-          padding: 2,
+          padding: 1,
           width: 275,
           backgroundColor: player.added ? 'grey' : 'white'
         }}
