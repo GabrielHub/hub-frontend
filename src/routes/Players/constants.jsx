@@ -81,10 +81,6 @@ export const EfficiencyStatsColumns = [
 
 export const AdvancedStatsColumns = [
   {
-    field: 'bpm',
-    headerName: 'BPM'
-  },
-  {
     field: 'pace',
     headerName: 'PACE'
   },
@@ -150,6 +146,25 @@ export const DefensiveEfficiencyStatsColumns = [
   {
     field: 'oEFGPerc',
     headerName: 'oEFG%'
+  }
+];
+
+export const BREADStatsColumns = [
+  {
+    field: 'bpm',
+    headerName: 'BPM'
+  },
+  {
+    field: 'estPointsPer100',
+    headerName: 'PTS Over Replacement'
+  },
+  {
+    field: 'stopsPer100',
+    headerName: 'Stops Per 100'
+  },
+  {
+    field: 'pProd',
+    headerName: 'PProd'
   }
 ];
 

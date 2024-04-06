@@ -11,7 +11,8 @@ import {
   FormHelperText,
   Switch,
   Divider,
-  MenuItem
+  MenuItem,
+  IconButton
 } from '@mui/material';
 import {
   lime,
@@ -29,18 +30,21 @@ import SportsBasketballIcon from '@mui/icons-material/SportsBasketball';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
 import InsightsIcon from '@mui/icons-material/Insights';
 import LockIcon from '@mui/icons-material/Lock';
+import BreakfastDiningIcon from '@mui/icons-material/BreakfastDining';
 import { fetchPlayerData, fetchLastGames } from 'rest';
 import { Loading } from 'components/Loading';
 import { POSITION_READABLE, RATING_COLOR_MAP, STAT_PER_TYPES } from 'constants';
 import { StatAdjustDropdown } from 'components/StatAdjustDropdown';
 import { GameGrid } from 'components/GameGrid';
 import { getReadablePositions, isMobile, adjustStatByFilter } from 'utils';
+import { BREADModal } from 'components/Modal/BREADModal';
 import {
   AverageStatsColumns,
   EfficiencyStatsColumns,
   AdvancedStatsColumns,
   DefensiveEfficiencyStatsColumns,
-  RECENT_GAMES_COLUMNS
+  RECENT_GAMES_COLUMNS,
+  BREADStatsColumns
 } from './constants';
 import { StatCard } from './StatCard';
 import { TrendsGraph } from './TrendsGraph';
@@ -63,6 +67,10 @@ export function PlayerData() {
   const [positionOptions, setPositionOptions] = useState(null);
   const [perGameFilter, setPerGameFilter] = useState(STAT_PER_TYPES.DEFAULT);
   const [showLeagueComparisons, setShowLeagueComparisons] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleOpen = () => setOpenModal(true);
+  const handleClose = () => setOpenModal(false);
 
   const getPlayerData = useCallback(async () => {
     setIsLoading(true);
@@ -117,6 +125,7 @@ export function PlayerData() {
   return (
     <div style={{ backgroundColor: `${RATING_COLOR_MAP[playerData?.ratingString]}10` }}>
       <Loading isLoading={isLoading} />
+      <BREADModal open={openModal} handleClose={handleClose} />
       {playerData && (
         <Grid
           sx={{
@@ -543,6 +552,24 @@ export function PlayerData() {
               color={RATING_COLOR_MAP[playerData?.ratingString]}
               perGameFilter={perGameFilter}
               icon={<LockIcon sx={{ color: 'white' }} />}
+            />
+          </Grid>
+
+          <Grid xs={12} xl={6} sx={{ p: 4 }} item>
+            <StatCard
+              playerData={playerData}
+              leagueData={leagueData}
+              showLeagueComparisons={showLeagueComparisons}
+              columns={BREADStatsColumns}
+              title="BREAD Advanced Stats"
+              color={RATING_COLOR_MAP[playerData?.ratingString]}
+              perGameFilter={perGameFilter}
+              icon={
+                <IconButton onClick={handleOpen} variant="">
+                  <BreakfastDiningIcon sx={{ color: 'white' }} />
+                </IconButton>
+              }
+              shouldRound
             />
           </Grid>
 

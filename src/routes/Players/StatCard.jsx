@@ -12,7 +12,8 @@ export function StatCard(props) {
     columns,
     title,
     color,
-    icon
+    icon,
+    shouldRound
   } = props;
 
   const getBackgroundColor = useCallback(
@@ -60,14 +61,21 @@ export function StatCard(props) {
               </Typography>
               <Typography align="center" variant="h6">
                 <b>
-                  {Math.round(
-                    adjustStatByFilter(
-                      stat.field,
-                      playerData.pace,
-                      playerData[stat.field],
-                      perGameFilter
-                    ) * 10
-                  ) / 10}
+                  {shouldRound
+                    ? Math.round(
+                        adjustStatByFilter(
+                          stat.field,
+                          playerData.pace,
+                          playerData[stat.field],
+                          perGameFilter
+                        )
+                      )
+                    : adjustStatByFilter(
+                        stat.field,
+                        playerData.pace,
+                        playerData[stat.field],
+                        perGameFilter
+                      )}
                 </b>
               </Typography>
             </Grid>
@@ -88,13 +96,15 @@ StatCard.propTypes = {
   title: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
   icon: PropTypes.node.isRequired,
-  perGameFilter: PropTypes.string.isRequired
+  perGameFilter: PropTypes.string.isRequired,
+  shouldRound: PropTypes.bool
 };
 
 StatCard.defaultProps = {
   playerData: {},
   leagueData: null,
-  showLeagueComparisons: false
+  showLeagueComparisons: false,
+  shouldRound: false
 };
 
 export default {};

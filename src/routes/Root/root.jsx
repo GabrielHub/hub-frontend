@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Grid, Typography, Card, CardActions, CardContent, Button, Box } from '@mui/material';
+import { BREADModal } from 'components/Modal/BREADModal';
 import pixelLogo from '../../images/pixelLogo.png';
 import headerImage from '../../images/headerImage.png';
 import { LastGames, AwardCarousel } from './components';
@@ -13,8 +14,13 @@ const bull = (
 
 export function Root() {
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
     <Grid justifyContent="center" container>
+      <BREADModal open={open} handleClose={handleClose} />
       <Grid
         xs={12}
         item
@@ -38,25 +44,38 @@ export function Root() {
           }
         }}>
         <Grid
+          container
           item
           sx={{
             color: 'black',
             backgroundColor: 'rgba(255, 255, 255, 0.8)',
             padding: 2,
             borderRadius: 2
-          }}>
-          <Typography
-            variant="h4"
-            align="center"
-            sx={{
-              color: 'black'
-            }}
-            gutterBottom>
-            A COMPREHENSIVE GLOSSARY AND ANALYTICS HUB
+          }}
+          justifyContent="center">
+          <Grid item xs={12} container justifyContent="center">
+            <Button size="large" onClick={handleOpen} variant="outlined">
+              <Typography
+                variant="h4"
+                sx={{
+                  color: 'black'
+                }}>
+                <b>B.R.E.A.D.</b>
+              </Typography>
+            </Button>
+          </Grid>
+          <Grid item xs={12} container justifyContent="center">
+            <Typography variant="body2" color="text.secondary" align="center" gutterBottom>
+              Better Ratings, Estimates, Adjustments, and Data
+            </Typography>
+          </Grid>
+
+          <Typography variant="h6" align="center" sx={{ color: 'black' }} gutterBottom>
+            Capture data from 2K Pro-Am games, and use BREAD statistics to improve your game.
           </Typography>
           <Typography variant="h6" align="center" sx={{ color: 'black' }}>
-            Effortlessly browse through a wealth of statistics, organized in a sleek and visually
-            captivating format.
+            A dashboard to effortlessly browse through a wealth of statistics, organized in a sleek
+            and visually captivating format.
           </Typography>
           <Typography variant="h6" align="center" sx={{ color: 'black' }} gutterBottom>
             Use performance metrics, advanced analytics, and player data to unlock insights and
