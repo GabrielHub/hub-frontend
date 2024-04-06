@@ -124,7 +124,11 @@ export function Navbar() {
                 component="div"
                 sx={{
                   flexGrow: 1,
-                  color: THEME_COLORS.LIGHT
+                  color: THEME_COLORS.LIGHT,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center', // Add this line
+                  width: '100%'
                 }}
                 align="center">
                 {route.title}
@@ -132,10 +136,10 @@ export function Navbar() {
               </Typography>
             </ListItemButton>
             <Collapse in={openCollapse} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
+              <List component="div" sx={{ border: '1px solid white' }} disablePadding>
                 {route.children.map((child) => (
                   <ListItemButton key={child.path} onClick={() => navigate(child.path)}>
-                    <ListItemText primary={child.title} />
+                    <ListItemText primary={<Typography align="center">{child.title}</Typography>} />
                   </ListItemButton>
                 ))}
               </List>
