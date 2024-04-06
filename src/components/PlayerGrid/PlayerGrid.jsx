@@ -2,12 +2,13 @@ import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useSnackbar } from 'notistack';
 import { Grid, Button } from '@mui/material';
-import { DataGrid, GridPagination, GridCell } from '@mui/x-data-grid';
+import { DataGrid, GridPagination } from '@mui/x-data-grid';
 import { fetchTableData, fetchLeagueAverages } from 'rest';
 import { TableFooterModal } from 'components/Modal';
 import { calculateLeagueComparisonColor, INCORRECT_STAT_MAPPING } from 'utils';
 import { STAT_PER_TYPES } from 'constants';
 import { StatAdjustDropdown } from 'components/StatAdjustDropdown';
+import { CustomGridCell } from 'components/CustomGridCell';
 import { adjustDataByFilter } from 'utils/adjustPlayerDataByFilter';
 
 // * There are not enough players to put a hard limit.
@@ -42,24 +43,6 @@ function Footer(props) {
     </Grid>
   );
 }
-
-function CustomGridCell({ getBackgroundColor, field, value, ...props }) {
-  return (
-    <GridCell
-      // eslint-disable-next-line react/jsx-props-no-spreading
-      {...props}
-      style={{
-        backgroundColor: getBackgroundColor({ field, value })
-      }}
-    />
-  );
-}
-
-CustomGridCell.propTypes = {
-  getBackgroundColor: PropTypes.func.isRequired,
-  field: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
-};
 
 export function PlayerGrid(props) {
   const { columns, defaultSortField, defaultSortType, visibilityModel } = props;
@@ -130,8 +113,8 @@ export function PlayerGrid(props) {
         stat.field,
         stat.value,
         comparisonData?.[adjustedStatName],
-        dropdownValue,
         rows?.pace,
+        dropdownValue,
         true
       );
       if (!adjustedColor) return 'white';

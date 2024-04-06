@@ -1,11 +1,30 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { DataGrid } from '@mui/x-data-grid';
+import { calculateLeagueComparisonColor, INCORRECT_STAT_MAPPING } from 'utils';
+import { CustomGridCell } from 'components/CustomGridCell';
 
 export function GameGrid(props) {
-  const { columns, gameData } = props;
+  const { columns, gameData, leagueData, showComparison } = props;
+
+  const getBackgroundColor = useCallback(
+    (stat) => {
+      if (!showComparison || !leagueData) return 'white';
+      // * Fix broken league stat name
+      const adjustedStatName =
+        stat.field in INCORRECT_STAT_MAPPING ? INCORRECT_STAT_MAPPING[stat.field] : stat.field;
+      const adjustedColor = calculateLeagueComparisonColor(
+        stat.field,
+        stat.value,
+        leagueData[adjustedStatName]
+      );
+      if (!adjustedColor) return 'white';
+      return adjustedColor;
+    },
+    [leagueData, showComparison]
+  );
 
   return (
     <Grid xs={12} sx={{ p: 4 }} item>
@@ -16,7 +35,19 @@ export function GameGrid(props) {
           </Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ height: 395 }}>
-          <DataGrid rows={gameData} columns={columns} autoPageSize />
+          <DataGrid
+            rows={gameData}
+            columns={columns}
+            slots={{
+              cell: CustomGridCell
+            }}
+            slotProps={{
+              cell: {
+                getBackgroundColor
+              }
+            }}
+            autoPageSize
+          />
         </AccordionDetails>
       </Accordion>
     </Grid>
@@ -26,11 +57,19 @@ export function GameGrid(props) {
 GameGrid.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   gameData: PropTypes.any.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  leagueData: PropTypes.any,
+  showComparison: PropTypes.bool,
   columns: PropTypes.arrayOf(
     PropTypes.objectOf(
       PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool, PropTypes.func])
     )
   ).isRequired
+};
+
+GameGrid.defaultProps = {
+  leagueData: null,
+  showComparison: false
 };
 
 export default {};

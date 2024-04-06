@@ -16,7 +16,8 @@ export const calculateLeagueComparisonColor = (
   statName,
   playerStat,
   leagueStat,
-  pace,
+  // * If the rest of these aren't passed in, pace doesn't matter since it will never be used
+  pace = 50,
   perGameFilter = STAT_PER_TYPES.DEFAULT,
   disablePlayerAdjust = false
 ) => {

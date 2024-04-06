@@ -31,8 +31,8 @@ import LockIcon from '@mui/icons-material/Lock';
 import { fetchPlayerData, fetchLastGames } from 'rest';
 import { Loading } from 'components/Loading';
 import { POSITION_READABLE, RATING_COLOR_MAP, STAT_PER_TYPES } from 'constants';
-import { GameGrid } from 'components/GameGrid';
 import { StatAdjustDropdown } from 'components/StatAdjustDropdown';
+import { GameGrid } from 'components/GameGrid';
 import { getReadablePositions, isMobile, adjustStatByFilter } from 'utils';
 import {
   AverageStatsColumns,
@@ -542,7 +542,14 @@ export function PlayerData() {
             />
           </Grid>
 
-          {gameData && <GameGrid columns={RECENT_GAMES_COLUMNS} gameData={gameData} />}
+          {gameData && (
+            <GameGrid
+              columns={RECENT_GAMES_COLUMNS}
+              gameData={gameData}
+              leagueData={leagueData}
+              showComparison={showLeagueComparisons}
+            />
+          )}
           {gameData && <TrendsGraph gameData={gameData} positionFilter={position} />}
         </Grid>
       )}

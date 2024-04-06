@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { PlayerGrid } from 'components/PlayerGrid';
-import { RATING_CONFIG } from 'constants';
+import { RATING_CONFIG, RATING_COLOR_MAP } from 'constants';
 import {
   OVERALL_PLAYERS_COLUMNS,
   OVERALL_PLAYERS_DEFAULT_SORTS,
@@ -41,16 +41,18 @@ export function Ranking() {
           </AccordionDetails>
         </Accordion>
       </Grid>
-      <Grid xs={12} sx={{ p: 2 }} item>
-        <Typography align="center">
-          <b>
-            {Object.entries(RATING_CONFIG).map(([key, value], index, array) => {
-              const prevValue = index === 0 ? 0 : array[index - 1][1];
-              const range = `${prevValue} - ${value}`;
-              return `${range} ${key} | `;
-            })}
-          </b>
-        </Typography>
+      <Grid xs={12} sx={{ p: 2 }} justifyContent="space-between" container item>
+        {Object.entries(RATING_CONFIG).map(([key, value], index, array) => {
+          const prevValue = index === 0 ? 0 : array[index - 1][1];
+          const range = `${prevValue} - ${value}`;
+          return (
+            <Grid key={key} sx={{ backgroundColor: `${RATING_COLOR_MAP[key]}85` }} xs item>
+              <Typography align="center" sx={{ minWidth: 185, p: 1 }}>
+                {range} <b>{key}</b>
+              </Typography>
+            </Grid>
+          );
+        })}
       </Grid>
       <PlayerGrid
         columns={OVERALL_PLAYERS_COLUMNS}
