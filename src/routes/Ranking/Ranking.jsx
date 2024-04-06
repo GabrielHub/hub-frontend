@@ -44,11 +44,23 @@ export function Ranking() {
       <Grid xs={12} sx={{ p: 2 }} justifyContent="space-between" container item>
         {Object.entries(RATING_CONFIG).map(([key, value], index, array) => {
           const prevValue = index === 0 ? 0 : array[index - 1][1];
-          const range = `${prevValue} - ${value}`;
           return (
-            <Grid key={key} sx={{ backgroundColor: `${RATING_COLOR_MAP[key]}85` }} xs item>
-              <Typography align="center" sx={{ minWidth: 185, p: 1 }}>
-                {range} <b>{key}</b>
+            <Grid
+              key={key}
+              sx={{ backgroundColor: `${RATING_COLOR_MAP[key]}85` }}
+              direction="column"
+              container
+              xs
+              item>
+              <Typography align="center" sx={{ minWidth: 185, p: 1, paddingBottom: 0 }}>
+                <b>{key}</b>
+              </Typography>
+              <Typography
+                variant="body2"
+                align="center"
+                color="text.secondary"
+                sx={{ paddingBottom: 1 }}>
+                [{prevValue} - {value}]
               </Typography>
             </Grid>
           );
