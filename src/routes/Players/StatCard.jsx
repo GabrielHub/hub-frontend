@@ -60,12 +60,14 @@ export function StatCard(props) {
               </Typography>
               <Typography align="center" variant="h6">
                 <b>
-                  {adjustStatByFilter(
-                    stat.field,
-                    playerData.pace,
-                    playerData[stat.field],
-                    perGameFilter
-                  )}
+                  {Math.round(
+                    adjustStatByFilter(
+                      stat.field,
+                      playerData.pace,
+                      playerData[stat.field],
+                      perGameFilter
+                    ) * 10
+                  ) / 10}
                 </b>
               </Typography>
             </Grid>

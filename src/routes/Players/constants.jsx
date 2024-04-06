@@ -81,6 +81,10 @@ export const EfficiencyStatsColumns = [
 
 export const AdvancedStatsColumns = [
   {
+    field: 'bpm',
+    headerName: 'BPM'
+  },
+  {
     field: 'pace',
     headerName: 'PACE'
   },

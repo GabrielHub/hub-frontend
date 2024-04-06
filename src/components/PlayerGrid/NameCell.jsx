@@ -9,8 +9,8 @@ export function NameCell(props) {
 
   const positionDetails = Object.entries(positions)
     .sort(([, gamesA], [, gamesB]) => gamesB - gamesA)
-    .map(([position, games], index) => (
-      <Typography key={`${index - position}`} variant="body1">
+    .map(([position, games]) => (
+      <Typography key={position} variant="body1">
         {`${POSITION_READABLE[position] || position}: ${games} games`}
       </Typography>
     ));

@@ -46,7 +46,7 @@ export function Similarity() {
               Object.prototype.hasOwnProperty.call(selectedPlayerData.positions, pos)
             )
             .map((pos) => ({
-              value: pos,
+              value: parseInt(pos, 10),
               label: POSITION_READABLE[pos]
             }))
         : [],
@@ -164,11 +164,11 @@ export function Similarity() {
       <Grid item xs>
         <FormControl fullWidth>
           <Select value={position} onChange={(e) => setPosition(e.target.value)}>
-            <option value={0}>All</option>
+            <MenuItem value={0}>All</MenuItem>
             {POSITION_OPTIONS.map((pos) => (
-              <option value={pos.value} key={pos.value}>
+              <MenuItem value={pos.value} key={pos.value}>
                 {pos.label}
-              </option>
+              </MenuItem>
             ))}
           </Select>
           <FormHelperText id="position-filter-helper-text" align="center">

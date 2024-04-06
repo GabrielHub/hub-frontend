@@ -268,6 +268,15 @@ export const OVERALL_PLAYERS_COLUMNS = [
     flex: 1
   },
   {
+    field: 'bpm',
+    headerName: 'BPM',
+    description:
+      'BREAD Plus Minus is an in house box score plus minus that is adjusted for points per possession + stops per possession',
+    valueFormatter: ({ value }) => Math.round(value),
+    type: 'number',
+    flex: 1
+  },
+  {
     field: 'plusMinus',
     headerName: '+/-',
     description: 'Net Rating',
@@ -305,5 +314,6 @@ export const VISIBILITY_MODEL = {
   threepa: false,
   ftm: false,
   fta: false,
-  astToRatio: false
+  astToRatio: false,
+  plusMinus: false
 };

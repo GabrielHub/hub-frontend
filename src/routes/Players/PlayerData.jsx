@@ -10,7 +10,8 @@ import {
   FormControlLabel,
   FormHelperText,
   Switch,
-  Divider
+  Divider,
+  MenuItem
 } from '@mui/material';
 import {
   lime,
@@ -102,16 +103,16 @@ export function PlayerData() {
   }, [getTableRows]);
 
   useEffect(() => {
-    if (playerData?.positions && !positionOptions) {
+    if (playerData?.positions) {
       const options = Object.keys(POSITION_READABLE)
         .filter((pos) => Object.prototype.hasOwnProperty.call(playerData.positions, pos))
         .map((pos) => ({
-          value: pos,
+          value: parseInt(pos, 10),
           label: POSITION_READABLE[pos]
         }));
       setPositionOptions(options);
     }
-  }, [playerData, positionOptions]);
+  }, [playerData]);
 
   return (
     <div style={{ backgroundColor: `${RATING_COLOR_MAP[playerData?.ratingString]}10` }}>
@@ -307,12 +308,15 @@ export function PlayerData() {
               <Grid xs container item>
                 <Grid xs={12} sm={6} item>
                   <FormControl fullWidth>
-                    <Select value={position} onChange={(e) => setPosition(e.target.value)}>
-                      <option value={0}>All</option>
+                    <Select
+                      value={position}
+                      onChange={(e) => setPosition(e.target.value)}
+                      fullWidth>
+                      <MenuItem value={0}>All</MenuItem>
                       {positionOptions.map((pos) => (
-                        <option value={pos.value} key={`${pos} ${pos?.value}`}>
+                        <MenuItem value={pos.value} key={`${pos} ${pos?.value}`}>
                           {pos.label}
-                        </option>
+                        </MenuItem>
                       ))}
                     </Select>
                     <FormHelperText id="position-filter-helper-text" align="center">
