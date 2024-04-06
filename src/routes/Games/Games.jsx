@@ -21,7 +21,7 @@ export function Games() {
 
   const [gameData, setGameData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [isModified, setIsModified] = useState(false); // New state variable
+  const [isModified, setIsModified] = useState(false);
 
   const getGameData = useCallback(async () => {
     setIsLoading(true);
@@ -49,7 +49,7 @@ export function Games() {
       }
 
       if (type === FIELD_TYPES.number) {
-        validatedData[field] = Number(validatedData[field]);
+        validatedData[field] = parseInt(validatedData[field], 10);
         if (Number.isNaN(validatedData[field])) {
           isValid = false;
         }
