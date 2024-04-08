@@ -129,6 +129,7 @@ export function AwardCarousel() {
                   </Avatar>
                 }
                 title="BEST 2 WAY"
+                subheader={`${awards?.bestTwoWay?.name}`}
               />
             </Card>
             <Card sx={{ margin: '10px', minHeight: '25px' }}>

@@ -29,7 +29,7 @@ export function DraftHeader(props) {
               <Card sx={{ marginBottom: 4 }}>
                 <CardHeader
                   title="Lineup Selector"
-                  subheader="This tool will help you analyze the best draft picks for your team."
+                  subheader="Compare players by position, side by side, or project teams based on draftable pool"
                 />
                 <CardContent>
                   <Typography variant="body1" gutterBottom>

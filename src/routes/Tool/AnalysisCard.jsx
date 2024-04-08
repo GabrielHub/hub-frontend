@@ -10,7 +10,8 @@ import {
   Collapse,
   IconButton,
   Button,
-  Box
+  Box,
+  Tooltip
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { RATING_COLOR_MAP } from 'constants';
@@ -40,7 +41,7 @@ function TeamCard(props) {
     <Card sx={{ width: '100%' }}>
       <CardHeader title={title} />
       <CardContent>
-        <Grid container>
+        <Grid alignItems="stretch" container>
           {Object.keys(totals).map((key) => (
             <Grid xs item key={key}>
               <Box sx={{ padding: '0 20%' }}>
@@ -109,9 +110,11 @@ function TeamCard(props) {
               }}
               container>
               <Grid xs={12} item>
-                <Typography variant="h6" align="center" gutterBottom>
-                  {player.name}
-                </Typography>
+                <Tooltip title={`${player.estPoss} est. possessions`} placement="top">
+                  <Typography variant="h6" align="center" gutterBottom>
+                    {player.name}
+                  </Typography>
+                </Tooltip>
               </Grid>
               <Grid xs item>
                 <Typography align="center" variant="body2" color="text.secondary" gutterBottom>
@@ -155,23 +158,35 @@ function TeamCard(props) {
               </Grid>
               <Grid xs item>
                 <Typography align="center" variant="body2" color="text.secondary" gutterBottom>
-                  FG%
+                  TOV
                 </Typography>
                 <Typography align="center" variant="body1">
-                  <b>
-                    {player.estFGM}/{player.estFGA}
-                  </b>
+                  <b>{player.estTurnovers}</b>
                 </Typography>
               </Grid>
               <Grid xs item>
-                <Typography align="center" variant="body2" color="text.secondary" gutterBottom>
-                  3P%
-                </Typography>
-                <Typography align="center" variant="body1">
-                  <b>
-                    {player.est3PM}/{player.est3PA}
-                  </b>
-                </Typography>
+                <Tooltip title={`${player.estFGPerc}%`} placement="top">
+                  <Typography align="center" variant="body2" color="text.secondary" gutterBottom>
+                    FG%
+                  </Typography>
+                  <Typography align="center" variant="body1">
+                    <b>
+                      {player.estFGM}/{player.estFGA}
+                    </b>
+                  </Typography>
+                </Tooltip>
+              </Grid>
+              <Grid xs item>
+                <Tooltip title={`${player.est3Perc}%`} placement="top">
+                  <Typography align="center" variant="body2" color="text.secondary" gutterBottom>
+                    3P%
+                  </Typography>
+                  <Typography align="center" variant="body1">
+                    <b>
+                      {player.est3PM}/{player.est3PA}
+                    </b>
+                  </Typography>
+                </Tooltip>
               </Grid>
             </Grid>
           ))}
@@ -332,14 +347,14 @@ export function TeamAnalysis(props) {
             o3Perc = player?.threePerc || 0;
           }
           if (player) {
-            const est2Perc = player.twoPerc + (player.twoPerc - o2Perc) / 2;
-            const est3Perc = player.threePerc + (player.threePerc - o3Perc) / 2;
+            const est2Perc = player.twoPerc + (player.twoPerc - o2Perc) / (o2Perc ? 2 : 1);
+            const est3Perc = player.threePerc + (player.threePerc - o3Perc) / (o3Perc ? 2 : 1);
 
-            const twopaAdj = player.twopa * (teamPace / player.pace);
-            const threepamAdj = player.threepa * (teamPace / player.pace);
-            const estTwopm = Math.min(twopaAdj, twopaAdj * (est2Perc / 100));
-            const estThreepm = Math.min(threepamAdj, threepamAdj * (est3Perc / 100));
-            const estFtm = player.ftm * (teamPace / player.pace);
+            const twopaAdj = Math.round(player.twopa * (teamPace / player.pace));
+            const threepamAdj = Math.round(player.threepa * (teamPace / player.pace));
+            const estTwopm = Math.round(Math.min(twopaAdj, twopaAdj * (est2Perc / 100)));
+            const estThreepm = Math.round(Math.min(threepamAdj, threepamAdj * (est3Perc / 100)));
+            const estFtm = Math.round(player.ftm * (teamPace / player.pace));
             const estPts = Math.round(estTwopm * 2 + estThreepm * 3 + estFtm * 0.44);
             const estFGPerc =
               Math.round(((estTwopm + estThreepm) / (twopaAdj + threepamAdj)) * 1000) / 10;
@@ -368,8 +383,8 @@ export function TeamAnalysis(props) {
               est3Perc: Math.round((estThreepm / threepamAdj) * 1000) / 10,
               estFGA,
               estFGM,
-              est3PA: Math.round(threepamAdj),
-              est3PM: Math.round(estThreepm)
+              est3PA: threepamAdj,
+              est3PM: estThreepm
             };
           }
           return null;

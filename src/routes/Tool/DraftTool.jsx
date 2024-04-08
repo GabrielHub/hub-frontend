@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TransitionGroup } from 'react-transition-group';
-import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { DndContext } from '@dnd-kit/core';
 import { useSnackbar } from 'notistack';
 import { Grid, Typography, Collapse } from '@mui/material';
 import { fetchPlayerDataByPosition } from 'rest';
@@ -12,12 +12,7 @@ import { TeamAnalysis } from './AnalysisCard';
 
 export function DraftTool() {
   const { enqueueSnackbar } = useSnackbar();
-  const pointerSensor = useSensor(PointerSensor, {
-    activationConstraint: {
-      start: { delay: 2, tolerance: 1 }
-    }
-  });
-  const sensors = useSensors(pointerSensor);
+
   const [isLoading, setIsLoading] = useState(false);
   const [draftPool, setDraftPool] = useState([]);
   const [teams, setTeams] = useState([
@@ -231,11 +226,7 @@ export function DraftTool() {
   };
 
   return (
-    <DndContext
-      sensors={sensors}
-      collisionDetection={closestCenter}
-      onDragEnd={handleDragEnd}
-      onDragStart={handleDragStart}>
+    <DndContext onDragEnd={handleDragEnd} onDragStart={handleDragStart}>
       <Grid sx={{ maxWidth: 1440, margin: 'auto' }} container>
         <Loading isLoading={isLoading} />
         <DraftHeader handleAddToDraftPool={handleAddToDraftPool} />

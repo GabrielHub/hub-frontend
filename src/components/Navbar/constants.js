@@ -8,6 +8,10 @@ export const navConfig = [
     path: '/players'
   },
   {
+    title: 'TOOL',
+    path: '/tool'
+  },
+  {
     title: 'ANALYSIS',
     path: '/analysis',
     children: [
@@ -26,10 +30,6 @@ export const navConfig = [
       {
         title: 'AWARDS',
         path: '/analysis/awards'
-      },
-      {
-        title: 'DRAFT TOOL',
-        path: '/analysis/draft'
       }
     ]
   },

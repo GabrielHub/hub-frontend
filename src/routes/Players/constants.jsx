@@ -156,11 +156,11 @@ export const BREADStatsColumns = [
   },
   {
     field: 'estPointsPer100',
-    headerName: 'PTS Over Replacement'
+    headerName: 'BREAD Offensive'
   },
   {
     field: 'stopsPer100',
-    headerName: 'Stops Per 100'
+    headerName: 'BREAD Defensive'
   },
   {
     field: 'pProd',
