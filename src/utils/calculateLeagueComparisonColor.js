@@ -87,6 +87,11 @@ const STAT_WEIGHTS = {
     smallDifference: 0.1,
     largeDifference: 1.3,
     threshold: 0.2
+  },
+  bpm: {
+    smallDifference: 5,
+    largeDifference: 100,
+    threshold: 10
   }
 };
 
