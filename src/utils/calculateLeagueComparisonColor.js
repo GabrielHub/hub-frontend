@@ -5,7 +5,7 @@ import { STAT_PER_TYPES } from '../constants';
 const ALPHA = 65;
 
 // * These stats should flip the color. Less is green, and more is red
-const STATS_TO_REVERSE = ['tov', 'pf', 'tovPerc', 'drtg'];
+const STATS_TO_REVERSE = ['tov', 'pf', 'tovPerc', 'drtg', 'oFGPerc', 'o3PPerc', 'oEFGPerc'];
 // * Unique weights for stats that don't follow the normal pattern
 const STAT_WEIGHTS = {
   pace: {
@@ -92,12 +92,22 @@ const STAT_WEIGHTS = {
     smallDifference: 5,
     largeDifference: 100,
     threshold: 10
+  },
+  estPointsPer100: {
+    smallDifference: 5,
+    largeDifference: 15,
+    threshold: 5
+  },
+  stopsPer100: {
+    smallDifference: 1,
+    largeDifference: 5,
+    threshold: 1
+  },
+  pProd: {
+    smallDifference: 2,
+    largeDifference: 15,
+    threshold: 1
   }
-};
-
-// * These stats are labeled differently in leagueData
-export const INCORRECT_STAT_MAPPING = {
-  threePerc: 'threepPerc'
 };
 
 export const calculateLeagueComparisonColor = (

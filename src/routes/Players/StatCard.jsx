@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Typography, Card, CardHeader, CardContent } from '@mui/material';
-import { adjustStatByFilter, calculateLeagueComparisonColor, INCORRECT_STAT_MAPPING } from 'utils';
+import { adjustStatByFilter, calculateLeagueComparisonColor } from 'utils';
 
 export function StatCard(props) {
   const {
@@ -19,13 +19,10 @@ export function StatCard(props) {
   const getBackgroundColor = useCallback(
     (stat) => {
       if (!showLeagueComparisons) return 'white';
-      // * Fix broken league stat name
-      const adjustedStatName =
-        stat.field in INCORRECT_STAT_MAPPING ? INCORRECT_STAT_MAPPING[stat.field] : stat.field;
       const adjustedColor = calculateLeagueComparisonColor(
         stat.field,
         playerData?.[stat.field],
-        leagueData?.[adjustedStatName],
+        leagueData?.[stat.field],
         playerData?.pace,
         perGameFilter
       );

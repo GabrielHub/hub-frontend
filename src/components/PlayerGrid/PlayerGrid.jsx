@@ -5,7 +5,7 @@ import { Grid, Button } from '@mui/material';
 import { DataGrid, GridPagination } from '@mui/x-data-grid';
 import { fetchTableData, fetchLeagueAverages } from 'rest';
 import { TableFooterModal } from 'components/Modal';
-import { calculateLeagueComparisonColor, INCORRECT_STAT_MAPPING } from 'utils';
+import { calculateLeagueComparisonColor } from 'utils';
 import { STAT_PER_TYPES } from 'constants';
 import { StatAdjustDropdown } from 'components/StatAdjustDropdown';
 import { CustomGridCell } from 'components/CustomGridCell';
@@ -106,13 +106,10 @@ export function PlayerGrid(props) {
   const getBackgroundColor = useCallback(
     (stat) => {
       if (!showComparison || !comparisonData) return 'white';
-      // * Fix broken league stat name
-      const adjustedStatName =
-        stat.field in INCORRECT_STAT_MAPPING ? INCORRECT_STAT_MAPPING[stat.field] : stat.field;
       const adjustedColor = calculateLeagueComparisonColor(
         stat.field,
         stat.value,
-        comparisonData?.[adjustedStatName],
+        comparisonData?.[stat.field],
         rows?.pace,
         dropdownValue,
         true

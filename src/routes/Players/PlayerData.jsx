@@ -12,7 +12,9 @@ import {
   Switch,
   Divider,
   MenuItem,
-  IconButton
+  IconButton,
+  Rating,
+  Tooltip
 } from '@mui/material';
 import {
   lime,
@@ -169,9 +171,13 @@ export function PlayerData() {
                 direction="column"
                 container
                 item>
-                <Typography variant="h2" align="center">
-                  <b>{playerData.name.toUpperCase()}</b>
-                </Typography>
+                <Tooltip
+                  title={`Rating: ${Math.round(playerData.rating * 10) / 10}`}
+                  placement="bottom">
+                  <Typography variant={isMobile() ? 'h4' : 'h2'} align="center">
+                    <b>{playerData.name.toUpperCase()}</b>
+                  </Typography>
+                </Tooltip>
                 {playerData?.positions && !filterByLock && (
                   <Typography align="center" variant="body2">
                     {playerData?.ratingString} |{' '}
@@ -188,6 +194,8 @@ export function PlayerData() {
                     {playerData?.ratingString} | Guarding PG
                   </Typography>
                 )}
+
+                <Rating value={playerData.rating} max={10} precision={0.1} readOnly />
               </Grid>
             </Grid>
             <Grid xs={12} sm={6} justifyContent="center" container item>
@@ -231,15 +239,6 @@ export function PlayerData() {
                     <b>
                       {adjustStatByFilter('ast', playerData.pace, playerData.ast, perGameFilter)}
                     </b>
-                  </Typography>
-                </Grid>
-                <Divider orientation="vertical" flexItem sx={{ bgcolor: 'white', my: 1 }} />
-                <Grid xs item>
-                  <Typography align="center" variant="body1">
-                    <b>Rating</b>
-                  </Typography>
-                  <Typography align="center" variant="body1">
-                    <b>{Math.round(playerData.rating * 10) / 10}</b>
                   </Typography>
                 </Grid>
               </Grid>
@@ -555,7 +554,7 @@ export function PlayerData() {
             />
           </Grid>
 
-          <Grid xs={12} xl={6} sx={{ p: 4 }} item>
+          <Grid xs={12} sx={{ p: 4 }} item>
             <StatCard
               playerData={playerData}
               leagueData={leagueData}
@@ -565,7 +564,7 @@ export function PlayerData() {
               color={RATING_COLOR_MAP[playerData?.ratingString]}
               perGameFilter={perGameFilter}
               icon={
-                <IconButton onClick={handleOpen} variant="">
+                <IconButton onClick={handleOpen} sx={{ border: '1px solid white' }}>
                   <BreakfastDiningIcon sx={{ color: 'white' }} />
                 </IconButton>
               }

@@ -25,7 +25,7 @@ export const OVERALL_PLAYERS_COLUMNS = [
     type: 'number',
     width: 150,
     renderCell: (params) => {
-      const rating = `${round(params.value, 2)} (${params.row.ratingString})`;
+      const rating = `${round(params.value, 1)} (${params.row.ratingString})`;
       return <RatingCell rating={rating} ratingMovement={params.row.ratingMovement} />;
     }
   },
@@ -268,6 +268,32 @@ export const OVERALL_PLAYERS_COLUMNS = [
     flex: 1
   },
   {
+    field: 'estPointsPer100',
+    headerName: 'B-PTS',
+    description:
+      'BREAD Offensive Rating: Points generated per 100 (from ast and fgm, minus tov and missed fg)',
+    valueFormatter: ({ value }) => Math.round(value),
+    type: 'number',
+    flex: 1
+  },
+  {
+    field: 'stopsPer100',
+    headerName: 'B-STOPS',
+    description:
+      'BREAD Defensive Rating: Stops generated per 100 (from dreb, blk, stl, and forced tov)',
+    valueFormatter: ({ value }) => Math.round(value),
+    type: 'number',
+    flex: 1
+  },
+  {
+    field: 'pProd',
+    headerName: 'PProd',
+    description: 'BREAD Points Produced: Points + Points from assists',
+    valueFormatter: ({ value }) => Math.round(value),
+    type: 'number',
+    flex: 1
+  },
+  {
     field: 'bpm',
     headerName: 'BPM',
     description:
@@ -315,5 +341,8 @@ export const VISIBILITY_MODEL = {
   ftm: false,
   fta: false,
   astToRatio: false,
-  plusMinus: false
+  plusMinus: false,
+  estPointsPer100: false,
+  stopsPer100: false,
+  pProd: false
 };

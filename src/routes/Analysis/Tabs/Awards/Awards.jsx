@@ -249,7 +249,7 @@ export function Awards() {
           color={green[600]}
           leagueAverages={[
             `${Math.round((leagueData?.efgPerc || 0) * 10) / 10} eFG%`,
-            `${Math.round((leagueData?.threepPerc || 0) * 10) / 10} 3P%`,
+            `${Math.round((leagueData?.threePerc || 0) * 10) / 10} 3P%`,
             `${Math.round((leagueData?.threepAR || 0) * 10) / 10}% 3Par`,
             `${Math.round((leagueData?.fga || 0) * 10) / 10} FGA`,
             `${Math.round((leagueData?.threepa || 0) * 10) / 10} 3PA`

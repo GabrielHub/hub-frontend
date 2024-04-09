@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { DataGrid } from '@mui/x-data-grid';
-import { calculateLeagueComparisonColor, INCORRECT_STAT_MAPPING } from 'utils';
+import { calculateLeagueComparisonColor } from 'utils';
 import { CustomGridCell } from 'components/CustomGridCell';
 
 export function GameGrid(props) {
@@ -12,13 +12,11 @@ export function GameGrid(props) {
   const getBackgroundColor = useCallback(
     (stat) => {
       if (!showComparison || !leagueData) return 'white';
-      // * Fix broken league stat name
-      const adjustedStatName =
-        stat.field in INCORRECT_STAT_MAPPING ? INCORRECT_STAT_MAPPING[stat.field] : stat.field;
+
       const adjustedColor = calculateLeagueComparisonColor(
         stat.field,
         stat.value,
-        leagueData[adjustedStatName]
+        leagueData[stat.field]
       );
       if (!adjustedColor) return 'white';
       return adjustedColor;
