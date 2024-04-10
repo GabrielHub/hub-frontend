@@ -241,6 +241,15 @@ export function PlayerData() {
                     </b>
                   </Typography>
                 </Grid>
+                <Divider orientation="vertical" flexItem sx={{ bgcolor: 'white', my: 1 }} />
+                <Grid xs item>
+                  <Typography align="center" variant="body1">
+                    GRADE
+                  </Typography>
+                  <Typography align="center" variant="body1">
+                    <b>{playerData.grd}</b>
+                  </Typography>
+                </Grid>
               </Grid>
               <Grid
                 xs={12}

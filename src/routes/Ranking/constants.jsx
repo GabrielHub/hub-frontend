@@ -30,6 +30,12 @@ export const OVERALL_PLAYERS_COLUMNS = [
     }
   },
   {
+    field: 'grd',
+    headerName: 'GRADE',
+    description: 'Teammate Grade, as defined by 2K',
+    flex: 1
+  },
+  {
     field: 'gp',
     headerName: 'GP',
     description:
@@ -344,5 +350,6 @@ export const VISIBILITY_MODEL = {
   plusMinus: false,
   estPointsPer100: false,
   stopsPer100: false,
-  pProd: false
+  pProd: false,
+  grd: false
 };
