@@ -347,13 +347,19 @@ export function TeamAnalysis(props) {
             o3Perc = player?.threePerc || 0;
           }
           if (player) {
-            const est2Perc = player.twoPerc + (player.twoPerc - o2Perc) / (o2Perc ? 2 : 1);
-            const est3Perc = player.threePerc + (player.threePerc - o3Perc) / (o3Perc ? 2 : 1);
+            const est2Perc = (player.twoPerc + o2Perc) / (o2Perc ? 2 : 1);
+            const est3Perc = (player.threePerc + o3Perc) / (o2Perc ? 2 : 1);
 
             const twopaAdj = Math.round(player.twopa * (teamPace / player.pace));
             const threepamAdj = Math.round(player.threepa * (teamPace / player.pace));
-            const estTwopm = Math.round(Math.min(twopaAdj, twopaAdj * (est2Perc / 100)));
-            const estThreepm = Math.round(Math.min(threepamAdj, threepamAdj * (est3Perc / 100)));
+            let estTwopm = Math.round(twopaAdj * (est2Perc / 100));
+            if (estTwopm > twopaAdj) {
+              estTwopm = twopaAdj;
+            }
+            let estThreepm = Math.round(threepamAdj * (est3Perc / 100));
+            if (estThreepm > threepamAdj) {
+              estThreepm = threepamAdj;
+            }
             const estFtm = Math.round(player.ftm * (teamPace / player.pace));
             const estPts = Math.round(estTwopm * 2 + estThreepm * 3 + estFtm * 0.44);
             const estFGPerc =
