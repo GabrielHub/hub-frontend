@@ -5,7 +5,19 @@ import { STAT_PER_TYPES } from '../constants';
 const ALPHA = 65;
 
 // * These stats should flip the color. Less is green, and more is red
-const STATS_TO_REVERSE = ['tov', 'pf', 'tovPerc', 'drtg', 'oFGPerc', 'o3PPerc', 'oEFGPerc'];
+const STATS_TO_REVERSE = [
+  'tov',
+  'pf',
+  'tovPerc',
+  'drtg',
+  'oFGPerc',
+  'o3PPerc',
+  'oEFGPerc',
+  'oFGM',
+  'oFGA',
+  'o3PM',
+  'o3PA'
+];
 // * Unique weights for stats that don't follow the normal pattern
 const STAT_WEIGHTS = {
   pace: {
