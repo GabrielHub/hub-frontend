@@ -69,18 +69,23 @@ export function Root() {
               Better Ratings, Estimates, Adjustments, and Data
             </Typography>
           </Grid>
-
-          <Typography variant="h6" align="center" sx={{ color: 'black' }} gutterBottom>
-            Capture data from 2K Pro-Am games, and use BREAD statistics to improve your game.
-          </Typography>
-          <Typography variant="h6" align="center" sx={{ color: 'black' }}>
-            A dashboard to effortlessly browse through a wealth of statistics, organized in a sleek
-            and visually captivating format.
-          </Typography>
-          <Typography variant="h6" align="center" sx={{ color: 'black' }} gutterBottom>
-            Use performance metrics, advanced analytics, and player data to unlock insights and
-            trends.
-          </Typography>
+          <Grid item xs={12} container justifyContent="center">
+            <Typography variant="h6" align="center" sx={{ color: 'black' }} gutterBottom>
+              Capture data from 2K Pro-Am games, and use BREAD statistics to improve your game.
+            </Typography>
+          </Grid>
+          <Grid item xs={12} container justifyContent="center">
+            <Typography variant="h6" align="center" sx={{ color: 'black' }}>
+              A dashboard to effortlessly browse through a wealth of statistics, organized in a
+              sleek and visually captivating format.
+            </Typography>
+          </Grid>
+          <Grid item xs={12} container justifyContent="center">
+            <Typography variant="h6" align="center" sx={{ color: 'black' }} gutterBottom>
+              Use performance metrics, advanced analytics, and player data to unlock insights and
+              trends.
+            </Typography>
+          </Grid>
         </Grid>
       </Grid>
 

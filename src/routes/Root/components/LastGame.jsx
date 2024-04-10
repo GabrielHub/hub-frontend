@@ -15,7 +15,7 @@ import {
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
 import { POSITION_READABLE, RATING_COLOR_MAP, RATING_CONFIG } from 'constants';
-import { isMobile } from 'utils';
+import { calculateRating, isMobile } from 'utils';
 
 const VALID_GRADES = ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F'];
 
@@ -44,16 +44,7 @@ export function LastGames() {
   const getColor = (PER) => {
     // * Convert PER to rating. a 15 PER is a 5 rating, a 0 PER is a 0 rating, and a 35+ per is a 10 rating.
     // * Use those rating values to figure out the color mapping
-    let rating = 0;
-    if (PER < 0) {
-      rating = 0;
-    } else if (PER < 15) {
-      rating = 3 + (PER / 15) * 2.4;
-    } else if (PER < 35) {
-      rating = 5.4 + ((PER - 15) / 20) * 1.6;
-    } else {
-      rating = 7;
-    }
+    const rating = calculateRating(PER);
     let color = 'white';
     if (rating >= RATING_CONFIG.Superstar) {
       color = RATING_COLOR_MAP.Superstar;
