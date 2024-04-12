@@ -4,6 +4,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { PlayerGrid } from 'components/PlayerGrid';
 import { RATING_CONFIG, RATING_COLOR_MAP } from 'constants';
 import {
+  NBA_EXAMPLES,
   OVERALL_PLAYERS_COLUMNS,
   OVERALL_PLAYERS_DEFAULT_SORTS,
   VISIBILITY_MODEL
@@ -52,7 +53,10 @@ export function Ranking() {
               container
               xs
               item>
-              <Typography align="center" sx={{ minWidth: 185, p: 1, paddingBottom: 0 }}>
+              <Typography
+                variant="h6"
+                align="center"
+                sx={{ minWidth: 185, p: 1, paddingBottom: 0 }}>
                 <b>{key}</b>
               </Typography>
               <Typography
@@ -72,6 +76,49 @@ export function Ranking() {
         defaultSortType={OVERALL_PLAYERS_DEFAULT_SORTS.type}
         visibilityModel={VISIBILITY_MODEL}
       />
+      <Grid xs={12} sx={{ p: 2 }} item>
+        <Typography variant="h5" color="text.primary" align="center">
+          Examples of relative NBA player ratings (2023-24 Season)
+        </Typography>
+        <Typography variant="body1" color="text.secondary" align="center">
+          *There are no qualifying NBA Players rated in the G-League
+        </Typography>
+      </Grid>
+      <Grid xs={12} sx={{ p: 2 }} justifyContent="space-between" container item>
+        {Object.entries(RATING_CONFIG).map(([key]) => {
+          return (
+            <Grid
+              key={key}
+              sx={{ backgroundColor: `${RATING_COLOR_MAP[key]}85` }}
+              direction="column"
+              container
+              xs
+              item>
+              <Typography variant="h6" align="center" sx={{ minWidth: 185, p: 1 }}>
+                <b>{key}</b>
+              </Typography>
+              {NBA_EXAMPLES[key].map((player) => (
+                <div key={player.name}>
+                  <Typography
+                    variant="body1"
+                    align="center"
+                    color="text.secondary"
+                    sx={{ paddingBottom: 1 }}>
+                    <b>{player.name}</b>
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    align="center"
+                    color="text.secondary"
+                    sx={{ paddingBottom: 1 }}>
+                    <b>[{player.rating}]</b> | {player.PER} PER
+                  </Typography>
+                </div>
+              ))}
+            </Grid>
+          );
+        })}
+      </Grid>
     </Grid>
   );
 }

@@ -1,5 +1,93 @@
 import { round } from 'lodash';
 import { GamesPlayedCell, NameCell, RatingCell } from 'components/PlayerGrid';
+import { calculateRating } from 'utils';
+
+export const NBA_EXAMPLES = {
+  GLeague: [
+    {
+      name: 'Thanasas Antetokounmpo*',
+      PER: 4.1,
+      rating: Math.round(calculateRating(4.1) * 10) / 10
+    },
+    {
+      name: 'Robin Lopez*',
+      PER: 6.6,
+      rating: Math.round(calculateRating(6.6) * 10) / 10
+    }
+  ],
+  Bench: [
+    {
+      name: 'Scoot Henderson',
+      PER: 9.2,
+      rating: Math.round(calculateRating(9.2) * 10) / 10
+    },
+    {
+      name: 'Jordan Poole',
+      PER: 12.1,
+      rating: Math.round(calculateRating(12.1) * 10) / 10
+    }
+  ],
+  Rotation: [
+    {
+      name: 'Herbet Jones',
+      PER: 13.1,
+      rating: Math.round(calculateRating(13.1) * 10) / 10
+    },
+    {
+      name: 'Jalen Green',
+      PER: 14.7,
+      rating: Math.round(calculateRating(14.7) * 10) / 10
+    }
+  ],
+  Starter: [
+    {
+      name: 'Mikal Bridges',
+      PER: 15,
+      rating: Math.round(calculateRating(15) * 10) / 10
+    },
+    {
+      name: `D'Angelo Russell`,
+      PER: 16.2,
+      rating: Math.round(calculateRating(16.2) * 10) / 10
+    }
+  ],
+  SecondOption: [
+    {
+      name: 'Tobias Harris',
+      PER: 16.4,
+      rating: Math.round(calculateRating(16.4) * 10) / 10
+    },
+    {
+      name: 'Paul George',
+      PER: 19.3,
+      rating: Math.round(calculateRating(19.3) * 10) / 10
+    }
+  ],
+  AllStar: [
+    {
+      name: 'Jimmy Butler',
+      PER: 21.8,
+      rating: Math.round(calculateRating(21.8) * 10) / 10
+    },
+    {
+      name: 'Lebron James',
+      PER: 23.4,
+      rating: Math.round(calculateRating(23.4) * 10) / 10
+    }
+  ],
+  Superstar: [
+    {
+      name: 'Luka Dončić',
+      PER: 28.1,
+      rating: Math.round(calculateRating(28.1) * 10) / 10
+    },
+    {
+      name: 'Nikola Jokić',
+      PER: 31.1,
+      rating: Math.round(calculateRating(31.1) * 10) / 10
+    }
+  ]
+};
 
 export const OVERALL_PLAYERS_COLUMNS = [
   {
