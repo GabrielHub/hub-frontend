@@ -10,9 +10,9 @@ export const NBA_EXAMPLES = {
       rating: Math.round(calculateRating(2.6) * 10) / 10
     },
     {
-      name: 'JT Thor*',
-      PER: 8.2,
-      rating: Math.round(calculateRating(6.6) * 10) / 10
+      name: 'Ish Smith*',
+      PER: 6.8,
+      rating: Math.round(calculateRating(6.8) * 10) / 10
     }
   ],
   Bench: [
