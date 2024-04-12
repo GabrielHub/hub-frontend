@@ -13,6 +13,7 @@ export const OVERALL_PLAYERS_COLUMNS = [
           rank={params.row.rank}
           playerId={params.id}
           positions={params.row.positions}
+          rating={params.row.ratingString}
         />
       );
     },

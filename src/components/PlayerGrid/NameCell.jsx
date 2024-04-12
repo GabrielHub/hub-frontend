@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Typography, Grid, Tooltip } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { POSITION_READABLE } from 'constants';
+import { POSITION_READABLE, RATING_COLOR_MAP } from 'constants';
 
 export function NameCell(props) {
-  const { name, rank, playerId, positions } = props;
+  const { name, rank, playerId, positions, rating } = props;
 
   const positionDetails = Object.entries(positions)
     .sort(([, gamesA], [, gamesB]) => gamesB - gamesA)
@@ -20,7 +20,12 @@ export function NameCell(props) {
       <Grid xs item>
         <Tooltip title={positionDetails} sx={{ typography: 'body1' }} enterTouchDelay={0}>
           <Link to={`/players/${playerId}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-            <Typography variant="body2">{`${rank}. ${name}`}</Typography>
+            <Typography
+              variant="body2"
+              sx={{
+                borderLeft: `2px solid ${RATING_COLOR_MAP?.[rating]}`,
+                paddingLeft: 1
+              }}>{`${rank}. ${name}`}</Typography>
           </Link>
         </Tooltip>
       </Grid>
@@ -32,7 +37,8 @@ NameCell.propTypes = {
   name: PropTypes.string.isRequired,
   rank: PropTypes.number.isRequired,
   playerId: PropTypes.string.isRequired,
-  positions: PropTypes.objectOf(PropTypes.number).isRequired
+  positions: PropTypes.objectOf(PropTypes.number).isRequired,
+  rating: PropTypes.string.isRequired
 };
 
 export default {};
