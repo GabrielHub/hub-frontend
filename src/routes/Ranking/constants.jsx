@@ -5,13 +5,13 @@ import { calculateRating } from 'utils';
 export const NBA_EXAMPLES = {
   GLeague: [
     {
-      name: 'Thanasas Antetokounmpo*',
-      PER: 4.1,
-      rating: Math.round(calculateRating(4.1) * 10) / 10
+      name: 'Wenyan Gabriel*',
+      PER: 2.6,
+      rating: Math.round(calculateRating(2.6) * 10) / 10
     },
     {
-      name: 'Robin Lopez*',
-      PER: 6.6,
+      name: 'JT Thor*',
+      PER: 8.2,
       rating: Math.round(calculateRating(6.6) * 10) / 10
     }
   ],
