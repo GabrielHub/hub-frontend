@@ -1,4 +1,5 @@
 import { STAT_PER_TYPES } from '../constants';
+import { round } from './round';
 
 const statsToAdjust = [
   'pts',
@@ -53,14 +54,14 @@ export const adjustDataByFilter = (data, filter) => {
 };
 
 export const adjustStatByFilter = (stat, pace, value, filter) => {
-  if (!statsToAdjust.includes(stat)) return value;
+  if (!statsToAdjust.includes(stat)) return round(value);
   if (filter === STAT_PER_TYPES.PER_36) {
     return Math.round((value / playerMinutes) * 36 * 10) / 10;
   }
   if (filter === STAT_PER_TYPES.PER_100) {
     return Math.round((value / pace) * 100 * 10) / 10;
   }
-  return value;
+  return round(value);
 };
 
 export default {};

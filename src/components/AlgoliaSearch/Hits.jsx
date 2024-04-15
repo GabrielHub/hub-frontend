@@ -2,7 +2,7 @@ import React from 'react';
 import { useHits } from 'react-instantsearch';
 import PropTypes from 'prop-types';
 import { Grid, Card, Typography } from '@mui/material';
-import { getReadablePositions } from 'utils';
+import { getReadablePositions, round } from 'utils';
 import { RATING_COLOR_MAP } from 'constants';
 
 function CustomCardHeader({ name, positions, showPositions }) {
@@ -30,17 +30,17 @@ function CustomSubHeader({ pts, reb, ast }) {
     <Grid container>
       <Grid item xs={12} sm={4}>
         <Typography component="span" variant="body2">
-          <b>{pts}</b> PTS
+          <b>{round(pts)}</b> PTS
         </Typography>
       </Grid>
       <Grid item xs={12} sm={4}>
         <Typography component="span" variant="body2">
-          <b>{reb}</b> REB
+          <b>{round(reb)}</b> REB
         </Typography>
       </Grid>
       <Grid item xs={12} sm={4}>
         <Typography component="span" variant="body2">
-          <b>{ast}</b> AST
+          <b>{round(ast)}</b> AST
         </Typography>
       </Grid>
     </Grid>

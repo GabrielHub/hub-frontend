@@ -1,6 +1,5 @@
-import { round } from 'lodash';
 import { GamesPlayedCell, NameCell, RatingCell } from 'components/PlayerGrid';
-import { calculateRating } from 'utils';
+import { calculateRating, round } from 'utils';
 
 export const NBA_EXAMPLES = {
   GLeague: [
@@ -97,11 +96,11 @@ export const OVERALL_PLAYERS_COLUMNS = [
     renderCell: (params) => {
       return (
         <NameCell
-          name={params.value}
-          rank={params.row.rank}
-          playerId={params.id}
-          positions={params.row.positions}
-          rating={params.row.ratingString}
+          name={params?.value}
+          rank={params.row?.rank}
+          playerId={params?.id}
+          positions={params.row?.positions}
+          rating={params.row?.ratingString}
         />
       );
     },
@@ -109,12 +108,14 @@ export const OVERALL_PLAYERS_COLUMNS = [
   },
   {
     field: 'rating',
+    sortable: false,
     headerAlign: 'left',
     headerName: 'Rating',
+    description: 'Player Rating, calculated from PER and limited to your last 82 games',
     type: 'number',
     width: 150,
     renderCell: (params) => {
-      const rating = `${round(params.value, 1)} (${params.row.ratingString})`;
+      const rating = `${round(params.value)} (${params.row.ratingString})`;
       return <RatingCell rating={rating} ratingMovement={params.row.ratingMovement} />;
     }
   },
@@ -141,7 +142,7 @@ export const OVERALL_PLAYERS_COLUMNS = [
     type: 'number',
     description:
       'Usage percentage is an estimate of the percentage of team plays used by a player while they were on the floor',
-    valueFormatter: ({ value }) => `${value}%`,
+    valueFormatter: ({ value }) => `${round(value)}%`,
     flex: 1
   },
   {
@@ -149,6 +150,7 @@ export const OVERALL_PLAYERS_COLUMNS = [
     headerName: 'Pace',
     type: 'number',
     description: 'Pace factor is an estimate of the number of possessions per 48 minutes by a team',
+    valueFormatter: ({ value }) => round(value),
     flex: 1
   },
   {
@@ -157,6 +159,7 @@ export const OVERALL_PLAYERS_COLUMNS = [
     type: 'number',
     description:
       'Player Efficiency Rating is the overall rating of a player`s per-minute statistical production',
+    valueFormatter: ({ value }) => round(value),
     flex: 1
   },
   {
@@ -165,6 +168,7 @@ export const OVERALL_PLAYERS_COLUMNS = [
     type: 'number',
     description:
       'Game Score is a rough measure of a player`s productivity for a single game, per game',
+    valueFormatter: ({ value }) => round(value),
     flex: 1
   },
   {
@@ -173,6 +177,7 @@ export const OVERALL_PLAYERS_COLUMNS = [
     type: 'number',
     description:
       'Offensive Rating is the points produced per 100 possessions or how many points is a player likely to generate when they try',
+    valueFormatter: ({ value }) => round(value),
     flex: 1
   },
   {
@@ -181,92 +186,106 @@ export const OVERALL_PLAYERS_COLUMNS = [
     type: 'number',
     description:
       'Defensive Rating is how many points a player allows on average over the course of 100 team possessions',
+    valueFormatter: ({ value }) => round(value),
     flex: 1
   },
   {
     field: 'pts',
     headerName: 'PTS',
     type: 'number',
+    valueFormatter: ({ value }) => round(value),
     flex: 1
   },
   {
     field: 'treb',
     headerName: 'REB',
     type: 'number',
+    valueFormatter: ({ value }) => round(value),
     flex: 1
   },
   {
     field: 'ast',
     headerName: 'AST',
     type: 'number',
-    flex: 1
+    flex: 1,
+    valueFormatter: ({ value }) => round(value)
   },
   {
     field: 'stl',
     headerName: 'STL',
     type: 'number',
-    flex: 1
+    flex: 1,
+    valueFormatter: ({ value }) => round(value)
   },
   {
     field: 'blk',
     headerName: 'BLK',
     type: 'number',
-    flex: 1
+    flex: 1,
+    valueFormatter: ({ value }) => round(value)
   },
   {
     field: 'tov',
     headerName: 'TO',
     type: 'number',
-    flex: 1
+    flex: 1,
+    valueFormatter: ({ value }) => round(value)
   },
   {
     field: 'pf',
     headerName: 'FOUL',
     type: 'number',
-    flex: 1
+    flex: 1,
+    valueFormatter: ({ value }) => round(value)
   },
   {
     field: 'fgm',
     headerName: 'FGM',
     type: 'number',
-    flex: 1
+    flex: 1,
+    valueFormatter: ({ value }) => round(value)
   },
   {
     field: 'fga',
     headerName: 'FGA',
     type: 'number',
-    flex: 1
+    flex: 1,
+    valueFormatter: ({ value }) => round(value)
   },
   {
     field: 'threepm',
     headerName: '3PM',
     type: 'number',
-    flex: 1
+    flex: 1,
+    valueFormatter: ({ value }) => round(value)
   },
   {
     field: 'threepa',
     headerName: '3PA',
     type: 'number',
-    flex: 1
+    flex: 1,
+    valueFormatter: ({ value }) => round(value)
   },
   {
     field: 'ftm',
     headerName: 'FTM',
     type: 'number',
-    flex: 1
+    flex: 1,
+    valueFormatter: ({ value }) => round(value)
   },
   {
     field: 'fta',
     headerName: 'FTA',
     type: 'number',
-    flex: 1
+    flex: 1,
+    valueFormatter: ({ value }) => round(value)
   },
   {
     field: 'tovPerc',
     headerName: 'TOV%',
     type: 'number',
     description: 'Turnover percentage is an estimate of turnovers per 100 plays',
-    valueFormatter: ({ value }) => `${value}%`,
+    valueFormatter: ({ value }) => `${round(value)}%`,
     flex: 1
   },
   {
@@ -275,13 +294,14 @@ export const OVERALL_PLAYERS_COLUMNS = [
     type: 'number',
     description:
       'Assist percentage is an estimate of the percentage of teammate field goals a player assisted while he was on the floor',
-    valueFormatter: ({ value }) => `${value}%`,
+    valueFormatter: ({ value }) => `${round(value)}%`,
     flex: 1
   },
   {
     field: 'astToRatio',
     headerName: 'AST/TO',
     type: 'number',
+    valueFormatter: ({ value }) => round(value),
     flex: 1,
     sortable: false
   },
@@ -325,9 +345,17 @@ export const OVERALL_PLAYERS_COLUMNS = [
     flex: 1
   },
   {
+    field: 'oFGM',
+    headerName: 'oFGM',
+    type: 'number',
+    valueFormatter: ({ value }) => round(value),
+    flex: 1
+  },
+  {
     field: 'oFGA',
     headerName: 'oFGA',
     type: 'number',
+    valueFormatter: ({ value }) => round(value),
     flex: 1
   },
   {
@@ -359,7 +387,7 @@ export const OVERALL_PLAYERS_COLUMNS = [
     headerName: 'REB%',
     type: 'number',
     description: `The percentage of available rebounds a player obtains while on the floor`,
-    valueFormatter: ({ value }) => `${value}%`,
+    valueFormatter: ({ value }) => `${round(value)}%`,
     flex: 1
   },
   {
@@ -407,7 +435,7 @@ export const OVERALL_PLAYERS_COLUMNS = [
 ];
 
 export const OVERALL_PLAYERS_DEFAULT_SORTS = {
-  field: 'PER',
+  field: 'rating',
   type: 'desc'
 };
 
@@ -424,6 +452,7 @@ export const VISIBILITY_MODEL = {
   tsPerc: false,
   threepAR: false,
   oFGA: false,
+  oFGM: false,
   oFGPerc: false,
   o3PPerc: false,
   oEFGPerc: false,

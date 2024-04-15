@@ -5,6 +5,7 @@ import { useDraggable } from '@dnd-kit/core';
 import { Box, Typography, Card, CardHeader, CardContent, IconButton } from '@mui/material';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import { POSITION_READABLE } from 'constants';
+import { round } from 'utils';
 
 export function DraggablePlayerCard(props) {
   const { player, onRemove } = props;
@@ -56,10 +57,12 @@ export function DraggablePlayerCard(props) {
         {!player.added && (
           <CardContent>
             <Typography variant="body1" gutterBottom>
-              <b>{player.pts}</b> PTS | <b>{player.reb}</b> REB | <b>{player.ast}</b> AST
+              <b>{round(player.pts)}</b> PTS | <b>{round(player.reb)}</b> REB |{' '}
+              <b>{round(player.ast)}</b> AST
             </Typography>
             <Typography variant="body1" gutterBottom>
-              <b>{player.stl}</b> STL | <b>{player.blk}</b> BLK | <b>{player.tov}</b> TOV
+              <b>{round(player.stl)}</b> STL | <b>{round(player.blk)}</b> BLK |{' '}
+              <b>{round(player.tov)}</b> TOV
             </Typography>
           </CardContent>
         )}

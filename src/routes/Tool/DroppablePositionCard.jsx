@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import { red, green, blueGrey } from '@mui/material/colors';
 import { RATING_COLOR_MAP, POSITION_READABLE } from 'constants';
-import { isMobile } from 'utils';
+import { isMobile, round } from 'utils';
 
 const STAT_CONFIG = [
   { key: 'pts', label: 'PTS', xs: 4, md: 3 },
@@ -128,7 +128,7 @@ export function DroppablePositionCard(props) {
                     {stat.label}
                   </Typography>
                   <Typography align="center" variant="body1">
-                    <b>{team.player[stat.key]}</b>
+                    <b>{round(team.player[stat.key])}</b>
                   </Typography>
                 </Grid>
               ))}

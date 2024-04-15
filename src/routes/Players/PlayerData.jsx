@@ -38,7 +38,7 @@ import { Loading } from 'components/Loading';
 import { POSITION_READABLE, RATING_COLOR_MAP, STAT_PER_TYPES } from 'constants';
 import { StatAdjustDropdown } from 'components/StatAdjustDropdown';
 import { GameGrid } from 'components/GameGrid';
-import { getReadablePositions, isMobile, adjustStatByFilter } from 'utils';
+import { getReadablePositions, isMobile, adjustStatByFilter, round } from 'utils';
 import { BREADModal } from 'components/Modal/BREADModal';
 import {
   AverageStatsColumns,
@@ -266,7 +266,7 @@ export function PlayerData() {
                     PER
                   </Typography>
                   <Typography align="center" variant="body1">
-                    <b>{Math.round(playerData.PER * 10) / 10}</b>
+                    <b>{round(playerData.PER)}</b>
                   </Typography>
                 </Grid>
                 <Grid xs={4} item>
@@ -274,7 +274,7 @@ export function PlayerData() {
                     ORtg
                   </Typography>
                   <Typography align="center" variant="body1">
-                    <b>{playerData.ortg}</b>
+                    <b>{round(playerData.ortg)}</b>
                   </Typography>
                 </Grid>
                 <Grid xs={4} item>
@@ -282,7 +282,7 @@ export function PlayerData() {
                     DRtg
                   </Typography>
                   <Typography align="center" variant="body1">
-                    <b>{playerData.drtg}</b>
+                    <b>{round(playerData.drtg)}</b>
                   </Typography>
                 </Grid>
               </Grid>

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Typography, Card, CardContent } from '@mui/material';
+import { round } from 'utils';
 
 export function SelectedPlayerCard(props) {
   const { playerData } = props;
@@ -16,24 +17,24 @@ export function SelectedPlayerCard(props) {
           </Grid>
           <Grid item xs={6} sm={3}>
             <Typography variant="body2" color="text.secondary">
-              <b>Points:</b> {playerData.pts}
+              <b>Points:</b> {round(playerData.pts)}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              <b>Rebounds:</b> {playerData.treb}
+              <b>Rebounds:</b> {round(playerData.treb)}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              <b>Assists:</b> {playerData.ast}
+              <b>Assists:</b> {round(playerData.ast)}
             </Typography>
           </Grid>
           <Grid item xs={6} sm={3}>
             <Typography variant="body2" color="text.secondary">
-              <b>Steals:</b> {playerData.stl}
+              <b>Steals:</b> {round(playerData.stl)}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              <b>Blocks:</b> {playerData.blk}
+              <b>Blocks:</b> {round(playerData.blk)}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              <b>Turnovers:</b> {playerData.tov}
+              <b>Turnovers:</b> {round(playerData.tov)}
             </Typography>
           </Grid>
           <Grid item xs={6} sm={3}>
