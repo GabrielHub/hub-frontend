@@ -110,7 +110,7 @@ export function Archive() {
         </Grid>
       )}
       {leagueData && (
-        <Grid xs={12} container item>
+        <Grid xs={12} sx={{ paddingTop: 4 }} container item>
           <Grid xs={12} item>
             <Typography variant="h5" gutterBottom>
               League Averages
