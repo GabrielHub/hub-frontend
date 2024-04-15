@@ -11,7 +11,10 @@ import { PrivateRoute } from './PrivateRoute';
 import { Dashboard } from './Dashboard';
 import { Games } from './Games';
 import { DraftTool } from './Tool';
-import { League, PER, Similarity, Awards } from './Analysis/Tabs';
+import { League, PER, Similarity, Awards, Archive } from './Analysis/Tabs';
+
+// TODO Routes are also used for the Navbar, and for the TABS in the Analysis page
+// Should be a single object (source of truth) for all routes
 
 export const routerConfig = [
   {
@@ -47,6 +50,10 @@ export const routerConfig = [
           {
             path: 'awards',
             element: <Awards />
+          },
+          {
+            path: 'archive',
+            element: <Archive />
           }
         ]
       },

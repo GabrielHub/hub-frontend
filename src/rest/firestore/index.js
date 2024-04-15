@@ -4,3 +4,4 @@ export * from './fetchPlayerRanking';
 export * from './fetchLastGames';
 export * from './fetchLeagueAverages';
 export * from './fetchLastUploaded';
+export * from './fetchArchive';

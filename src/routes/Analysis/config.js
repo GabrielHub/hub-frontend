@@ -14,6 +14,10 @@ export const TAB_CONFIG = [
   {
     label: 'Awards',
     path: '/analysis/awards'
+  },
+  {
+    label: 'Archive',
+    path: '/analysis/archive'
   }
 ];
 

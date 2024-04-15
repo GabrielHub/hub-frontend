@@ -30,6 +30,10 @@ export const navConfig = [
       {
         title: 'AWARDS',
         path: '/analysis/awards'
+      },
+      {
+        title: 'ARCHIVE',
+        path: '/analysis/archive'
       }
     ]
   },
