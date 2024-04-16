@@ -8,6 +8,10 @@ export const navConfig = [
     path: '/players'
   },
   {
+    title: 'GAMES',
+    path: '/games'
+  },
+  {
     title: 'TOOL',
     path: '/tool'
   },

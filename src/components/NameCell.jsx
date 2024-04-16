@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Typography, Grid, Tooltip } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { POSITION_READABLE, RATING_COLOR_MAP } from 'constants';
+import { getRatingStringFromPER } from 'utils';
 
 export function NameCell(props) {
   const { name, rank, playerId, positions, rating } = props;
@@ -37,6 +38,35 @@ export function NameCell(props) {
   );
 }
 
+export function BoxScoreNameCell(props) {
+  const { name, position, per, isAI } = props;
+  const rating = useMemo(() => (per ? getRatingStringFromPER(per) : 'TOTAL'), [per]);
+
+  return (
+    <Tooltip title={rating}>
+      <Typography
+        variant="body2"
+        color={`${isAI ? 'text.secondary' : 'text.primary'}`}
+        sx={{ borderLeft: `2px solid ${RATING_COLOR_MAP?.[rating]}`, paddingLeft: 1 }}>
+        <b>{POSITION_READABLE[position] || ''}</b> {name.toUpperCase()}
+      </Typography>
+    </Tooltip>
+  );
+}
+
+BoxScoreNameCell.propTypes = {
+  name: PropTypes.string.isRequired,
+  position: PropTypes.string,
+  per: PropTypes.number,
+  isAI: PropTypes.number
+};
+
+BoxScoreNameCell.defaultProps = {
+  position: '8',
+  per: null,
+  isAI: 0
+};
+
 NameCell.propTypes = {
   name: PropTypes.string.isRequired,
   rank: PropTypes.number.isRequired,
@@ -48,4 +78,4 @@ NameCell.defaultProps = {
   positions: {}
 };
 
-export default {};
+export default { BoxScoreNameCell, NameCell };

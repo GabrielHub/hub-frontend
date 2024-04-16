@@ -26,4 +26,19 @@ export const getPERRating = (params) => {
   return `${rating.toFixed(2)} (${mapRating(rating)})`;
 };
 
+export const getRatingStringFromPER = (per) => {
+  let rating = 10;
+  if (per <= 0) {
+    rating = 0;
+  }
+  if (per <= 15) {
+    rating = (per / 15) * 5;
+  }
+  if (per <= 35) {
+    rating = ((per - 15) / 20) * 5 + 5;
+  }
+
+  return mapRating(rating);
+};
+
 export default {};

@@ -205,8 +205,7 @@ export const RECENT_GAMES_COLUMNS = [
   {
     field: 'PER',
     headerName: 'PER',
-    description:
-      'This PER value is not what goes into your average. It is the PER that would be calculated based on when this game was uploaded',
+    description: 'It is the PER that would be calculated based on when this game was uploaded',
     type: 'number',
     flex: 1,
     sortable: false

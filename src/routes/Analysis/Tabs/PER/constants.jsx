@@ -1,5 +1,6 @@
 import { getPercentValues } from 'utils';
-import { NameCell, GamesPlayedCell } from 'components/PlayerGrid';
+import { GamesPlayedCell } from 'components/PlayerGrid';
+import { NameCell } from 'components/NameCell';
 
 export const OVERALL_PLAYERS_COLUMNS = [
   {

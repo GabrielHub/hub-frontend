@@ -9,7 +9,7 @@ import { Analysis } from './Analysis';
 import { Login } from './Login';
 import { PrivateRoute } from './PrivateRoute';
 import { Dashboard } from './Dashboard';
-import { Games } from './Games';
+import { EditGame, Game } from './Games';
 import { DraftTool } from './Tool';
 import { League, PER, Similarity, Awards, Archive } from './Analysis/Tabs';
 
@@ -105,9 +105,13 @@ export const routerConfig = [
         path: '/games/:gameID',
         element: (
           <PrivateRoute>
-            <Games />
+            <EditGame />
           </PrivateRoute>
         )
+      },
+      {
+        path: '/games',
+        element: <Game />
       },
       {
         path: '/login',

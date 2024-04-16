@@ -587,6 +587,7 @@ export function PlayerData() {
               gameData={gameData}
               leagueData={leagueData}
               showComparison={showLeagueComparisons}
+              numGames={NUMBER_OF_GAMES}
             />
           )}
           {gameData && <TrendsGraph gameData={gameData} positionFilter={position} />}

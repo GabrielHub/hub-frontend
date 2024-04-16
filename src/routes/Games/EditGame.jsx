@@ -14,7 +14,7 @@ import { fetchGameData, updateGameDetails } from 'fb';
 import { Loading } from 'components/Loading';
 import { FIELDS, FIELD_TYPES } from './constants';
 
-export function Games() {
+export function EditGame() {
   const { gameID } = useParams();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();

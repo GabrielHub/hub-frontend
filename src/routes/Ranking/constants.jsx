@@ -1,4 +1,6 @@
-import { GamesPlayedCell, NameCell, RatingCell } from 'components/PlayerGrid';
+import { GamesPlayedCell } from 'components/PlayerGrid';
+import { RatingCell } from 'components/RatingCell';
+import { NameCell } from 'components/NameCell';
 import { calculateRating, round } from 'utils';
 
 export const NBA_EXAMPLES = {

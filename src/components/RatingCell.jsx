@@ -37,4 +37,4 @@ RatingCell.defaultProps = {
   ratingMovement: null
 };
 
-export default {};
+export default { RatingCell };
