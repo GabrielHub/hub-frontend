@@ -98,10 +98,10 @@ export function Root() {
               <Grid alignItems="center" container>
                 <Grid xs item>
                   <Typography variant="h5" component="div">
-                    Player Rankings
+                    Rating
                   </Typography>
                   <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    Ratings{bull}Comparisons
+                    Ranking{bull}Comparisons
                   </Typography>
                 </Grid>
                 <Grid xs={2} item>
@@ -179,10 +179,10 @@ export function Root() {
               <Grid alignItems="center" container>
                 <Grid xs item>
                   <Typography variant="h5" component="div">
-                    Players
+                    Data
                   </Typography>
                   <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    Search{bull}Details
+                    Players{bull}Games{bull}Box Scores
                   </Typography>
                 </Grid>
                 <Grid xs={2} item>
@@ -205,6 +205,9 @@ export function Root() {
             <CardActions>
               <Button size="small" onClick={() => navigate('/players')}>
                 Search Players
+              </Button>
+              <Button size="small" onClick={() => navigate('/games')}>
+                Search Games
               </Button>
             </CardActions>
           </Card>
