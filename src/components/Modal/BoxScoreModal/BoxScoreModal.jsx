@@ -18,7 +18,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Loading } from 'components/Loading';
 import { CustomGridCell } from 'components/CustomGridCell';
 import { calculateLeagueComparisonColor } from 'utils';
-import { BOX_SCORE_COLUMNS } from './constants';
+import { BOX_SCORE_COLUMNS, TEAM_LOCATIONS } from './constants';
 
 const BASIC_STATS = [
   'pts',
@@ -142,6 +142,40 @@ export function BoxScoreModal(props) {
     }, null);
   }, [awayTeamTotalStats, boxScoreData, homeTeamTotalStats]);
 
+  const homeTeamBrand = useMemo(() => {
+    if (!homeTeamPlayers) return {};
+    const owner = homeTeamPlayers?.[0];
+
+    // * If the name ends with an S, don't add an s at the end. If not, add an s
+    const name = owner?.name?.endsWith('s')
+      ? owner?.name.toUpperCase()
+      : `${owner?.name.toUpperCase()}S`;
+    // * Grab a random location from the list of team locations
+    const location =
+      TEAM_LOCATIONS[Math.floor(Math.random() * TEAM_LOCATIONS.length)].toUpperCase();
+    return {
+      location,
+      name
+    };
+  }, [homeTeamPlayers]);
+
+  const awayTeamBrand = useMemo(() => {
+    if (!awayTeamPlayers) return {};
+    const owner = awayTeamPlayers?.[0];
+
+    // * If the name ends with an S, don't add an s at the end. If not, add an s
+    const name = owner?.name?.endsWith('s')
+      ? owner?.name.toUpperCase()
+      : `${owner?.name.toUpperCase()}S`;
+    // * Grab a random location from the list of team locations
+    const location =
+      TEAM_LOCATIONS[Math.floor(Math.random() * TEAM_LOCATIONS.length)].toUpperCase();
+    return {
+      location,
+      name
+    };
+  }, [awayTeamPlayers]);
+
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="xl" fullWidth>
       <Loading isLoading={isLoading} />
@@ -161,7 +195,7 @@ export function BoxScoreModal(props) {
             sm={4}>
             <Grid xs={12} item>
               <Typography align="center" variant="h6">
-                HOME
+                {homeTeamBrand?.name}
               </Typography>
             </Grid>
             <Grid xs={12} item>
@@ -189,7 +223,7 @@ export function BoxScoreModal(props) {
             sm={4}>
             <Grid xs={12} item>
               <Typography align="center" variant="h6">
-                AWAY
+                {awayTeamBrand?.name}
               </Typography>
             </Grid>
             <Grid xs={12} item>
@@ -228,7 +262,9 @@ export function BoxScoreModal(props) {
             </Grid>
           </Grid>
           <Grid xs={12} item>
-            <Typography variant="h6">HOME TEAM</Typography>
+            <Typography variant="h6">
+              {homeTeamBrand.location} {homeTeamBrand.name}
+            </Typography>
           </Grid>
           <Grid xs={12} sx={{ marginBottom: 4 }} item>
             <DataGrid
@@ -249,7 +285,9 @@ export function BoxScoreModal(props) {
             />
           </Grid>
           <Grid xs={12} item>
-            <Typography variant="h6">AWAY TEAM</Typography>
+            <Typography variant="h6">
+              {awayTeamBrand.location} {awayTeamBrand.name}
+            </Typography>
           </Grid>
           <Grid xs={12} item>
             <DataGrid
