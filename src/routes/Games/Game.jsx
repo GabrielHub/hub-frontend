@@ -102,7 +102,7 @@ export function Game() {
   };
 
   return (
-    <Grid container spacing={2}>
+    <Grid sx={{ maxWidth: 1440, margin: 'auto' }} container spacing={2}>
       <Loading isLoading={isLoading} />
 
       <Grid item xs={12}>
