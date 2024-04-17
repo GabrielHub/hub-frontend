@@ -207,7 +207,7 @@ export function Awards() {
               playerId={awardData?.mvp?.id}
               name={awardData?.mvp?.name}
               positions={awardData?.mvp?.positions}
-              values={['']}
+              values={[`${awardData?.mvp?.value} PER`]}
               leagueAvg={[leagueData?.PER]}
             />
           </Grid>
@@ -322,8 +322,8 @@ export function Awards() {
           <Grid xs={12} md item>
             <AwardCard
               title="Shot Chucker"
-              subheader="Lowest EFG% : USG% ratio"
-              subheaderMin="Minimum 300 FGA"
+              subheader="Lowest EFG%"
+              subheaderMin="Minimum 300 FGA and 10 FGA per game"
               iconComponent={<DangerousIcon />}
               avatarColor={red[900]}
               playerId={awardData?.shotChucker?.id}
@@ -396,7 +396,7 @@ export function Awards() {
           <Grid xs={12} md item>
             <AwardCard
               title="Intimidator"
-              subheader="Lowest Opponent Effective Field Goal Percentage to Blocks ratio"
+              subheader="Lowest oEFG% to Blocks ratio"
               subheaderMin="Minimum 300 oFGA"
               iconComponent={<SecurityIcon />}
               avatarColor={purple.A400}
