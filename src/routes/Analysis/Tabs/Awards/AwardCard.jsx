@@ -19,13 +19,13 @@ export function AwardCard(props) {
   const navigate = useNavigate();
   return (
     <Card
-      sx={{ height: '100%', backgroundColor: `${avatarColor}10`, minWidth: 350, border: 0 }}
+      sx={{ height: '100%', backgroundColor: `${avatarColor}25`, minWidth: 350, border: 0 }}
       variant="outlined">
       <CardContent>
         <Grid container>
           <Grid item container xs={12}>
             <Grid xs={12} item>
-              <Typography variant="h6" color="text.primary">
+              <Typography variant="h6" color="text.primary" fontWeight="bold">
                 {title.toUpperCase()}
               </Typography>
             </Grid>
@@ -53,18 +53,20 @@ export function AwardCard(props) {
           alignItems="center"
           container
           item>
-          <Grid xs={2} sm={2} item>
-            {iconComponent}
+          <Grid xs={8} sm={6} alignItems="center" container item>
+            <Grid xs item>
+              {iconComponent}
+            </Grid>
+            <Grid xs={10} item>
+              <Typography variant="h6" align="left" color="text.primary">
+                {name}
+              </Typography>
+              <Typography variant="body2" align="left" color="text.secondary">
+                {formatPosition(positions)}
+              </Typography>
+            </Grid>
           </Grid>
-          <Grid xs={4} sm={4} item>
-            <Typography variant="h6" align="left" color="text.primary">
-              {name}
-            </Typography>
-            <Typography variant="body2" align="left" color="text.secondary">
-              {formatPosition(positions)}
-            </Typography>
-          </Grid>
-          <Grid xs={12} sm item>
+          <Grid xs sm item>
             {values.map((value) => (
               <Typography key={value} variant="body2" align="left" color="text.secondary">
                 {value}
