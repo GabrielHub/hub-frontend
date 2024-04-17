@@ -70,7 +70,7 @@ export function GameGrid(props) {
             Box Scores {numGames ? `(${numGames} games)` : ''}
           </Typography>
         </AccordionSummary>
-        <AccordionDetails sx={{ height: 395 }}>
+        <AccordionDetails sx={{ height: 495, paddingBottom: 2 }}>
           {clickMessage && (
             <Alert
               sx={{

@@ -111,7 +111,7 @@ export function Game() {
         </Typography>
       </Grid>
       <Grid container item xs={12}>
-        <Grid item xs>
+        <Grid item xs={12} sm={4}>
           <FormControl fullWidth>
             <TextField
               label="Number of Games"
@@ -123,7 +123,7 @@ export function Game() {
             />
           </FormControl>
         </Grid>
-        <Grid xs item>
+        <Grid xs={12} sm={4} item>
           <FormControl fullWidth>
             <Select
               multiple
@@ -145,7 +145,7 @@ export function Game() {
             </FormHelperText>
           </FormControl>
         </Grid>
-        <Grid xs item>
+        <Grid xs={12} sm={4} item>
           <FormControl fullWidth>
             <Select
               value={showLeagueComparison}

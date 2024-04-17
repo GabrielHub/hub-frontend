@@ -52,10 +52,10 @@ export function AwardCard(props) {
           justifyContent="flex-start"
           container
           item>
-          <Grid xs={2} item>
+          <Grid xs={2} sm={2} item>
             {iconComponent}
           </Grid>
-          <Grid xs={4} item>
+          <Grid xs={4} sm={4} item>
             <Typography variant="h6" align="left" color="text.primary">
               {name}
             </Typography>
@@ -63,7 +63,7 @@ export function AwardCard(props) {
               {formatPosition(positions)}
             </Typography>
           </Grid>
-          <Grid xs item>
+          <Grid xs={12} sm item>
             {values.map((value) => (
               <Typography key={value} variant="body2" align="left" color="text.secondary">
                 {value}
