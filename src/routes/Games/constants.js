@@ -103,9 +103,7 @@ export const GAME_SEARCH_COLUMNS = [
   {
     field: 'isAI',
     headerName: 'AI',
-    valueGetter: (params) => {
-      return params.value ? 'AI' : 'User';
-    },
+    type: 'boolean',
     flex: 1,
     sortable: false
   },

@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 import { useSearchBox } from 'react-instantsearch';
 import { TextField } from '@mui/material';
-import { isMobile } from 'utils';
 
 export function SearchBox() {
   const memoizedSearch = useCallback((query, search) => {
@@ -18,10 +17,10 @@ export function SearchBox() {
 
   return (
     <TextField
-      placeholder="Search Name"
+      placeholder="Player Name or Alias"
       onChange={handleChange}
-      label="Player Lookup"
-      fullWidth={isMobile()}
+      label="Search Player"
+      fullWidth
     />
   );
 }

@@ -102,19 +102,17 @@ export function Game() {
   };
 
   return (
-    <Grid sx={{ maxWidth: 1440, margin: 'auto' }} container spacing={2}>
+    <Grid sx={{ maxWidth: 1440, margin: 'auto' }} container>
       <Loading isLoading={isLoading} />
-
       <Grid item xs={12}>
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="h4" align="center" gutterBottom>
           Search Individual Games and View Box Scores
         </Typography>
       </Grid>
-      <Grid container item xs={12}>
-        <Grid item xs={12} sm={4}>
+      <Grid container item xs>
+        <Grid item xs={12} sm={4} sx={{ p: 2 }}>
           <FormControl fullWidth>
             <TextField
-              label="Number of Games"
               type="number"
               value={numOfGames}
               onChange={handleNumGamesChange}
@@ -123,16 +121,19 @@ export function Game() {
             />
           </FormControl>
         </Grid>
-        <Grid xs={12} sm={4} item>
+        <Grid xs={12} sm={4} sx={{ p: 2 }} item>
           <FormControl fullWidth>
             <Select
               multiple
               value={positionFilter}
+              displayEmpty
               onChange={(e) => setPositionFilter(e.target.value)}
               renderValue={(selected) =>
-                selected
-                  .map((value) => positionOptions.find((pos) => pos.value === value).label)
-                  .join(', ')
+                selected.length === 0
+                  ? 'All Positions'
+                  : selected
+                      .map((value) => positionOptions.find((pos) => pos.value === value).label)
+                      .join(', ')
               }>
               {positionOptions.map((pos) => (
                 <MenuItem value={pos.value} key={`${pos} ${pos?.value}`}>
@@ -145,7 +146,7 @@ export function Game() {
             </FormHelperText>
           </FormControl>
         </Grid>
-        <Grid xs={12} sm={4} item>
+        <Grid xs={12} sm={4} sx={{ p: 2 }} item>
           <FormControl fullWidth>
             <Select
               value={showLeagueComparison}
@@ -165,7 +166,7 @@ export function Game() {
       </Grid>
       <Grid item xs={12}>
         <Collapse in={!isLoading}>
-          <Grid container spacing={2}>
+          <Grid container sx={{ margin: 'auto' }}>
             {gamesSearchList && (
               <GameGrid
                 gameData={gamesSearchList}
