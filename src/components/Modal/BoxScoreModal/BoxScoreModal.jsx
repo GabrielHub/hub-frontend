@@ -185,9 +185,10 @@ export function BoxScoreModal(props) {
             sx={{
               backgroundColor:
                 homeTeamTotalStats?.pts > awayTeamTotalStats?.pts
-                  ? `${green[400]}10`
+                  ? `${green[400]}75`
                   : 'transparent',
-              p: 1
+              p: 1,
+              borderRadius: 4
             }}
             item
             container
@@ -213,9 +214,10 @@ export function BoxScoreModal(props) {
             sx={{
               backgroundColor:
                 awayTeamTotalStats?.pts > homeTeamTotalStats?.pts
-                  ? `${green[400]}85`
+                  ? `${green[400]}75`
                   : 'transparent',
-              p: 1
+              p: 1,
+              borderRadius: 4
             }}
             item
             container

@@ -19,7 +19,7 @@ export function AwardCard(props) {
   const navigate = useNavigate();
   return (
     <Card
-      sx={{ height: '100%', backgroundColor: `${avatarColor}10`, minWidth: '450px', border: 0 }}
+      sx={{ height: '100%', backgroundColor: `${avatarColor}10`, minWidth: 350, border: 0 }}
       variant="outlined">
       <CardContent>
         <Grid container>
@@ -50,6 +50,7 @@ export function AwardCard(props) {
           component={Button}
           onClick={() => navigate(`/players/${playerId}`)}
           justifyContent="flex-start"
+          alignItems="center"
           container
           item>
           <Grid xs={2} sm={2} item>
