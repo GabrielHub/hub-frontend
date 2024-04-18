@@ -6,5 +6,4 @@ export * from './fetchSimilarPlayers';
 export * from './recalculateLeagueAverages';
 export * from './recalculatePlayerAverages';
 export * from './recalculateAwards';
-export * from './fetchAwards';
 export * from './fetchPlayerDataByPosition';
