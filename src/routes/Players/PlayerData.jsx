@@ -383,8 +383,7 @@ export function PlayerData() {
                   Shot Chart
                 </Typography>
                 <Typography align="left" variant="body2" color="text.secondary">
-                  {adjustStatByFilter('fga', playerData.pace, playerData.fga, perGameFilter)} FGA |{' '}
-                  {playerData.efgPerc} eFG%
+                  {round(playerData.pProd / playerData.pace)} PPP | {playerData.efgPerc} eFG%
                 </Typography>
               </Grid>
               <Grid xs={12} item>
@@ -449,7 +448,7 @@ export function PlayerData() {
                       perGameFilter
                     )
                   )}{' '}
-                  est. possessions | {playerData.usageRate} USG%
+                  est. possessions | {round(playerData.usageRate)} USG%
                 </Typography>
               </Grid>
               <Grid xs={12} item>
