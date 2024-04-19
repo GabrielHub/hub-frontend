@@ -24,14 +24,13 @@ What can you do with it?
 - current `pace` field is actually the est. possessions. Convert that to possessions and calculate the pace factor correctly
     - pace factor should be for 48 minutes. it currently estimates possessions over 20 minutes
 - fix issue with drtg. It is way too low so something must be wrong with the calculation
-- simplified BPM and VORP
+- elo should be on a per game basis, but needs to be refactored to work that way when the new year starts
+- bpm should be on a per game basis, but needs to be refactored to work that way when the new year starts
+- fix types on the backend. Advanced stats will always be there when starting a new year
+- change percentages to be raw values, instead of storing them as readable values
 > Career Highs (league + player)
 - Add `career` subcollection to `players`
 - League average scheduled function should also calculate league highs in stats based on player `career` subcollection
-> Add Player Comparison Tool
-- Add advanced analytics API
-    - returns who is a better shooter and why
-    - returns who is a better defender and why
 
 ### How to setup
 `npm run start` to run locally

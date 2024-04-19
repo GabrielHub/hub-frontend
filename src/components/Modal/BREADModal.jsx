@@ -18,7 +18,14 @@ export function BREADModal(props) {
   const { open, handleClose } = props;
 
   return (
-    <Dialog open={open} onClose={handleClose} fullScreen>
+    <Dialog
+      open={open}
+      sx={{
+        maxWidth: 1440,
+        margin: 'auto'
+      }}
+      onClose={handleClose}
+      fullScreen>
       <MathJaxContext>
         <DialogTitle>
           <Typography variant="h3">

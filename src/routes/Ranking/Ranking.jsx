@@ -1,8 +1,16 @@
-import React from 'react';
-import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import React, { useState } from 'react';
+import {
+  Grid,
+  Typography,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Button
+} from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { PlayerGrid } from 'components/PlayerGrid';
 import { RATING_CONFIG, RATING_COLOR_MAP } from 'constants';
+import { BREADModal, EloModal } from 'components/Modal';
 import {
   NBA_EXAMPLES,
   OVERALL_PLAYERS_COLUMNS,
@@ -11,8 +19,21 @@ import {
 } from './constants';
 
 export function Ranking() {
+  const [breadModal, setBreadModal] = useState(false);
+  const [eloModal, setEloModal] = useState(false);
+
+  const handleCloseBreadModal = () => {
+    setBreadModal(false);
+  };
+
+  const handleCloseEloModal = () => {
+    setEloModal(false);
+  };
+
   return (
     <Grid xs={12} sx={{ p: 2 }} container item>
+      <BREADModal open={breadModal} handleClose={handleCloseBreadModal} />
+      <EloModal open={eloModal} handleClose={handleCloseEloModal} />
       <Grid xs={12} sx={{ paddingBottom: 2 }} item>
         <Typography variant="h5" gutterBottom>
           Player Rankings, Ratings and Stats
@@ -41,6 +62,13 @@ export function Ranking() {
               Rating definitions (Bench vs Allstar) are based on the PER table created by John
               Hollinger
             </Typography>
+            <Grid justifyContent="space-between" container>
+              <Button onClick={() => setBreadModal(true)}>
+                Detailed Explanation on BREAD Advanced Stats
+              </Button>
+              <Button onClick={() => setEloModal(true)}>Detailed Explanation on Elo</Button>
+            </Grid>
+
             <Grid xs={12} sx={{ p: 2 }} item>
               <Typography variant="h5" color="text.primary" align="center">
                 Examples of relative NBA player ratings (2023-24 Season)
