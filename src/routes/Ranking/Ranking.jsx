@@ -48,7 +48,9 @@ export function Ranking() {
           </AccordionSummary>
           <AccordionDetails>
             <Typography gutterBottom>
-              Rating is based on PER (see PER Leaders tab for more information)
+              Rating is based on PER (see PER Leaders tab for more information) and only accounts
+              for the last 82 games played. This is true for position based ratings, but all other
+              stats will average your entire career.
             </Typography>
             <Typography gutterBottom>
               PER is already adjusted for pace and drawn from the league average, so the ratings are
