@@ -10,8 +10,15 @@ import {
   Button,
   Grid,
   Typography,
-  IconButton
+  IconButton,
+  ListItem,
+  List,
+  ListItemText,
+  ListItemIcon
 } from '@mui/material';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import TrendingDownIcon from '@mui/icons-material/TrendingDown';
+import { green, red } from '@mui/material/colors';
 import CloseIcon from '@mui/icons-material/Close';
 
 export function EloModal(props) {
@@ -57,6 +64,56 @@ export function EloModal(props) {
                   impact, so we would rather adjust the Elo rating system to reward performance over
                   wins.
                 </Typography>
+                <Typography sx={{ maxWidth: 800 }} variant="body1" gutterBottom>
+                  With the formula constructed like this, we can raise{' '}
+                  <TrendingUpIcon sx={{ color: green[400] }} />, or lower{' '}
+                  <TrendingDownIcon sx={{ color: red[400] }} /> the Elo impact of certain situations
+                  to create a better model.
+                </Typography>
+                <List>
+                  <ListItem>
+                    <ListItemIcon>
+                      <TrendingUpIcon sx={{ color: green[400] }} />
+                    </ListItemIcon>
+                    <ListItemText primary="Wins or losses by large margins" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <TrendingUpIcon sx={{ color: green[400] }} />
+                    </ListItemIcon>
+                    <ListItemText primary="Wins against better competition" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <TrendingUpIcon sx={{ color: green[400] }} />
+                    </ListItemIcon>
+                    <ListItemText primary="Losses against worse competition" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <TrendingDownIcon sx={{ color: red[400] }} />
+                    </ListItemIcon>
+                    <ListItemText primary="Great individual performances on losing teams" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <TrendingDownIcon sx={{ color: red[400] }} />
+                    </ListItemIcon>
+                    <ListItemText primary="Wins with bad individual performance" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <TrendingDownIcon sx={{ color: red[400] }} />
+                    </ListItemIcon>
+                    <ListItemText primary="Wins against worse competition" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <TrendingDownIcon sx={{ color: red[400] }} />
+                    </ListItemIcon>
+                    <ListItemText primary="Losses against better competition" />
+                  </ListItem>
+                </List>
               </Grid>
               <Grid xs={12} item>
                 <Typography variant="h6" gutterBottom>
