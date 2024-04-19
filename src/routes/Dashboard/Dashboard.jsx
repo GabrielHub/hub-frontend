@@ -24,7 +24,12 @@ import { useSnackbar } from 'notistack';
 import { AlgoliaSearch } from 'components/AlgoliaSearch';
 import { ConfirmationModal } from 'components/Modal';
 import { fetchPlayerAndGames, updatePlayerDetails, deletePlayer } from 'fb';
-import { recalculateLeagueAverages, recalculatePlayerAverages, recalculateAwards } from 'rest';
+import {
+  recalculateLeagueAverages,
+  recalculatePlayerAverages,
+  recalculateAwards,
+  recalculateElo
+} from 'rest';
 import { GAMES_COLUMNS } from './constants';
 
 export function Dashboard() {
@@ -38,6 +43,19 @@ export function Dashboard() {
   const [editedPlayerData, setEditedPlayerData] = useState(null);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+
+  const handleRecalculateElo = useCallback(async () => {
+    setLoading(true);
+    try {
+      await recalculateElo();
+      enqueueSnackbar('Elo Recalculated', { variant: 'success' });
+    } catch (err) {
+      enqueueSnackbar('Error recalculating elo, please try again', {
+        variant: 'error'
+      });
+    }
+    setLoading(false);
+  }, [enqueueSnackbar]);
 
   const handleRecalculatePlayerAverages = useCallback(async () => {
     setLoading(true);
@@ -194,7 +212,10 @@ export function Dashboard() {
           Recalculate League Averages
         </Button>
         <Button variant="contained" color="primary" onClick={handleRecalculateAwards}>
-          Generate Awards
+          Sync Awards
+        </Button>
+        <Button variant="contained" color="primary" onClick={handleRecalculateElo}>
+          Sync Elo
         </Button>
       </Grid>
       <Grid sx={{ py: 4 }} xs={12} item>

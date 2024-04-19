@@ -261,7 +261,17 @@ export function PlayerData() {
                 alignItems="center"
                 container
                 item>
-                <Grid xs={4} item>
+                {playerData?.elo && (
+                  <Grid xs item>
+                    <Typography align="center" variant="body1">
+                      ELO
+                    </Typography>
+                    <Typography align="center" variant="body1">
+                      <b>{round(playerData.elo)}</b>
+                    </Typography>
+                  </Grid>
+                )}
+                <Grid xs item>
                   <Typography align="center" variant="body1">
                     PER
                   </Typography>
@@ -269,7 +279,7 @@ export function PlayerData() {
                     <b>{round(playerData.PER)}</b>
                   </Typography>
                 </Grid>
-                <Grid xs={4} item>
+                <Grid xs item>
                   <Typography align="center" variant="body1">
                     ORtg
                   </Typography>
@@ -277,7 +287,7 @@ export function PlayerData() {
                     <b>{round(playerData.ortg)}</b>
                   </Typography>
                 </Grid>
-                <Grid xs={4} item>
+                <Grid xs item>
                   <Typography align="center" variant="body1">
                     DRtg
                   </Typography>

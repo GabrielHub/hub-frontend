@@ -146,6 +146,11 @@ export function DroppablePositionCard(props) {
               Deselect Player
             </Button>
           )}
+          {!isMobile() && team?.player?.elo && (
+            <Typography>
+              Elo <b>{round(team.player.elo)}</b>
+            </Typography>
+          )}
           {isMobile() && <Typography align="right">Team {team.team}</Typography>}
         </CardActions>
       </Card>
@@ -187,7 +192,8 @@ DroppablePositionCard.propTypes = {
       twopa: PropTypes.number,
       twopm: PropTypes.number,
       twoPerc: PropTypes.number,
-      gp: PropTypes.number
+      gp: PropTypes.number,
+      elo: PropTypes.number || undefined
     })
   }).isRequired,
   onRemove: PropTypes.func.isRequired,

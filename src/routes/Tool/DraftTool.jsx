@@ -154,7 +154,8 @@ export function DraftTool() {
           ofga: data.oFGA,
           ofgm: data.oFGM,
           o3pa: data.o3PA,
-          o3pm: data.o3PM
+          o3pm: data.o3PM,
+          elo: data?.elo
         };
 
         setTeams((prevTeams) =>

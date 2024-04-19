@@ -14,6 +14,7 @@ import {
   Tooltip
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { round } from 'utils';
 import { RATING_COLOR_MAP } from 'constants';
 
 function TeamCard(props) {
@@ -37,28 +38,46 @@ function TeamCard(props) {
     return 'none';
   };
 
+  const eloBalance = useMemo(() => {
+    // * Determine how unbalanced the teams are based on Elo difference. (Balanced is within 100, Favored, Unfavored, Heavily Favored, Completely Unbalanced)
+    let eloString = '';
+    if (projectedDifferences.elo > 300) {
+      eloString = 'Entirely Unfair';
+    } else if (projectedDifferences.elo > 200) {
+      eloString = 'Heavily Favored';
+    } else if (projectedDifferences.elo > 100) {
+      eloString = 'Favored';
+    } else if (projectedDifferences.elo > 50) {
+      eloString = 'Balanced';
+    }
+    return `[Elo] ${eloString} ${round(projectedDifferences.elo)}`;
+  }, [projectedDifferences.elo]);
+
   return (
     <Card sx={{ width: '100%' }}>
-      <CardHeader title={title} />
+      <CardHeader title={title} subheader={eloBalance} />
       <CardContent>
         <Grid alignItems="stretch" container>
-          {Object.keys(totals).map((key) => (
-            <Grid xs item key={key}>
-              <Box sx={{ padding: '0 20%' }}>
-                <Typography
-                  align="center"
-                  variant="body2"
-                  color="text.secondary"
-                  sx={{ borderBottom: getBorderBottomColor(key) }}
-                  gutterBottom>
-                  {key.toUpperCase()}
+          {Object.keys(totals).map((key) => {
+            if (key === 'elo') return <React.Fragment key={key} />;
+            return (
+              <Grid xs item key={key}>
+                <Box sx={{ padding: '0 20%' }}>
+                  <Typography
+                    align="center"
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ borderBottom: getBorderBottomColor(key) }}
+                    gutterBottom>
+                    {key.toUpperCase()}
+                  </Typography>
+                </Box>
+                <Typography align="center" variant="body1">
+                  <b>{totals[key]}</b>
                 </Typography>
-              </Box>
-              <Typography align="center" variant="body1">
-                <b>{totals[key]}</b>
-              </Typography>
-            </Grid>
-          ))}
+              </Grid>
+            );
+          })}
           <Grid xs={2} item>
             <Typography align="center" variant="body2" color="text.secondary" gutterBottom>
               FG%
@@ -204,7 +223,8 @@ TeamCard.propTypes = {
     ast: PropTypes.number,
     stl: PropTypes.number,
     blk: PropTypes.number,
-    tov: PropTypes.number
+    tov: PropTypes.number,
+    elo: PropTypes.number
   }).isRequired,
   efficiency: PropTypes.shape({
     fga: PropTypes.number,
@@ -236,7 +256,8 @@ TeamCard.propTypes = {
     ast: PropTypes.number,
     stl: PropTypes.number,
     blk: PropTypes.number,
-    tov: PropTypes.number
+    tov: PropTypes.number,
+    elo: PropTypes.number
   }).isRequired
 };
 
@@ -255,9 +276,10 @@ export function TeamAnalysis(props) {
         acc.tov += player.estTurnovers;
         acc.stl += player.estSteals;
         acc.blk += player.estBlocks;
+        acc.elo += player?.elo ?? 0;
         return acc;
       },
-      { pts: 0, reb: 0, ast: 0, stl: 0, blk: 0, tov: 0 }
+      { pts: 0, reb: 0, ast: 0, stl: 0, blk: 0, tov: 0, elo: 0 }
     );
   }, [teamOnePlayerEstimates]);
 
@@ -283,9 +305,10 @@ export function TeamAnalysis(props) {
         acc.tov += player.estTurnovers;
         acc.stl += player.estSteals;
         acc.blk += player.estBlocks;
+        acc.elo += player?.elo ?? 0;
         return acc;
       },
-      { pts: 0, reb: 0, ast: 0, stl: 0, blk: 0, tov: 0 }
+      { pts: 0, reb: 0, ast: 0, stl: 0, blk: 0, tov: 0, elo: 0 }
     );
   }, [teamTwoPlayerEstimates]);
 
@@ -390,7 +413,8 @@ export function TeamAnalysis(props) {
               estFGA,
               estFGM,
               est3PA: threepamAdj,
-              est3PM: estThreepm
+              est3PM: estThreepm,
+              elo: player.elo
             };
           }
           return null;
@@ -460,7 +484,8 @@ TeamAnalysis.propTypes = {
         ofga: PropTypes.number,
         ofgm: PropTypes.number,
         o3pa: PropTypes.number,
-        o3pm: PropTypes.number
+        o3pm: PropTypes.number,
+        elo: PropTypes.number
       })
     })
   ).isRequired

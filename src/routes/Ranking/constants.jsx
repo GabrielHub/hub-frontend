@@ -433,6 +433,14 @@ export const OVERALL_PLAYERS_COLUMNS = [
     description: 'Net Rating',
     type: 'number',
     flex: 1
+  },
+  {
+    field: 'elo',
+    headerName: 'Elo',
+    description: 'Elo rating, used to determine strength of matchmaking. Initial value is 1500',
+    type: 'number',
+    valueFormatter: ({ value }) => (value ? round(value) : 'N/A'),
+    flex: 1
   }
 ];
 
@@ -471,5 +479,6 @@ export const VISIBILITY_MODEL = {
   estPointsPer100: false,
   stopsPer100: false,
   pProd: false,
-  grd: false
+  grd: false,
+  elo: false
 };
