@@ -18,6 +18,19 @@ export const RATING_COLOR_MAP = {
   Superstar: '#c88927'
 };
 
+export const ELO_CONFIG = {
+  Bronze: 1099,
+  Silver: 1299,
+  Gold: 1499,
+  Emerald: 1599,
+  Sapphire: 1699,
+  Ruby: 1799,
+  Amethyst: 1899,
+  Diamond: 1999,
+  Opal: 2100,
+  Invincible: 2200
+};
+
 export const RATING_CONFIG = {
   GLeague: 3,
   Bench: 4.3,

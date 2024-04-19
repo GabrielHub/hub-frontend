@@ -2,6 +2,7 @@ import { GamesPlayedCell } from 'components/PlayerGrid';
 import { RatingCell } from 'components/RatingCell';
 import { NameCell } from 'components/NameCell';
 import { calculateRating, round } from 'utils';
+import { EloCell } from 'components/EloCell';
 
 export const NBA_EXAMPLES = {
   GLeague: [
@@ -114,11 +115,23 @@ export const OVERALL_PLAYERS_COLUMNS = [
     headerAlign: 'left',
     headerName: 'Rating',
     description: 'Player Rating, calculated from PER and limited to your last 82 games',
-    type: 'number',
+    type: 'string',
     width: 150,
     renderCell: (params) => {
       const rating = `${round(params.value)} (${params.row.ratingString})`;
       return <RatingCell rating={rating} ratingMovement={params.row.ratingMovement} />;
+    }
+  },
+  {
+    field: 'elo',
+    headerName: 'Ranking',
+    description:
+      'Elo rating is used to create your ranking (Think of it as a competitive, matchmaking rank like League, Valorant, Chess, etc.)',
+    type: 'string',
+    flex: 1,
+    headerAlign: 'center',
+    renderCell: (params) => {
+      return <EloCell elo={params.value} />;
     }
   },
   {
@@ -433,14 +446,6 @@ export const OVERALL_PLAYERS_COLUMNS = [
     description: 'Net Rating',
     type: 'number',
     flex: 1
-  },
-  {
-    field: 'elo',
-    headerName: 'Elo',
-    description: 'Elo rating, used to determine strength of matchmaking. Initial value is 1500',
-    type: 'number',
-    valueFormatter: ({ value }) => (value ? round(value) : 'N/A'),
-    flex: 1
   }
 ];
 
@@ -479,6 +484,5 @@ export const VISIBILITY_MODEL = {
   estPointsPer100: false,
   stopsPer100: false,
   pProd: false,
-  grd: false,
-  elo: false
+  grd: false
 };

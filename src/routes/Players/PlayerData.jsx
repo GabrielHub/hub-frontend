@@ -40,6 +40,7 @@ import { StatAdjustDropdown } from 'components/StatAdjustDropdown';
 import { GameGrid } from 'components/GameGrid';
 import { getReadablePositions, isMobile, adjustStatByFilter, round } from 'utils';
 import { BREADModal } from 'components/Modal/BREADModal';
+import { EloCell } from 'components/EloCell';
 import {
   AverageStatsColumns,
   EfficiencyStatsColumns,
@@ -264,11 +265,9 @@ export function PlayerData() {
                 {playerData?.elo && (
                   <Grid xs item>
                     <Typography align="center" variant="body1">
-                      ELO
+                      Elo RANK
                     </Typography>
-                    <Typography align="center" variant="body1">
-                      <b>{round(playerData.elo)}</b>
-                    </Typography>
+                    <EloCell elo={playerData.elo} title />
                   </Grid>
                 )}
                 <Grid xs item>

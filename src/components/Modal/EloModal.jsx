@@ -20,6 +20,8 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 import { green, red } from '@mui/material/colors';
 import CloseIcon from '@mui/icons-material/Close';
+import { ELO_CONFIG } from 'constants';
+import { ELO_ICON_MAP } from 'utils';
 
 export function EloModal(props) {
   const { open, handleClose } = props;
@@ -48,80 +50,96 @@ export function EloModal(props) {
         <DialogContent>
           <DialogContentText>
             <Grid spacing={2} justifyContent="center" alignItems="center" container>
-              <Grid xs={12} item>
-                <Typography variant="h6" gutterBottom>
-                  <b>Why is Elo calculated this way?</b>
-                </Typography>
-                <Typography sx={{ maxWidth: 800 }} variant="body1" gutterBottom>
-                  The Elo rating system is an algorithmic rating system that is used to calculate
-                  the relative skill levels of players in 1v1 games such as chess. However, we want
-                  to calculate the relative skill levels of teams in 5v5 games such as basketball.
-                  To do this, we need to adjust the Elo rating system to account for the fact that
-                  there are 10 players on the court at once, rather than just 2.
-                </Typography>
-                <Typography sx={{ maxWidth: 800 }} variant="body1" gutterBottom>
-                  We also want to account for the fact that one player can have a significant
-                  impact, so we would rather adjust the Elo rating system to reward performance over
-                  wins.
-                </Typography>
-                <Typography sx={{ maxWidth: 800 }} variant="body1" gutterBottom>
-                  With the formula constructed like this, we can raise <TrendingUpIcon />, or lower{' '}
-                  <TrendingDownIcon /> the Elo impact (weight) of certain situations to create a
-                  better model than basic wins and losses.{' '}
-                  <b style={{ color: green[400] }}>Green</b> means your rating likely went up,{' '}
-                  <b style={{ color: red[400] }}>Red</b> means it likely went down.
-                </Typography>
-                <List>
-                  <ListItem>
-                    <ListItemIcon>
-                      <TrendingUpIcon sx={{ color: green[400] }} />
-                    </ListItemIcon>
-                    <ListItemText primary="Wins by large margins" />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemIcon>
-                      <TrendingUpIcon sx={{ color: red[400] }} />
-                    </ListItemIcon>
-                    <ListItemText primary="Losses by large margins" />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemIcon>
-                      <TrendingUpIcon sx={{ color: green[400] }} />
-                    </ListItemIcon>
-                    <ListItemText primary="Wins against better competition" />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemIcon>
-                      <TrendingUpIcon sx={{ color: green[400] }} />
-                    </ListItemIcon>
-                    <ListItemText primary="Great individual performances/contribution on losing teams" />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemIcon>
-                      <TrendingUpIcon sx={{ color: red[400] }} />
-                    </ListItemIcon>
-                    <ListItemText primary="Losses against worse competition" />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemIcon>
-                      <TrendingDownIcon sx={{ color: red[400] }} />
-                    </ListItemIcon>
-                    <ListItemText primary="Wins with bad individual performances/contribution" />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemIcon>
-                      <TrendingDownIcon sx={{ color: green[400] }} />
-                    </ListItemIcon>
-                    <ListItemText primary="Wins against worse competition" />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemIcon>
-                      <TrendingDownIcon sx={{ color: red[400] }} />
-                    </ListItemIcon>
-                    <ListItemText primary="Losses against better competition" />
-                  </ListItem>
-                </List>
+              <Grid xs={12} container item>
+                <Grid xs={12} sm={8} item>
+                  <Typography variant="h6" gutterBottom>
+                    <b>Why is Elo calculated this way?</b>
+                  </Typography>
+                  <Typography sx={{ maxWidth: 800 }} variant="body1" gutterBottom>
+                    The Elo rating system is an algorithmic rating system that is used to calculate
+                    the relative skill levels of players in 1v1 games such as chess. However, we
+                    want to calculate the relative skill levels of teams in 5v5 games such as
+                    basketball. To do this, we need to adjust the Elo rating system to account for
+                    the fact that there are 10 players on the court at once, rather than just 2.
+                  </Typography>
+                  <Typography sx={{ maxWidth: 800 }} variant="body1" gutterBottom>
+                    We also want to account for the fact that one player can have a significant
+                    impact, so we would rather adjust the Elo rating system to reward performance
+                    over wins.
+                  </Typography>
+                  <Typography sx={{ maxWidth: 800 }} variant="body1" gutterBottom>
+                    With the formula constructed like this, we can raise <TrendingUpIcon />, or
+                    lower <TrendingDownIcon /> the Elo impact (weight) of certain situations to
+                    create a better model than basic wins and losses.{' '}
+                    <b style={{ color: green[400] }}>Green</b> means your rating likely went up,{' '}
+                    <b style={{ color: red[400] }}>Red</b> means it likely went down.
+                  </Typography>
+                  <List>
+                    <ListItem>
+                      <ListItemIcon>
+                        <TrendingUpIcon sx={{ color: green[400] }} />
+                      </ListItemIcon>
+                      <ListItemText primary="Wins by large margins" />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemIcon>
+                        <TrendingUpIcon sx={{ color: red[400] }} />
+                      </ListItemIcon>
+                      <ListItemText primary="Losses by large margins" />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemIcon>
+                        <TrendingUpIcon sx={{ color: green[400] }} />
+                      </ListItemIcon>
+                      <ListItemText primary="Wins against better competition" />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemIcon>
+                        <TrendingUpIcon sx={{ color: green[400] }} />
+                      </ListItemIcon>
+                      <ListItemText primary="Great individual performances/contribution on losing teams" />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemIcon>
+                        <TrendingUpIcon sx={{ color: red[400] }} />
+                      </ListItemIcon>
+                      <ListItemText primary="Losses against worse competition" />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemIcon>
+                        <TrendingDownIcon sx={{ color: red[400] }} />
+                      </ListItemIcon>
+                      <ListItemText primary="Wins with bad individual performances/contribution" />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemIcon>
+                        <TrendingDownIcon sx={{ color: green[400] }} />
+                      </ListItemIcon>
+                      <ListItemText primary="Wins against worse competition" />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemIcon>
+                        <TrendingDownIcon sx={{ color: red[400] }} />
+                      </ListItemIcon>
+                      <ListItemText primary="Losses against better competition" />
+                    </ListItem>
+                  </List>
+                </Grid>
+                <Grid xs={12} sm={4} item>
+                  <Typography variant="h6" gutterBottom>
+                    <b>Elo Ranks</b>
+                  </Typography>
+                  <List>
+                    {Object.keys(ELO_CONFIG).map((eloTier) => (
+                      <ListItem key={eloTier}>
+                        <ListItemIcon>{ELO_ICON_MAP[eloTier]}</ListItemIcon>
+                        <ListItemText primary={eloTier} secondary={ELO_CONFIG[eloTier]} />
+                      </ListItem>
+                    ))}
+                  </List>
+                </Grid>
               </Grid>
+
               <Grid xs={12} item>
                 <Typography variant="h6" gutterBottom>
                   <b>Expected and Actual Results</b>

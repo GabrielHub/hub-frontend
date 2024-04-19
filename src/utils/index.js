@@ -7,3 +7,4 @@ export * from './getReadablePositions';
 export * from './isMobile';
 export * from './calculateLeagueComparisonColor';
 export * from './round';
+export * from './elo';
