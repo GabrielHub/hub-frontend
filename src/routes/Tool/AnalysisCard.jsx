@@ -14,11 +14,10 @@ import {
   Tooltip
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { round } from 'utils';
 import { RATING_COLOR_MAP } from 'constants';
 
 function TeamCard(props) {
-  const { title, totals, efficiency, players, projectedDifferences } = props;
+  const { title, totals, efficiency, players, projectedDifferences, eloProbability } = props;
   const [expanded, setExpanded] = useState(false);
 
   const handleExpandClick = () => {
@@ -50,8 +49,8 @@ function TeamCard(props) {
     } else if (projectedDifferences.elo > 50) {
       eloString = 'Balanced';
     }
-    return `[Elo] ${eloString} ${round(projectedDifferences.elo)}`;
-  }, [projectedDifferences.elo]);
+    return `${eloString ? `${eloString} | ` : ''} Elo Win% ${eloProbability}`;
+  }, [eloProbability, projectedDifferences.elo]);
 
   return (
     <Card sx={{ width: '100%' }}>
@@ -258,7 +257,8 @@ TeamCard.propTypes = {
     blk: PropTypes.number,
     tov: PropTypes.number,
     elo: PropTypes.number
-  }).isRequired
+  }).isRequired,
+  eloProbability: PropTypes.number.isRequired
 };
 
 export function TeamAnalysis(props) {
@@ -339,6 +339,20 @@ export function TeamAnalysis(props) {
       acc[key] = teamTwoTotals[key] - teamOneTotals[key];
       return acc;
     }, {});
+  }, [teamOneTotals, teamTwoTotals]);
+
+  const teamOneEloProbability = useMemo(() => {
+    // * Calculate the probability of each team winning based on Elo
+    const eloDifference = teamTwoTotals.elo - teamOneTotals.elo;
+    const eloProbability = 1 / (1 + 10 ** (eloDifference / 400));
+    return Math.round(eloProbability * 1000) / 10;
+  }, [teamOneTotals, teamTwoTotals]);
+
+  const teamTwoEloProbability = useMemo(() => {
+    // * Calculate the probability of each team winning based on Elo
+    const eloDifference = teamOneTotals.elo - teamTwoTotals.elo;
+    const eloProbability = 1 / (1 + 10 ** (eloDifference / 400));
+    return Math.round(eloProbability * 1000) / 10;
   }, [teamOneTotals, teamTwoTotals]);
 
   useEffect(() => {
@@ -435,6 +449,7 @@ export function TeamAnalysis(props) {
           efficiency={teamOneEfficiency}
           players={teamOnePlayerEstimates}
           projectedDifferences={teamOneTotalDifferences}
+          eloProbability={teamOneEloProbability}
         />
       </Grid>
       <Grid item container xs={12} md={6}>
@@ -444,6 +459,7 @@ export function TeamAnalysis(props) {
           efficiency={teamTwoEfficiency}
           players={teamTwoPlayerEstimates}
           projectedDifferences={teamTwoTotalDifferences}
+          eloProbability={teamTwoEloProbability}
         />
       </Grid>
     </Grid>
