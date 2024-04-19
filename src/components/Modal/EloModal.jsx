@@ -93,13 +93,13 @@ export function EloModal(props) {
                     <ListItemIcon>
                       <TrendingDownIcon sx={{ color: red[400] }} />
                     </ListItemIcon>
-                    <ListItemText primary="Great individual performances on losing teams" />
+                    <ListItemText primary="Great individual performances/contribution on losing teams" />
                   </ListItem>
                   <ListItem>
                     <ListItemIcon>
                       <TrendingDownIcon sx={{ color: red[400] }} />
                     </ListItemIcon>
-                    <ListItemText primary="Wins with bad individual performance" />
+                    <ListItemText primary="Wins with bad individual performances/contribution" />
                   </ListItem>
                   <ListItem>
                     <ListItemIcon>
