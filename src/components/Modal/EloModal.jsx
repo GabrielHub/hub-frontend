@@ -65,17 +65,24 @@ export function EloModal(props) {
                   wins.
                 </Typography>
                 <Typography sx={{ maxWidth: 800 }} variant="body1" gutterBottom>
-                  With the formula constructed like this, we can raise{' '}
-                  <TrendingUpIcon sx={{ color: green[400] }} />, or lower{' '}
-                  <TrendingDownIcon sx={{ color: red[400] }} /> the Elo impact of certain situations
-                  to create a better model.
+                  With the formula constructed like this, we can raise <TrendingUpIcon />, or lower{' '}
+                  <TrendingDownIcon /> the Elo impact (weight) of certain situations to create a
+                  better model than basic wins and losses.{' '}
+                  <b style={{ color: green[400] }}>Green</b> means your rating likely went up,{' '}
+                  <b style={{ color: red[400] }}>Red</b> means it likely went down.
                 </Typography>
                 <List>
                   <ListItem>
                     <ListItemIcon>
                       <TrendingUpIcon sx={{ color: green[400] }} />
                     </ListItemIcon>
-                    <ListItemText primary="Wins or losses by large margins" />
+                    <ListItemText primary="Wins by large margins" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <TrendingUpIcon sx={{ color: red[400] }} />
+                    </ListItemIcon>
+                    <ListItemText primary="Losses by large margins" />
                   </ListItem>
                   <ListItem>
                     <ListItemIcon>
@@ -87,13 +94,13 @@ export function EloModal(props) {
                     <ListItemIcon>
                       <TrendingUpIcon sx={{ color: green[400] }} />
                     </ListItemIcon>
-                    <ListItemText primary="Losses against worse competition" />
+                    <ListItemText primary="Great individual performances/contribution on losing teams" />
                   </ListItem>
                   <ListItem>
                     <ListItemIcon>
-                      <TrendingDownIcon sx={{ color: red[400] }} />
+                      <TrendingUpIcon sx={{ color: red[400] }} />
                     </ListItemIcon>
-                    <ListItemText primary="Great individual performances/contribution on losing teams" />
+                    <ListItemText primary="Losses against worse competition" />
                   </ListItem>
                   <ListItem>
                     <ListItemIcon>
@@ -103,7 +110,7 @@ export function EloModal(props) {
                   </ListItem>
                   <ListItem>
                     <ListItemIcon>
-                      <TrendingDownIcon sx={{ color: red[400] }} />
+                      <TrendingDownIcon sx={{ color: green[400] }} />
                     </ListItemIcon>
                     <ListItemText primary="Wins against worse competition" />
                   </ListItem>
