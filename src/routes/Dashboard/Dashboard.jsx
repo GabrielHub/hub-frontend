@@ -211,7 +211,13 @@ export function Dashboard() {
           onClick={handleRecalculateLeagueAverages}>
           Recalculate League Averages
         </Button>
-        <Button variant="contained" color="primary" onClick={handleRecalculateAwards}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleRecalculateAwards}
+          sx={{
+            marginRight: 1
+          }}>
           Sync Awards
         </Button>
         <Button variant="contained" color="primary" onClick={handleRecalculateElo}>
