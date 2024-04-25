@@ -110,7 +110,7 @@ export function TrendsGraph(props) {
               connectNulls: true,
               showMark: false
             }))}
-            dataset={formattedGameData}
+            dataset={formattedGameData.reverse()}
             height={500}
             margin={{ top: 10 }}
             slotProps={{
