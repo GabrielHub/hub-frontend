@@ -446,6 +446,20 @@ export const OVERALL_PLAYERS_COLUMNS = [
     description: 'Net Rating',
     type: 'number',
     flex: 1
+  },
+  {
+    field: 'win',
+    headerName: 'WINS',
+    description: 'Games won',
+    type: 'number',
+    flex: 1
+  },
+  {
+    field: 'loss',
+    headerName: 'LOSSES',
+    description: 'Games lost',
+    type: 'number',
+    flex: 1
   }
 ];
 
@@ -484,5 +498,7 @@ export const VISIBILITY_MODEL = {
   estPointsPer100: false,
   stopsPer100: false,
   pProd: false,
-  grd: false
+  grd: false,
+  win: false,
+  loss: false
 };

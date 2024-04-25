@@ -47,7 +47,9 @@ import {
   AdvancedStatsColumns,
   DefensiveEfficiencyStatsColumns,
   RECENT_GAMES_COLUMNS,
-  BREADStatsColumns
+  BREADStatsColumns,
+  AdvancedEfficiencyStatsColumns,
+  TotalsColumns
 } from './constants';
 import { StatCard } from './StatCard';
 import { TrendsGraph } from './TrendsGraph';
@@ -280,18 +282,10 @@ export function PlayerData() {
                 </Grid>
                 <Grid xs item>
                   <Typography align="center" variant="body1">
-                    ORtg
+                    WIN%
                   </Typography>
                   <Typography align="center" variant="body1">
-                    <b>{round(playerData.ortg)}</b>
-                  </Typography>
-                </Grid>
-                <Grid xs item>
-                  <Typography align="center" variant="body1">
-                    DRtg
-                  </Typography>
-                  <Typography align="center" variant="body1">
-                    <b>{round(playerData.drtg)}</b>
+                    <b>{round((playerData.win / (playerData.loss + playerData.win)) * 100)}</b>
                   </Typography>
                 </Grid>
               </Grid>
@@ -525,7 +519,7 @@ export function PlayerData() {
               leagueData={leagueData}
               showLeagueComparisons={showLeagueComparisons}
               columns={AverageStatsColumns}
-              title="Average Stats"
+              title="Per Game Averages"
               color={RATING_COLOR_MAP[playerData?.ratingString]}
               perGameFilter={perGameFilter}
               icon={<SportsBasketballIcon sx={{ color: 'white' }} />}
@@ -538,23 +532,10 @@ export function PlayerData() {
               leagueData={leagueData}
               showLeagueComparisons={showLeagueComparisons}
               columns={EfficiencyStatsColumns}
-              title="Efficiency Stats"
+              title="Efficiency"
               color={RATING_COLOR_MAP[playerData?.ratingString]}
               perGameFilter={perGameFilter}
               icon={<WhatshotIcon sx={{ color: 'white' }} />}
-            />
-          </Grid>
-
-          <Grid xs={12} xl={6} sx={{ p: 4 }} item>
-            <StatCard
-              playerData={playerData}
-              leagueData={leagueData}
-              showLeagueComparisons={showLeagueComparisons}
-              columns={AdvancedStatsColumns}
-              title="Advanced Stats"
-              color={RATING_COLOR_MAP[playerData?.ratingString]}
-              perGameFilter={perGameFilter}
-              icon={<InsightsIcon sx={{ color: 'white' }} />}
             />
           </Grid>
 
@@ -568,6 +549,45 @@ export function PlayerData() {
               color={RATING_COLOR_MAP[playerData?.ratingString]}
               perGameFilter={perGameFilter}
               icon={<LockIcon sx={{ color: 'white' }} />}
+            />
+          </Grid>
+
+          <Grid xs={12} xl={6} sx={{ p: 4 }} item>
+            <StatCard
+              playerData={playerData}
+              leagueData={leagueData}
+              showLeagueComparisons={showLeagueComparisons}
+              columns={AdvancedEfficiencyStatsColumns}
+              title="Advanced Efficiency"
+              color={RATING_COLOR_MAP[playerData?.ratingString]}
+              perGameFilter={perGameFilter}
+              icon={<LockIcon sx={{ color: 'white' }} />}
+            />
+          </Grid>
+
+          <Grid xs={12} sm={6} sx={{ p: 4 }} item>
+            <StatCard
+              playerData={playerData}
+              leagueData={leagueData}
+              showLeagueComparisons={showLeagueComparisons}
+              columns={AdvancedStatsColumns}
+              title="Advanced Stats"
+              color={RATING_COLOR_MAP[playerData?.ratingString]}
+              perGameFilter={perGameFilter}
+              icon={<InsightsIcon sx={{ color: 'white' }} />}
+            />
+          </Grid>
+
+          <Grid xs={12} sm={6} sx={{ p: 4 }} item>
+            <StatCard
+              playerData={playerData}
+              leagueData={leagueData}
+              showLeagueComparisons={showLeagueComparisons}
+              columns={TotalsColumns}
+              title="Totals"
+              color={RATING_COLOR_MAP[playerData?.ratingString]}
+              perGameFilter={perGameFilter}
+              icon={<InsightsIcon sx={{ color: 'white' }} />}
             />
           </Grid>
 

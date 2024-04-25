@@ -28,10 +28,6 @@ export const AverageStatsColumns = [
   {
     field: 'tov',
     headerName: 'TO'
-  },
-  {
-    field: 'plusMinus',
-    headerName: '+/-'
   }
 ];
 
@@ -78,11 +74,7 @@ export const EfficiencyStatsColumns = [
   }
 ];
 
-export const AdvancedStatsColumns = [
-  {
-    field: 'pace',
-    headerName: 'PACE'
-  },
+export const AdvancedEfficiencyStatsColumns = [
   {
     field: 'usageRate',
     headerName: 'USG%'
@@ -106,18 +98,25 @@ export const AdvancedStatsColumns = [
   {
     field: 'drebPerc',
     headerName: 'DREB%'
+  }
+];
+
+export const AdvancedStatsColumns = [
+  {
+    field: 'pace',
+    headerName: 'PACE'
+  },
+  {
+    field: 'ortg',
+    headerName: 'ORtg'
+  },
+  {
+    field: 'drtg',
+    headerName: 'DRtg'
   },
   {
     field: 'gameScore',
     headerName: 'GmScr'
-  },
-  {
-    field: 'dd',
-    headerName: 'DD'
-  },
-  {
-    field: 'td',
-    headerName: 'TD'
   }
 ];
 
@@ -159,15 +158,42 @@ export const BREADStatsColumns = [
   },
   {
     field: 'estPointsPer100',
-    headerName: 'BREAD Offensive'
+    headerName: 'PTS/100'
   },
   {
     field: 'stopsPer100',
-    headerName: 'BREAD Defensive'
+    headerName: 'STOPS'
   },
   {
     field: 'pProd',
     headerName: 'PProd'
+  }
+];
+
+export const TotalsColumns = [
+  {
+    field: 'win',
+    headerName: 'WINS'
+  },
+  {
+    field: 'loss',
+    headerName: 'LOSSES'
+  },
+  {
+    field: 'plusMinus',
+    headerName: '+/-'
+  },
+  {
+    field: 'dd',
+    headerName: 'DD'
+  },
+  {
+    field: 'td',
+    headerName: 'TD'
+  },
+  {
+    field: 'qd',
+    headerName: 'QD'
   }
 ];
 
