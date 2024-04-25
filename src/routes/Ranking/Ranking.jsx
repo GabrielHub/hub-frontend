@@ -13,14 +13,11 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { PlayerGrid } from 'components/PlayerGrid';
 import { RATING_CONFIG, RATING_COLOR_MAP } from 'constants';
 import { BREADModal, EloModal } from 'components/Modal';
-import {
-  NBA_EXAMPLES,
-  OVERALL_PLAYERS_COLUMNS,
-  OVERALL_PLAYERS_DEFAULT_SORTS,
-  VISIBILITY_MODEL
-} from './constants';
+import { useStore } from 'services';
+import { NBA_EXAMPLES, OVERALL_PLAYERS_COLUMNS, OVERALL_PLAYERS_DEFAULT_SORTS } from './constants';
 
 export function Ranking() {
+  const { getRankingTableVisibilityModel } = useStore();
   const [breadModal, setBreadModal] = useState(false);
   const [eloModal, setEloModal] = useState(false);
 
@@ -209,7 +206,7 @@ export function Ranking() {
         columns={OVERALL_PLAYERS_COLUMNS}
         defaultSortField={OVERALL_PLAYERS_DEFAULT_SORTS.field}
         defaultSortType={OVERALL_PLAYERS_DEFAULT_SORTS.type}
-        visibilityModel={VISIBILITY_MODEL}
+        visibilityModel={getRankingTableVisibilityModel()}
       />
     </Grid>
   );

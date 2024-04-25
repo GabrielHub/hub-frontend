@@ -12,6 +12,8 @@ What can you do with it?
 4. View positional and league data
 
 ### TODOS:
+> Global Store
+- Add other table values (sorts, filters etc.) to global store
 > Discord webhooks
 - Update a rankings channel for each ranking threshold change
 - reach: update roles based on rating?

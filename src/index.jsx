@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
-import { AuthProvider } from 'services';
+import { AuthProvider, GlobalStateProvider } from 'services';
 import { routerConfig } from 'routes';
 import './index.css';
 import 'react-multi-carousel/lib/styles.css';
@@ -16,7 +16,9 @@ root.render(
   <React.StrictMode>
     <SnackbarProvider autoHideDuration={3000}>
       <AuthProvider>
-        <RouterProvider router={router} />
+        <GlobalStateProvider>
+          <RouterProvider router={router} />
+        </GlobalStateProvider>
       </AuthProvider>
     </SnackbarProvider>
   </React.StrictMode>

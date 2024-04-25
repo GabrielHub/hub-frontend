@@ -10,6 +10,7 @@ import { STAT_PER_TYPES } from 'constants';
 import { StatAdjustDropdown } from 'components/StatAdjustDropdown';
 import { CustomGridCell } from 'components/CustomGridCell';
 import { adjustDataByFilter } from 'utils/adjustPlayerDataByFilter';
+import { useStore } from 'services';
 
 // * There are not enough players to put a hard limit.
 const LIMIT = 100;
@@ -46,6 +47,7 @@ function Footer(props) {
 
 export function PlayerGrid(props) {
   const { columns, defaultSortField, defaultSortType, visibilityModel } = props;
+  const { setRankingTableVisibilityModel } = useStore();
   const { enqueueSnackbar } = useSnackbar();
   const [dropdownValue, setDropdownValue] = useState(STAT_PER_TYPES.DEFAULT);
   const [showComparison, setShowComparison] = useState(false);
@@ -127,6 +129,9 @@ export function PlayerGrid(props) {
         columns={columns}
         sortingMode="server"
         onSortModelChange={(newSortModel) => setSortModel(newSortModel)}
+        onColumnVisibilityModelChange={(newVisibilityModel) => {
+          setRankingTableVisibilityModel(newVisibilityModel);
+        }}
         loading={loading}
         autoPageSize
         slots={{
