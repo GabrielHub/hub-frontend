@@ -16,7 +16,11 @@ export function CustomGridCell({ getBackgroundColor, field, value, ...props }) {
 CustomGridCell.propTypes = {
   getBackgroundColor: PropTypes.func.isRequired,
   field: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+};
+
+CustomGridCell.defaultProps = {
+  value: ''
 };
 
 export default {};

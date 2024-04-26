@@ -449,7 +449,7 @@ export function Awards() {
           </Grid>
           <Grid xs={12} md item>
             <AwardCard
-              title="Fastbreak Made"
+              title="7 Seconds or Less"
               subheader="Highest Pace : USG% ratio"
               subheaderMin="Minimum 25 games played"
               iconComponent={<SpeedIcon />}

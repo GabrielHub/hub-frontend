@@ -9,6 +9,7 @@ const localStorageKey = 'gabrielHub';
 const reducer = (state, action) => {
   switch (action.type) {
     case CONFIG.rankingTableVisibilityModel.setAction:
+    case CONFIG.leagueComparisonToggle.setAction:
     case CONFIG.perGameFilter.setAction:
       return { ...state, [action.key]: action.value };
     default:
@@ -17,11 +18,11 @@ const reducer = (state, action) => {
 };
 
 const initialStateFromLocalStorage = () => {
-  const savedState = JSON.parse(localStorage.getItem(localStorageKey));
+  const savedState = JSON.parse(localStorage.getItem(localStorageKey)) || {};
   return Object.fromEntries(
     Object.entries(CONFIG).map(([key, { initialState }]) => [
       key,
-      savedState?.[key] ? savedState[key] : initialState
+      savedState[key] !== undefined ? savedState[key] : initialState
     ])
   );
 };
@@ -31,9 +32,9 @@ export function GlobalStateProvider({ children }) {
 
   // Load initial state from localStorage
   useEffect(() => {
-    const savedState = JSON.parse(localStorage.getItem(localStorageKey));
+    const savedState = JSON.parse(localStorage.getItem(localStorageKey)) || {};
     Object.keys(CONFIG).forEach((key) => {
-      const value = savedState?.[key] ? savedState[key] : CONFIG[key].initialState;
+      const value = savedState[key] !== undefined ? savedState[key] : CONFIG[key].initialState;
       dispatch({ type: CONFIG[key].setAction, key, value });
     });
   }, []);

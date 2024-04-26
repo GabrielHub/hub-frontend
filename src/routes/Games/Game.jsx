@@ -15,7 +15,7 @@ import { Loading } from 'components/Loading';
 import { GameGrid } from 'components/GameGrid';
 import { AlgoliaSearch } from 'components/AlgoliaSearch';
 import { POSITION_READABLE } from 'constants';
-
+import { useStore } from 'services';
 import { GAME_SEARCH_COLUMNS } from './constants';
 
 const positionOptions = Object.keys(POSITION_READABLE).map((pos) => ({
@@ -25,13 +25,14 @@ const positionOptions = Object.keys(POSITION_READABLE).map((pos) => ({
 
 export function Game() {
   const { enqueueSnackbar } = useSnackbar();
+  const { getLeagueComparisonToggle, setLeagueComparisonToggle } = useStore();
 
   const [isLoading, setIsLoading] = useState(false);
   /** Used to search games */
   const [playerId, setPlayerId] = useState(null);
   const [numOfGames, setNumOfGames] = useState(10);
   const [positionFilter, setPositionFilter] = useState([]);
-  const [showLeagueComparison, setShowLeagueComparison] = useState(false);
+  const [showLeagueComparison, setShowLeagueComparison] = useState(getLeagueComparisonToggle());
   /** The games returned by the search function  */
   const [gamesSearchList, setGamesSearchList] = useState(null);
   const [leagueData, setLeagueData] = useState(null);
@@ -101,6 +102,13 @@ export function Game() {
     }
   };
 
+  const handleLeagueComparisonToggle = (e) => {
+    const { value } = e.target;
+    console.log('value', value);
+    setLeagueComparisonToggle(value);
+    setShowLeagueComparison(value);
+  };
+
   return (
     <Grid sx={{ maxWidth: 1440, margin: 'auto' }} container>
       <Loading isLoading={isLoading} />
@@ -150,7 +158,7 @@ export function Game() {
           <FormControl fullWidth>
             <Select
               value={showLeagueComparison}
-              onChange={(e) => setShowLeagueComparison(e.target.value)}
+              onChange={handleLeagueComparisonToggle}
               renderValue={(selected) => (selected ? 'Yes' : 'No')}>
               <MenuItem value>Yes</MenuItem>
               <MenuItem value={false}>No</MenuItem>

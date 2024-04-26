@@ -19,7 +19,7 @@ export function AwardCard(props) {
   const navigate = useNavigate();
   return (
     <Card
-      sx={{ height: '100%', backgroundColor: `${avatarColor}25`, minWidth: 350, border: 0 }}
+      sx={{ height: '100%', backgroundColor: `${avatarColor}25`, minWidth: 300, border: 0 }}
       variant="outlined">
       <CardContent>
         <Grid container>

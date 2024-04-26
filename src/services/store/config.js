@@ -42,12 +42,17 @@ const CONFIG = {
     setFunction: 'setRankingTableVisibilityModel',
     getFunction: 'getRankingTableVisibilityModel'
   },
-  // TODO Shared PER game filter
   perGameFilter: {
     initialState: STAT_PER_TYPES.DEFAULT,
     setAction: 'SET_PER_GAME_FILTER',
     setFunction: 'setPerGameFilter',
     getFunction: 'getPerGameFilter'
+  },
+  leagueComparisonToggle: {
+    initialState: false,
+    setAction: 'SET_LEAGUE_COMPARISON_TOGGLE',
+    setFunction: 'setLeagueComparisonToggle',
+    getFunction: 'getLeagueComparisonToggle'
   }
 };
 

@@ -35,12 +35,13 @@ import LockIcon from '@mui/icons-material/Lock';
 import BreakfastDiningIcon from '@mui/icons-material/BreakfastDining';
 import { fetchPlayerData, fetchLastGames } from 'rest';
 import { Loading } from 'components/Loading';
-import { POSITION_READABLE, RATING_COLOR_MAP, STAT_PER_TYPES } from 'constants';
+import { POSITION_READABLE, RATING_COLOR_MAP } from 'constants';
 import { StatAdjustDropdown } from 'components/StatAdjustDropdown';
 import { GameGrid } from 'components/GameGrid';
 import { getReadablePositions, isMobile, adjustStatByFilter, round } from 'utils';
 import { BREADModal } from 'components/Modal/BREADModal';
 import { EloCell } from 'components/EloCell';
+import { useStore } from 'services';
 import {
   AverageStatsColumns,
   EfficiencyStatsColumns,
@@ -61,6 +62,12 @@ export function PlayerData() {
   const { playerID } = useParams();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
+  const {
+    getPerGameFilter,
+    setPerGameFilter,
+    getLeagueComparisonToggle,
+    setLeagueComparisonToggle
+  } = useStore();
 
   const [playerData, setPlayerData] = useState(null);
   const [leagueData, setLeagueData] = useState(null);
@@ -70,8 +77,8 @@ export function PlayerData() {
   const [filterByLock, setFilterByLock] = useState(false);
   /** Only initially fetch positionOptions, as they don't exist on other positional data */
   const [positionOptions, setPositionOptions] = useState(null);
-  const [perGameFilter, setPerGameFilter] = useState(STAT_PER_TYPES.DEFAULT);
-  const [showLeagueComparisons, setShowLeagueComparisons] = useState(false);
+  const [gameFilter, setGameFilter] = useState(getPerGameFilter());
+  const [showLeagueComparisons, setShowLeagueComparisons] = useState(getLeagueComparisonToggle());
   const [openModal, setOpenModal] = useState(false);
 
   const handleOpen = () => setOpenModal(true);
@@ -126,6 +133,16 @@ export function PlayerData() {
       setPositionOptions(options);
     }
   }, [playerData]);
+
+  const handleGameFilter = (e) => {
+    setGameFilter(e.target.value);
+    setPerGameFilter(e.target.value);
+  };
+
+  const handleLeagueComparisonToggle = () => {
+    setLeagueComparisonToggle(!showLeagueComparisons);
+    setShowLeagueComparisons(!showLeagueComparisons);
+  };
 
   return (
     <div style={{ backgroundColor: `${RATING_COLOR_MAP[playerData?.ratingString]}10` }}>
@@ -217,9 +234,7 @@ export function PlayerData() {
                     PPG
                   </Typography>
                   <Typography align="center" variant="body1">
-                    <b>
-                      {adjustStatByFilter('pts', playerData.pace, playerData.pts, perGameFilter)}
-                    </b>
+                    <b>{adjustStatByFilter('pts', playerData.pace, playerData.pts, gameFilter)}</b>
                   </Typography>
                 </Grid>
                 <Divider orientation="vertical" flexItem sx={{ bgcolor: 'white', my: 1 }} />
@@ -229,7 +244,7 @@ export function PlayerData() {
                   </Typography>
                   <Typography align="center" variant="body1">
                     <b>
-                      {adjustStatByFilter('treb', playerData.pace, playerData.treb, perGameFilter)}
+                      {adjustStatByFilter('treb', playerData.pace, playerData.treb, gameFilter)}
                     </b>
                   </Typography>
                 </Grid>
@@ -239,9 +254,7 @@ export function PlayerData() {
                     APG
                   </Typography>
                   <Typography align="center" variant="body1">
-                    <b>
-                      {adjustStatByFilter('ast', playerData.pace, playerData.ast, perGameFilter)}
-                    </b>
+                    <b>{adjustStatByFilter('ast', playerData.pace, playerData.ast, gameFilter)}</b>
                   </Typography>
                 </Grid>
                 <Divider orientation="vertical" flexItem sx={{ bgcolor: 'white', my: 1 }} />
@@ -346,8 +359,8 @@ export function PlayerData() {
                 </Grid>
                 <Grid xs={12} sm={6} item>
                   <StatAdjustDropdown
-                    dropdownValue={perGameFilter}
-                    handleDropdownChange={(e) => setPerGameFilter(e.target.value)}
+                    dropdownValue={gameFilter}
+                    handleDropdownChange={handleGameFilter}
                     fullWidth
                   />
                 </Grid>
@@ -370,7 +383,7 @@ export function PlayerData() {
                   control={
                     <Switch
                       checked={showLeagueComparisons}
-                      onChange={() => setShowLeagueComparisons(!showLeagueComparisons)}
+                      onChange={handleLeagueComparisonToggle}
                     />
                   }
                   label="Compare To League Average"
@@ -444,12 +457,7 @@ export function PlayerData() {
                 </Typography>
                 <Typography align="right" variant="body2" color="text.secondary">
                   {Math.round(
-                    adjustStatByFilter(
-                      'estPoss',
-                      playerData.pace,
-                      playerData.estPoss,
-                      perGameFilter
-                    )
+                    adjustStatByFilter('estPoss', playerData.pace, playerData.estPoss, gameFilter)
                   )}{' '}
                   est. possessions | {round(playerData.usageRate)} USG%
                 </Typography>
@@ -521,7 +529,7 @@ export function PlayerData() {
               columns={AverageStatsColumns}
               title="Per Game Averages"
               color={RATING_COLOR_MAP[playerData?.ratingString]}
-              perGameFilter={perGameFilter}
+              perGameFilter={gameFilter}
               icon={<SportsBasketballIcon sx={{ color: 'white' }} />}
             />
           </Grid>
@@ -534,7 +542,7 @@ export function PlayerData() {
               columns={EfficiencyStatsColumns}
               title="Efficiency"
               color={RATING_COLOR_MAP[playerData?.ratingString]}
-              perGameFilter={perGameFilter}
+              perGameFilter={gameFilter}
               icon={<WhatshotIcon sx={{ color: 'white' }} />}
             />
           </Grid>
@@ -547,7 +555,7 @@ export function PlayerData() {
               columns={DefensiveEfficiencyStatsColumns}
               title="Defensive Efficiency"
               color={RATING_COLOR_MAP[playerData?.ratingString]}
-              perGameFilter={perGameFilter}
+              perGameFilter={gameFilter}
               icon={<LockIcon sx={{ color: 'white' }} />}
             />
           </Grid>
@@ -560,7 +568,7 @@ export function PlayerData() {
               columns={AdvancedEfficiencyStatsColumns}
               title="Advanced Efficiency"
               color={RATING_COLOR_MAP[playerData?.ratingString]}
-              perGameFilter={perGameFilter}
+              perGameFilter={gameFilter}
               icon={<LockIcon sx={{ color: 'white' }} />}
             />
           </Grid>
@@ -573,7 +581,7 @@ export function PlayerData() {
               columns={AdvancedStatsColumns}
               title="Advanced Stats"
               color={RATING_COLOR_MAP[playerData?.ratingString]}
-              perGameFilter={perGameFilter}
+              perGameFilter={gameFilter}
               icon={<InsightsIcon sx={{ color: 'white' }} />}
             />
           </Grid>
@@ -586,7 +594,7 @@ export function PlayerData() {
               columns={TotalsColumns}
               title="Totals"
               color={RATING_COLOR_MAP[playerData?.ratingString]}
-              perGameFilter={perGameFilter}
+              perGameFilter={gameFilter}
               icon={<InsightsIcon sx={{ color: 'white' }} />}
             />
           </Grid>
@@ -599,7 +607,7 @@ export function PlayerData() {
               columns={BREADStatsColumns}
               title="BREAD Advanced Stats"
               color={RATING_COLOR_MAP[playerData?.ratingString]}
-              perGameFilter={perGameFilter}
+              perGameFilter={gameFilter}
               icon={
                 <IconButton onClick={handleOpen} sx={{ border: '1px solid white' }}>
                   <BreakfastDiningIcon sx={{ color: 'white' }} />

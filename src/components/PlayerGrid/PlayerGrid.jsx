@@ -6,7 +6,6 @@ import { DataGrid, GridPagination } from '@mui/x-data-grid';
 import { fetchTableData, fetchLeagueAverages } from 'rest';
 import { TableFooterModal } from 'components/Modal';
 import { calculateLeagueComparisonColor } from 'utils';
-import { STAT_PER_TYPES } from 'constants';
 import { StatAdjustDropdown } from 'components/StatAdjustDropdown';
 import { CustomGridCell } from 'components/CustomGridCell';
 import { adjustDataByFilter } from 'utils/adjustPlayerDataByFilter';
@@ -47,10 +46,16 @@ function Footer(props) {
 
 export function PlayerGrid(props) {
   const { columns, defaultSortField, defaultSortType, visibilityModel } = props;
-  const { setRankingTableVisibilityModel } = useStore();
+  const {
+    setRankingTableVisibilityModel,
+    getPerGameFilter,
+    setPerGameFilter,
+    setLeagueComparisonToggle,
+    getLeagueComparisonToggle
+  } = useStore();
   const { enqueueSnackbar } = useSnackbar();
-  const [dropdownValue, setDropdownValue] = useState(STAT_PER_TYPES.DEFAULT);
-  const [showComparison, setShowComparison] = useState(false);
+  const [dropdownValue, setDropdownValue] = useState(getPerGameFilter());
+  const [showComparison, setShowComparison] = useState(getLeagueComparisonToggle());
   const [comparisonData, setComparisonData] = useState(null);
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -63,6 +68,7 @@ export function PlayerGrid(props) {
 
   const handleDropdownChange = (event) => {
     setDropdownValue(event.target.value);
+    setPerGameFilter(event.target.value);
   };
 
   const fetchComparisonData = useCallback(async () => {
@@ -79,6 +85,7 @@ export function PlayerGrid(props) {
   }, [comparisonData, fetchComparisonData, showComparison]);
 
   const handleComparisonChange = async () => {
+    setLeagueComparisonToggle(!showComparison);
     setShowComparison((prev) => !prev);
   };
 
