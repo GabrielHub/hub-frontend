@@ -104,7 +104,6 @@ export function Game() {
 
   const handleLeagueComparisonToggle = (e) => {
     const { value } = e.target;
-    console.log('value', value);
     setLeagueComparisonToggle(value);
     setShowLeagueComparison(value);
   };
