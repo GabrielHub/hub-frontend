@@ -53,6 +53,12 @@ const CONFIG = {
     setAction: 'SET_LEAGUE_COMPARISON_TOGGLE',
     setFunction: 'setLeagueComparisonToggle',
     getFunction: 'getLeagueComparisonToggle'
+  },
+  statTrendFilter: {
+    initialState: ['PER'],
+    setAction: 'SET_STAT_TREND_FILTER',
+    setFunction: 'setStatTrendFilter',
+    getFunction: 'getStatTrendFilter'
   }
 };
 

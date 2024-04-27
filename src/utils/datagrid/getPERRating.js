@@ -8,24 +8,6 @@ const mapRating = (value) => {
   return rating || 'MVP';
 };
 
-// A function that takes a PER from 0 to 35+, and returns a scaled number from 0 to 10, relative to the PER
-// A PER of 15 should always be a 5
-export const getPERRating = (params) => {
-  const per = params.value;
-  let rating = 10;
-  if (per <= 0) {
-    rating = 0;
-  }
-  if (per <= 15) {
-    rating = (per / 15) * 5;
-  }
-  if (per <= 35) {
-    rating = ((per - 15) / 20) * 5 + 5;
-  }
-
-  return `${rating.toFixed(2)} (${mapRating(rating)})`;
-};
-
 export const getRatingStringFromPER = (per) => {
   let rating = 10;
   if (per <= 0) {

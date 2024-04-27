@@ -13,6 +13,8 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { mangoFusionPalette } from '@mui/x-charts/colorPalettes';
 import { LineChart } from '@mui/x-charts/LineChart';
+import { useStore } from 'services';
+import { RATING_COLOR_MAP } from 'constants';
 
 const keyToLabel = {
   pts: 'Points',
@@ -27,17 +29,43 @@ const keyToLabel = {
   threepm: '3PM',
   threepa: '3PA',
   PER: 'PER',
-  pace: 'Pace'
+  pace: 'Pace',
+  usageRate: 'Usage Rate'
 };
+
+const PER_THRESHOLDS = {
+  Bench: 9,
+  Rotation: 12.9,
+  Starter: 15,
+  SecondOption: 16.2,
+  AllStar: 23,
+  Superstar: 27.5
+};
+
+const PER_REFERENCE_LINES = Object.keys(PER_THRESHOLDS).map((key) => {
+  const per = PER_THRESHOLDS[key];
+  return {
+    dataKey: `${key}RefLine`,
+    referenceValue: per,
+    label: key,
+    color: RATING_COLOR_MAP[key]
+  };
+});
 
 export function TrendsGraph(props) {
   const { gameData, positionFilter } = props;
-
-  const [selectedStats, setSelectedStats] = useState(['pts']);
+  const { getStatTrendFilter, setStatTrendFilter } = useStore();
+  const [selectedStats, setSelectedStats] = useState(getStatTrendFilter());
+  const [perFilter, setPERFilter] = useState(['Starter']);
   const [numGames, setNumGames] = useState(25);
 
   const handleChange = (event) => {
     setSelectedStats(event.target.value);
+    setStatTrendFilter(event.target.value);
+  };
+
+  const handlePERFilterChange = (event) => {
+    setPERFilter(event.target.value);
   };
 
   const formattedGameData = useMemo(() => {
@@ -53,14 +81,48 @@ export function TrendsGraph(props) {
         const formattedGame = {
           id: index
         };
+
+        if (selectedStats.includes('PER')) {
+          PER_REFERENCE_LINES.forEach((line) => {
+            formattedGame[line.dataKey] = line.referenceValue;
+          });
+        }
+
         Object.keys(keyToLabel).forEach((key) => {
           formattedGame[key] = game[key];
         });
         return formattedGame;
       })
       .sort((a, b) => b.playedAt - a.playedAt)
-      .slice(0, numGames);
-  }, [gameData, numGames, positionFilter]);
+      .slice(0, numGames)
+      .reverse();
+  }, [gameData, numGames, positionFilter, selectedStats]);
+
+  const seriesData = useMemo(() => {
+    const lines = selectedStats.map((key) => ({
+      dataKey: key,
+      label: keyToLabel[key],
+      connectNulls: true,
+      showMark: false
+    }));
+
+    if (selectedStats.includes('PER')) {
+      // merge lines array with the PER_REFERENCE_LINES
+      PER_REFERENCE_LINES.forEach((line) => {
+        if (perFilter.includes(line.label)) {
+          lines.push({
+            dataKey: line.dataKey,
+            label: line.label,
+            color: line.color,
+            showMark: false,
+            disableHighlight: true,
+            type: 'line'
+          });
+        }
+      });
+    }
+    return lines;
+  }, [perFilter, selectedStats]);
 
   return (
     <Grid xs={12} sx={{ p: 4 }} item>
@@ -72,7 +134,7 @@ export function TrendsGraph(props) {
         </AccordionSummary>
         <AccordionDetails>
           <Grid container spacing={2} alignItems="center">
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm>
               <Select
                 sx={{ marginBottom: 4, marginRight: 4 }}
                 multiple
@@ -86,7 +148,23 @@ export function TrendsGraph(props) {
                 ))}
               </Select>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            {selectedStats.includes('PER') && (
+              <Grid item xs={12} sm>
+                <Select
+                  sx={{ marginBottom: 4, marginRight: 4 }}
+                  multiple
+                  value={perFilter}
+                  onChange={handlePERFilterChange}
+                  fullWidth>
+                  {PER_REFERENCE_LINES.map((line) => (
+                    <MenuItem key={line.label} value={line.label}>
+                      {line.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </Grid>
+            )}
+            <Grid item xs={12} sm>
               <Typography id="input-slider" gutterBottom>
                 Show Last {numGames} Games
               </Typography>
@@ -104,13 +182,8 @@ export function TrendsGraph(props) {
           <LineChart
             key={positionFilter}
             colors={mangoFusionPalette}
-            series={selectedStats.map((key) => ({
-              dataKey: key,
-              label: keyToLabel[key],
-              connectNulls: true,
-              showMark: false
-            }))}
-            dataset={formattedGameData.reverse()}
+            series={seriesData}
+            dataset={formattedGameData}
             height={500}
             margin={{ top: 10 }}
             slotProps={{

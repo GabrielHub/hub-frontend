@@ -10,6 +10,7 @@ const reducer = (state, action) => {
   switch (action.type) {
     case CONFIG.rankingTableVisibilityModel.setAction:
     case CONFIG.leagueComparisonToggle.setAction:
+    case CONFIG.statTrendFilter.setAction:
     case CONFIG.perGameFilter.setAction:
       return { ...state, [action.key]: action.value };
     default:
