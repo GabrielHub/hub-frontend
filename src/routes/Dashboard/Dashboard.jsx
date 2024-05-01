@@ -28,7 +28,8 @@ import {
   recalculateLeagueAverages,
   recalculatePlayerAverages,
   recalculateAwards,
-  recalculateElo
+  recalculateElo,
+  deleteDuplicateGames
 } from 'rest';
 import { GAMES_COLUMNS } from './constants';
 
@@ -160,7 +161,7 @@ export function Dashboard() {
     setEditedPlayerData({ ...editedPlayerData, alias: aliases });
   };
 
-  const handleDeletePlayer = async () => {
+  const handleDeletePlayer = useCallback(async () => {
     setLoading(true);
     try {
       await deletePlayer(playerID);
@@ -173,7 +174,20 @@ export function Dashboard() {
     }
     setOpen(false);
     setLoading(false);
-  };
+  }, [enqueueSnackbar, playerID]);
+
+  const handleDeleteDuplicates = useCallback(async () => {
+    setLoading(true);
+    try {
+      await deleteDuplicateGames();
+      enqueueSnackbar('Duplicate Games Deleted', { variant: 'success' });
+    } catch (err) {
+      enqueueSnackbar('Error deleting duplicate games, please try again', {
+        variant: 'error'
+      });
+    }
+    setLoading(false);
+  }, [enqueueSnackbar]);
 
   return (
     <Grid container>
@@ -220,8 +234,17 @@ export function Dashboard() {
           }}>
           Sync Awards
         </Button>
-        <Button variant="contained" color="primary" onClick={handleRecalculateElo}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleRecalculateElo}
+          sx={{
+            marginRight: 1
+          }}>
           Sync Elo
+        </Button>
+        <Button variant="contained" color="primary" onClick={handleDeleteDuplicates}>
+          Delete Duplicate Games
         </Button>
       </Grid>
       <Grid sx={{ py: 4 }} xs={12} item>
