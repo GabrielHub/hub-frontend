@@ -413,7 +413,7 @@ export function Awards() {
           <Grid xs={12} md item>
             <AwardCard
               title="Best 2 Way"
-              subheader="Highest Defensive Rating and Offensive Rating factoring in USG%"
+              subheader="Highest difference of Offensive Rating and Defensive Rating, factoring in USG%"
               subheaderMin="Minimum 25 games played"
               iconComponent={<SwapHorizIcon />}
               avatarColor={purple.A400}
@@ -450,7 +450,7 @@ export function Awards() {
           <Grid xs={12} md item>
             <AwardCard
               title="7 Seconds or Less"
-              subheader="Highest Pace : USG% ratio"
+              subheader="Highest Pace factoring USG%"
               subheaderMin="Minimum 25 games played"
               iconComponent={<SpeedIcon />}
               avatarColor={pink[200]}
