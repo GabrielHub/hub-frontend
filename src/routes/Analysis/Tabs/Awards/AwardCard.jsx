@@ -25,8 +25,17 @@ export function AwardCard(props) {
         <Grid container>
           <Grid item container xs={12}>
             <Grid xs={12} item>
-              <Typography variant="h6" color="text.primary" fontWeight="bold">
-                {title.toUpperCase()}
+              <Typography
+                variant="h6"
+                fontWeight="bold"
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1,
+                  color: avatarColor,
+                  textShadow: '1px 1px 2px #558abb'
+                }}>
+                {iconComponent} {title.toUpperCase()}
               </Typography>
             </Grid>
             <Grid xs={12} item>
@@ -53,11 +62,8 @@ export function AwardCard(props) {
           alignItems="center"
           container
           item>
-          <Grid xs={8} sm={6} alignItems="center" container item>
-            <Grid xs item>
-              {iconComponent}
-            </Grid>
-            <Grid xs={10} item>
+          <Grid xs sm alignItems="center" container item>
+            <Grid xs sm item>
               <Typography variant="h6" align="left" color="text.primary">
                 {name}
               </Typography>

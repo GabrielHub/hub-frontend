@@ -2,7 +2,17 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 import { Grid, Typography, Card, CardHeader, CardContent, Button, Collapse } from '@mui/material';
-import { blue, amber, deepOrange, green, red, blueGrey, pink, purple } from '@mui/material/colors';
+import {
+  blue,
+  amber,
+  deepOrange,
+  green,
+  red,
+  blueGrey,
+  pink,
+  purple,
+  yellow
+} from '@mui/material/colors';
 import StarIcon from '@mui/icons-material/Star';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
@@ -18,6 +28,10 @@ import SecurityIcon from '@mui/icons-material/Security';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
+import DiamondIcon from '@mui/icons-material/Diamond';
+import DoNotTouchIcon from '@mui/icons-material/DoNotTouch';
+import GroupsIcon from '@mui/icons-material/Groups';
 import { Loading } from 'components/Loading';
 import { fetchAwards, fetchLeagueAverages } from 'rest';
 import { AwardCard } from './AwardCard';
@@ -109,14 +123,12 @@ export function Awards() {
   }, [enqueueSnackbar]);
 
   const getLeagueData = useCallback(async () => {
-    setIsLoading(true);
     const { data, error } = await fetchLeagueAverages();
     if (error) {
       enqueueSnackbar('Error reading data, please try again later', { variant: 'error' });
     } else {
       setLeagueData(data);
     }
-    setIsLoading(false);
   }, [enqueueSnackbar]);
 
   useEffect(() => {
@@ -208,7 +220,6 @@ export function Awards() {
               name={awardData?.mvp?.name}
               positions={awardData?.mvp?.positions}
               values={[`${awardData?.mvp?.value} PER`]}
-              leagueAvg={[leagueData?.PER]}
             />
           </Grid>
           <Grid xs={12} md item>
@@ -223,7 +234,6 @@ export function Awards() {
               name={awardData?.dpoy?.name}
               positions={awardData?.dpoy?.positions}
               values={[`${awardData?.dpoy?.value} Drtg`]}
-              leagueAvg={[`${Math.round((leagueData?.drtg || 0) * 10) / 10} Drtg`]}
             />
           </Grid>
           <Grid xs={12} md item>
@@ -237,7 +247,32 @@ export function Awards() {
               name={awardData?.poaDefender?.name}
               positions={awardData?.poaDefender?.positions}
               values={[`${awardData?.poaDefender?.value} Drtg`]}
-              leagueAvg={[`${Math.round((leagueData?.drtg || 0) * 10) / 10} Drtg`]}
+            />
+          </Grid>
+          <Grid xs={12} md item>
+            <AwardCard
+              title="Winner of The Year"
+              subheader="Highest Win % of all players"
+              subheaderMin="Minimum 25 games"
+              iconComponent={<MilitaryTechIcon />}
+              avatarColor={yellow[200]}
+              playerId={awardData?.winnerOfTheYear?.id}
+              name={awardData?.winnerOfTheYear?.name}
+              positions={awardData?.winnerOfTheYear?.positions}
+              values={[`${awardData?.winnerOfTheYear?.value} WIN%`]}
+            />
+          </Grid>
+          <Grid xs={12} md item>
+            <AwardCard
+              title="Competitor of The Year"
+              subheader="Highest Elo Ranking of all players"
+              subheaderMin="Minimum 25 games"
+              iconComponent={<DiamondIcon />}
+              avatarColor={blue[200]}
+              playerId={awardData?.rankerOfTheYear?.id}
+              name={awardData?.rankerOfTheYear?.name}
+              positions={awardData?.rankerOfTheYear?.positions}
+              values={[`${awardData?.rankerOfTheYear?.value} Elo`]}
             />
           </Grid>
         </AwardContainer>
@@ -345,6 +380,8 @@ export function Awards() {
           leagueAverages={[
             `${Math.round((leagueData?.ast || 0) * 10) / 10} AST`,
             `${Math.round((leagueData?.tov || 0) * 10) / 10} TOV`,
+            `${Math.round((leagueData?.astPerc || 0) * 10) / 10} AST%`,
+            `${Math.round((leagueData?.tovPerc || 0) * 10) / 10} TOV%`,
             `${Math.round((leagueData?.usageRate || 0) * 10) / 10} USG%`
           ]}>
           <Grid xs={12} md item>
@@ -363,7 +400,6 @@ export function Awards() {
               ]}
             />
           </Grid>
-
           <Grid xs={12} md item>
             <AwardCard
               title="Best Passer"
@@ -378,6 +414,22 @@ export function Awards() {
                 `${awardData?.bestPasser?.value.split(' ')[0]} AST`,
                 `${awardData?.bestPasser?.value.split(' ')[1]} TOV`,
                 `${awardData?.bestPasser?.value.split(' ')[2]} USG%`
+              ]}
+            />
+          </Grid>
+          <Grid xs={12} md item>
+            <AwardCard
+              title="Turnover Machine"
+              subheader="Highest turnover percentage compared to total turnovers"
+              subheaderMin="Minimum 25 games played"
+              iconComponent={<DoNotTouchIcon />}
+              avatarColor={blueGrey[400]}
+              playerId={awardData?.turnoverMachine?.id}
+              name={awardData?.turnoverMachine?.name}
+              positions={awardData?.turnoverMachine?.positions}
+              values={[
+                `${awardData?.turnoverMachine?.value.split(' ')[0]} TOV%`,
+                `${awardData?.turnoverMachine?.value.split(' ')[1]} TOV`
               ]}
             />
           </Grid>
@@ -434,7 +486,10 @@ export function Awards() {
         <AwardContainer
           header="Misc Awards"
           color={pink[600]}
-          leagueAverages={[`${Math.round((leagueData?.pace || 0) * 10) / 10} Pace`]}>
+          leagueAverages={[
+            `${Math.round((leagueData?.pace || 0) * 10) / 10} Pace`,
+            `${Math.round((leagueData?.fga || 0) * 10) / 10} FGA`
+          ]}>
           <Grid xs={12} md item>
             <AwardCard
               title="Most Active"
@@ -460,6 +515,22 @@ export function Awards() {
               values={[
                 `${awardData?.fastbreakPlayer?.value.split(' ')[0]} Pace`,
                 `${awardData?.fastbreakPlayer?.value.split(' ')[1]} FGA`
+              ]}
+            />
+          </Grid>
+          <Grid xs={12} md item>
+            <AwardCard
+              title="Teammate of The Year"
+              subheader="Highest eFG% with the lowest USG%"
+              subheaderMin="Minimum 25 games played"
+              iconComponent={<GroupsIcon />}
+              avatarColor={pink.A200}
+              playerId={awardData?.teamPlayerOfTheYear?.id}
+              name={awardData?.teamPlayerOfTheYear?.name}
+              positions={awardData?.teamPlayerOfTheYear?.positions}
+              values={[
+                `${awardData?.teamPlayerOfTheYear?.value.split(' ')[0]} USG%`,
+                `${awardData?.teamPlayerOfTheYear?.value.split(' ')[1]} eFG%`
               ]}
             />
           </Grid>
