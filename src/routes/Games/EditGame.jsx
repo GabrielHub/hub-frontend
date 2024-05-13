@@ -76,11 +76,12 @@ export function EditGame() {
       return;
     }
 
-    const result = await updateGameDetails(gameID, validatedData);
-    if (result.success) {
-      navigate('/dashboard');
-    } else {
+    try {
+      await updateGameDetails(gameID, validatedData);
+    } catch (e) {
       enqueueSnackbar('Error saving game data', { variant: 'error' });
+      // eslint-disable-next-line no-console
+      console.error(e);
     }
     setIsLoading(false);
   };
