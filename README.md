@@ -12,6 +12,15 @@ What can you do with it?
 4. View positional and league data
 
 ### TODOS:
+> Bugs
+- Dashboard should have a modal that shows all players who don't have an updated FT%
+- Delete Duplicate Games isn't working right now
+- Wrong icon on efficiency card on player page
+- Can't filter or sort games table on dashboard
+- Games table on dashboard should use boolean type for isAI
+- First player upload breaks their rating
+- Sometimes upload creates a new player even if it is an existing alias
+
 > Global Store
 - Add other table values (sorts, filters etc.) to global store
 > Discord webhooks
@@ -30,8 +39,11 @@ What can you do with it?
 - bpm should be on a per game basis, but needs to be refactored to work that way when the new year starts
 - fix types on the backend. Advanced stats will always be there when starting a new year
 - change percentages to be raw values, instead of storing them as readable values
+> Direct Player Comparison
+- Similar to the draft tool, but allows more direct comparison between two players at a position, including lock
 > Career Highs (league + player)
 - Add `career` subcollection to `players`
+- Player page should have section for career highs
 - League average scheduled function should also calculate league highs in stats based on player `career` subcollection
 
 ### How to setup
