@@ -15,7 +15,6 @@ What can you do with it?
 > Bugs
 - Dashboard should have a modal that shows all players who don't have an updated FT%
 - Delete Duplicate Games isn't working right now
-- Wrong icon on efficiency card on player page
 - Can't filter or sort games table on dashboard
 - Games table on dashboard should use boolean type for isAI
 - First player upload breaks their rating
