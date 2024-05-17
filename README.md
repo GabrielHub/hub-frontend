@@ -21,6 +21,15 @@ What can you do with it?
 - First player upload breaks their rating
 - Sometimes upload creates a new player even if it is an existing alias
 
+> Audits
+- Add audits collection (for games and players) (for now just for admin changes)
+    - audits have a gameid or playerid. They'll have a description, a timestamp, and the email of the user who made the change
+- Audit when player data is changed (name, alias, ftperc)
+- Audit when game data is changed through dashboard
+- Audit when any dashboard button is run from the frontend
+- Audits are viewable by admins on player page for player changes
+- A way to search and view game audits?
+- A way to search for audits
 > Global Store
 - Add other table values (sorts, filters etc.) to global store
 > Discord webhooks
