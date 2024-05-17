@@ -569,7 +569,7 @@ export function PlayerData() {
               title="Advanced Efficiency"
               color={RATING_COLOR_MAP[playerData?.ratingString]}
               perGameFilter={gameFilter}
-              icon={<LockIcon sx={{ color: 'white' }} />}
+              icon={<WhatshotIcon sx={{ color: 'white' }} />}
             />
           </Grid>
 
