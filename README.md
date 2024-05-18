@@ -19,10 +19,13 @@ What can you do with it?
 - Games table on dashboard should use boolean type for isAI
 - First player upload breaks their rating
 - Sometimes upload creates a new player even if it is an existing alias
+- Aliases are not constrained by uniqueness
 
+> Data by 2k season
+- player data by season (using game timestamps)
+- will have to re-average data on the frontend
+    - so maybe a tool, or modal or something for this? Basic stats only?
 > Audits
-- Add audits collection (for games and players) (for now just for admin changes)
-    - audits have a gameid or playerid. They'll have a description, a timestamp, and the email of the user who made the change
 - Audit when player data is changed (name, alias, ftperc)
 - Audit when game data is changed through dashboard
 - Audit when any dashboard button is run from the frontend
