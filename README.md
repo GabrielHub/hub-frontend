@@ -21,6 +21,9 @@ What can you do with it?
 - Sometimes upload creates a new player even if it is an existing alias
 - Aliases are not constrained by uniqueness
 
+> Link games
+- Game Modal uses url param so you can link specific games
+- filters and sorts on the game page so you can search for specific games
 > Data by 2k season
 - player data by season (using game timestamps)
 - will have to re-average data on the frontend
