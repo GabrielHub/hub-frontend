@@ -16,14 +16,10 @@ What can you do with it?
 - Dashboard should have a modal that shows all players who don't have an updated FT%
 - Delete Duplicate Games isn't working right now
 - Can't filter or sort games table on dashboard
-- Games table on dashboard should use boolean type for isAI
 - First player upload breaks their rating
 - Sometimes upload creates a new player even if it is an existing alias
 - Aliases are not constrained by uniqueness
 
-> Link games
-- Game Modal uses url param so you can link specific games
-- filters and sorts on the game page so you can search for specific games
 > Data by 2k season
 - player data by season (using game timestamps)
 - will have to re-average data on the frontend

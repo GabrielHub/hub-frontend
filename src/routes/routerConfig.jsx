@@ -9,7 +9,7 @@ import { Analysis } from './Analysis';
 import { Login } from './Login';
 import { PrivateRoute } from './PrivateRoute';
 import { Dashboard } from './Dashboard';
-import { EditGame, Game } from './Games';
+import { EditGame, Game, BoxScoreData } from './Games';
 import { DraftTool } from './Tool';
 import { League, PER, Similarity, Awards, Archive } from './Analysis/Tabs';
 
@@ -102,7 +102,7 @@ export const routerConfig = [
         )
       },
       {
-        path: '/games/:gameID',
+        path: '/dashboard/:gameID',
         element: (
           <PrivateRoute>
             <EditGame />
@@ -112,6 +112,10 @@ export const routerConfig = [
       {
         path: '/games',
         element: <Game />
+      },
+      {
+        path: '/games/:uploadID',
+        element: <BoxScoreData />
       },
       {
         path: '/login',

@@ -20,6 +20,7 @@ export const GAMES_COLUMNS = [
     field: 'isAI',
     headerName: 'AI',
     flex: 1,
+    type: 'boolean',
     sortable: false
   },
   {
