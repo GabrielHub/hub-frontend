@@ -240,7 +240,8 @@ export function Dashboard() {
           onClick={handleRecalculateElo}
           sx={{
             marginRight: 1
-          }}>
+          }}
+          disabled>
           Sync Elo
         </Button>
         <Button variant="contained" color="primary" onClick={handleDeleteDuplicates}>
@@ -360,7 +361,7 @@ export function Dashboard() {
           columns={GAMES_COLUMNS}
           autoPageSize
           loading={loading}
-          onRowClick={(params) => navigate(`/games/${params.id}`)}
+          onRowClick={(params) => navigate(`/dashboard/${params.id}`)}
         />
       </Grid>
     </Grid>
