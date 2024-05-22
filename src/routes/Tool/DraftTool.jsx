@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { TransitionGroup } from 'react-transition-group';
 import { DndContext } from '@dnd-kit/core';
 import { useSnackbar } from 'notistack';
-import { Grid, Typography, Collapse } from '@mui/material';
+import { Grid, Typography, Collapse, Backdrop, Button } from '@mui/material';
 import { fetchPlayerDataByPosition } from 'rest';
 import { Loading } from 'components/Loading';
+import { TutorialTooltip } from 'components/TutorialTooltip';
 import { DraftHeader } from './DraftHeader';
 import { DroppablePositionCard } from './DroppablePositionCard';
 import { DraggablePlayerCard } from './DraggablePositionCard';
@@ -12,7 +13,7 @@ import { TeamAnalysis } from './AnalysisCard';
 
 export function DraftTool() {
   const { enqueueSnackbar } = useSnackbar();
-
+  const [tutorialStep, setTutorialStep] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [draftPool, setDraftPool] = useState([]);
   const [teams, setTeams] = useState([
@@ -226,23 +227,73 @@ export function DraftTool() {
     );
   };
 
+  const changeTutorialStep = (step) => {
+    if (step > 2) {
+      setTutorialStep(0);
+      return;
+    }
+    setTutorialStep(step);
+  };
+
   return (
     <DndContext onDragEnd={handleDragEnd} onDragStart={handleDragStart}>
+      {tutorialStep !== 0 && (
+        <>
+          <Button
+            variant="contained"
+            sx={{ zIndex: 20, position: 'sticky', top: 20, right: 20 }}
+            onClick={() => setTutorialStep(0)}>
+            Close Tutorial
+          </Button>
+          <Backdrop open={tutorialStep !== 0} sx={{ zIndex: 1 }} />
+        </>
+      )}
       <Grid sx={{ maxWidth: 1440, margin: 'auto' }} container>
         <Loading isLoading={isLoading} />
-        <DraftHeader handleAddToDraftPool={handleAddToDraftPool} />
+        <DraftHeader
+          handleAddToDraftPool={handleAddToDraftPool}
+          changeTutorialStep={changeTutorialStep}
+          tutorialStep={tutorialStep}
+        />
 
         <Grid item container xs={12} sx={{ my: 4 }} alignItems="stretch" spacing={1}>
           <Grid item xs={12} justifyContent="center" alignItems="center" container>
-            <Typography variant="h4" align="center" gutterBottom>
-              Draft Board
-            </Typography>
+            <TutorialTooltip
+              open={tutorialStep === 2}
+              changeTutorialStep={() => changeTutorialStep(3)}
+              content={
+                <Grid xs={10} item>
+                  <Typography variant="h6" gutterBottom>
+                    Drag and drop players from the draft board onto a viable position
+                  </Typography>
+                  <Typography variant="body1" gutterBottom>
+                    The rating on their card is for all their positions. Once you place them, the
+                    rating and stats shown in the box will be for that specific position.
+                  </Typography>
+                  <Typography variant="body1" gutterBottom>
+                    When you drag a viable player onto a position, the box will glow green. If they
+                    have not played that position before, they cannot be placed there.
+                  </Typography>
+                  <Typography variant="body1" gutterBottom>
+                    You can switch their defensive matchup by selecting a different position from
+                    the dropdown. This affects the projections and player breakdowns.
+                  </Typography>
+                </Grid>
+              }>
+              <Typography variant="h4" align="center" gutterBottom>
+                Draft Board
+              </Typography>
+            </TutorialTooltip>
           </Grid>
           <TransitionGroup component={null}>
             {draftPool.map((player) => (
               <Collapse orientation="horizontal" key={player.name} component={Grid}>
                 <div>
-                  <DraggablePlayerCard player={player} onRemove={handleRemoveFromDraftPool} />
+                  <DraggablePlayerCard
+                    player={player}
+                    onRemove={handleRemoveFromDraftPool}
+                    tutorialStep={tutorialStep}
+                  />
                 </div>
               </Collapse>
             ))}
@@ -251,7 +302,7 @@ export function DraftTool() {
         <Grid xs={12} sx={{ my: 2 }} item>
           <TeamAnalysis teams={teams} />
         </Grid>
-        <Grid item container xs={12} sm={6} spacing={1} sx={{ px: 2 }}>
+        <Grid item container xs={12} sm={6} spacing={1} sx={{ px: 2, mb: 4 }}>
           {teams
             .filter((t) => t.team === 1)
             .map((config) => (
@@ -264,16 +315,17 @@ export function DraftTool() {
               />
             ))}
         </Grid>
-        <Grid item container xs={12} sm={6} spacing={1} sx={{ px: 2 }}>
+        <Grid item container xs={12} sm={6} spacing={1} sx={{ px: 2, mb: 4 }}>
           {teams
             .filter((t) => t.team === 2)
-            .map((config) => (
+            .map((config, index) => (
               <DroppablePositionCard
                 key={config.position}
                 team={config}
                 onRemove={handleRemoveFromTeam}
                 currentlyDragging={currentlyDragging}
                 handleChangeDefender={handleChangeDefender}
+                showTutorial={tutorialStep === 2 && index === 0}
               />
             ))}
         </Grid>

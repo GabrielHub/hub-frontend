@@ -132,7 +132,8 @@ export const theme = createTheme({
     MuiTooltip: {
       styleOverrides: {
         tooltip: {
-          padding: '6px 12px'
+          padding: '6px 12px',
+          maxWidth: 'none'
         }
       }
     },

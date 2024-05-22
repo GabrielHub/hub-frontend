@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDraggable } from '@dnd-kit/core';
 import { Box, Typography, Card, CardHeader, CardContent, IconButton } from '@mui/material';
@@ -8,7 +8,7 @@ import { POSITION_READABLE } from 'constants';
 import { round } from 'utils';
 
 export function DraggablePlayerCard(props) {
-  const { player, onRemove } = props;
+  const { player, onRemove, tutorialStep } = props;
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: player.id,
     data: {
@@ -18,13 +18,29 @@ export function DraggablePlayerCard(props) {
     disabled: player.added
   });
 
-  const style = transform
-    ? {
-        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
-        position: 'relative',
-        m: 1
-      }
-    : { position: 'relative', m: 1 };
+  // * Unique to this component, since it needs a higher zIndex to use the button
+  const zIndex = useMemo(() => {
+    if (tutorialStep === 0) {
+      return 2;
+    }
+    if (tutorialStep === 2) {
+      return 2;
+    }
+    return -1;
+  }, [tutorialStep]);
+
+  const style = useMemo(
+    () =>
+      transform
+        ? {
+            transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+            position: 'relative',
+            m: 1,
+            zIndex
+          }
+        : { position: 'relative', m: 1, zIndex },
+    [transform, zIndex]
+  );
 
   return (
     <Box sx={style} ref={setNodeRef}>
@@ -85,7 +101,8 @@ DraggablePlayerCard.propTypes = {
     tov: PropTypes.number,
     added: PropTypes.bool
   }).isRequired,
-  onRemove: PropTypes.func.isRequired
+  onRemove: PropTypes.func.isRequired,
+  tutorialStep: PropTypes.number.isRequired
 };
 
 export default {};

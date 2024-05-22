@@ -16,6 +16,7 @@ import {
 import { red, green, blueGrey } from '@mui/material/colors';
 import { RATING_COLOR_MAP, POSITION_READABLE } from 'constants';
 import { isMobile, round } from 'utils';
+import { HighlightStyling } from 'components/TutorialTooltip';
 
 const STAT_CONFIG = [
   { key: 'pts', label: 'PTS', xs: 4, md: 3 },
@@ -33,7 +34,7 @@ const STAT_CONFIG = [
 ];
 
 export function DroppablePositionCard(props) {
-  const { onRemove, currentlyDragging, team, handleChangeDefender } = props;
+  const { onRemove, currentlyDragging, team, handleChangeDefender, showTutorial } = props;
   const { isOver, setNodeRef } = useDroppable({
     id: team.id,
     data: {
@@ -76,10 +77,10 @@ export function DroppablePositionCard(props) {
         zIndex: 2
       }
     });
-  }, [currentlyDragging, isEligible, isOver, team]);
+  }, [currentlyDragging, isEligible, isOver, showTutorial, team]);
 
   return (
-    <Grid item xs={12} ref={setNodeRef}>
+    <Grid item xs={12} sx={showTutorial ? HighlightStyling : {}} ref={setNodeRef}>
       <Card sx={style}>
         <CardHeader
           sx={{
@@ -201,10 +202,12 @@ DroppablePositionCard.propTypes = {
   currentlyDragging: PropTypes.shape({
     playerId: PropTypes.string,
     playerPositions: PropTypes.arrayOf(PropTypes.number)
-  })
+  }),
+  showTutorial: PropTypes.bool
 };
 DroppablePositionCard.defaultProps = {
-  currentlyDragging: null
+  currentlyDragging: null,
+  showTutorial: false
 };
 
 export default {};
