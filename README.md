@@ -20,7 +20,6 @@ What can you do with it?
 - Sometimes upload creates a new player even if it is an existing alias
 - Aliases are not constrained by uniqueness
 
-- Combine dashboard and upload into an admin nav tab
 > Data by 2k season
 - player data by season (using game timestamps)
 - will have to re-average data on the frontend

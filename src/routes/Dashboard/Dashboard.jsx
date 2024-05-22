@@ -361,7 +361,7 @@ export function Dashboard() {
           columns={GAMES_COLUMNS}
           autoPageSize
           loading={loading}
-          onRowClick={(params) => navigate(`/dashboard/${params.id}`)}
+          onRowClick={(params) => navigate(`/admin/dashboard/${params.id}`)}
         />
       </Grid>
     </Grid>

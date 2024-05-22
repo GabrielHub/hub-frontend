@@ -28,8 +28,8 @@ export function Navbar() {
   const navigate = useNavigate();
   const { user, logout, loading } = useContext(AuthContext);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [openCollapse, setOpenCollapse] = useState(false);
+  const [anchorEl, setAnchorEl] = useState({});
+  const [openCollapse, setOpenCollapse] = useState({});
 
   const handleSignOut = async () => {
     await logout();
@@ -53,16 +53,16 @@ export function Navbar() {
     setDrawerOpen(open);
   };
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleClick = (path, event) => {
+    setAnchorEl((prev) => ({ ...prev, [path]: event.currentTarget }));
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleClose = (path) => {
+    setAnchorEl((prev) => ({ ...prev, [path]: null }));
   };
 
-  const handleCollapse = () => {
-    setOpenCollapse(!openCollapse);
+  const handleCollapse = (path) => {
+    setOpenCollapse((prev) => ({ ...prev, [path]: !prev[path] }));
   };
 
   const renderNavDesktopLinks = () =>
@@ -74,7 +74,7 @@ export function Navbar() {
               variant="text"
               aria-controls="simple-menu"
               aria-haspopup="true"
-              onClick={handleClick}>
+              onClick={(event) => handleClick(route.path, event)}>
               <Typography
                 variant="h6"
                 component="div"
@@ -86,10 +86,10 @@ export function Navbar() {
             </Button>
             <Menu
               id="simple-menu"
-              anchorEl={anchorEl}
+              anchorEl={anchorEl[route.path]}
               keepMounted
-              open={Boolean(anchorEl)}
-              onClose={handleClose}>
+              open={Boolean(anchorEl[route.path])}
+              onClose={() => handleClose(route.path)}>
               {route.children.map((child) => (
                 <MenuItem key={child.path} onClick={handleClose} component={Link} to={child.path}>
                   {child.title}
@@ -118,7 +118,9 @@ export function Navbar() {
       if (route.children) {
         return (
           <div key={route.path}>
-            <ListItemButton sx={{ display: 'flex', alignItems: 'center' }} onClick={handleCollapse}>
+            <ListItemButton
+              sx={{ display: 'flex', alignItems: 'center' }}
+              onClick={() => handleCollapse(route.path)}>
               <Typography
                 variant="h6"
                 component="div"
@@ -132,10 +134,10 @@ export function Navbar() {
                 }}
                 align="center">
                 {route.title}
-                {openCollapse ? <ExpandLess /> : <ExpandMore />}
+                {openCollapse[route.path] ? <ExpandLess /> : <ExpandMore />}
               </Typography>
             </ListItemButton>
-            <Collapse in={openCollapse} timeout="auto" unmountOnExit>
+            <Collapse in={openCollapse[route.path]} timeout="auto" unmountOnExit>
               <List component="div" sx={{ border: '1px solid white' }} disablePadding>
                 {route.children.map((child) => (
                   <ListItemButton key={child.path} onClick={() => navigate(child.path)}>

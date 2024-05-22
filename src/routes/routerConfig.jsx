@@ -3,7 +3,6 @@ import { Navbar } from 'components/Navbar';
 import { Root } from './Root';
 import { UploadStats } from './UploadStats';
 import { Players, PlayerData } from './Players';
-import { ImageUpload, Success } from './ImageUpload';
 import { Ranking } from './Ranking';
 import { Analysis } from './Analysis';
 import { Login } from './Login';
@@ -66,48 +65,37 @@ export const routerConfig = [
         element: <PlayerData />
       },
       {
-        path: '/imageUpload',
-        element: (
-          <PrivateRoute>
-            <ImageUpload />
-          </PrivateRoute>
-        )
-      },
-      {
-        path: '/imageUpload/success',
-        element: (
-          <PrivateRoute>
-            <Success />
-          </PrivateRoute>
-        )
-      },
-      {
-        path: '/manualUpload',
-        element: (
-          <PrivateRoute>
-            <UploadStats />
-          </PrivateRoute>
-        )
-      },
-      {
         path: '/tool',
         element: <DraftTool />
       },
       {
-        path: '/dashboard',
-        element: (
-          <PrivateRoute>
-            <Dashboard />
-          </PrivateRoute>
-        )
-      },
-      {
-        path: '/dashboard/:gameID',
-        element: (
-          <PrivateRoute>
-            <EditGame />
-          </PrivateRoute>
-        )
+        path: '/admin',
+        children: [
+          {
+            path: 'dashboard',
+            element: (
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            )
+          },
+          {
+            path: 'dashboard/:gameID',
+            element: (
+              <PrivateRoute>
+                <EditGame />
+              </PrivateRoute>
+            )
+          },
+          {
+            path: 'manualUpload',
+            element: (
+              <PrivateRoute>
+                <UploadStats />
+              </PrivateRoute>
+            )
+          }
+        ]
       },
       {
         path: '/games',

@@ -42,12 +42,18 @@ export const navConfig = [
     ]
   },
   {
-    title: 'UPLOAD',
-    path: '/manualUpload'
-  },
-  {
-    title: 'DASHBOARD',
-    path: '/dashboard'
+    title: 'ADMIN',
+    path: '/admin',
+    children: [
+      {
+        title: 'UPLOAD',
+        path: '/admin/manualUpload'
+      },
+      {
+        title: 'DASHBOARD',
+        path: '/admin/dashboard'
+      }
+    ]
   }
 ];
 
