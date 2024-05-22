@@ -19,9 +19,7 @@ import {
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { blueGrey } from '@mui/material/colors';
 import MenuIcon from '@mui/icons-material/Menu';
-import { THEME_COLORS } from 'constants';
 import { AuthContext } from 'services';
-import logo512 from '../../images/logo512.png';
 import { navConfig } from './constants';
 
 export function Navbar() {
@@ -78,7 +76,7 @@ export function Navbar() {
               <Typography
                 variant="h6"
                 component="div"
-                sx={{ flexGrow: 1, mr: 2, color: THEME_COLORS.DARK }}
+                sx={{ flexGrow: 1, mr: 2, color: 'black' }}
                 align="center"
                 gutterBottom>
                 {route.title}
@@ -104,7 +102,7 @@ export function Navbar() {
           <Typography
             variant="h6"
             component="div"
-            sx={{ flexGrow: 1, mr: 2, color: THEME_COLORS.DARK }}
+            sx={{ flexGrow: 1, mr: 2, color: 'black' }}
             align="center"
             gutterBottom>
             {route.title}
@@ -126,7 +124,6 @@ export function Navbar() {
                 component="div"
                 sx={{
                   flexGrow: 1,
-                  color: THEME_COLORS.LIGHT,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center', // Add this line
@@ -154,7 +151,7 @@ export function Navbar() {
           <Typography
             variant="h6"
             component="div"
-            sx={{ flexGrow: 1, mr: 2, color: THEME_COLORS.LIGHT }}
+            sx={{ flexGrow: 1, color: 'white', mr: 2 }}
             align="center"
             gutterBottom>
             {route.title}
@@ -167,12 +164,31 @@ export function Navbar() {
     <>
       <Grid container justifyContent="flex-start" alignItems="center">
         <Grid item xs={2} sx={{ padding: 2 }}>
-          <Button sx={{ borderRadius: 28 }} onClick={() => navigate('/')}>
+          <Button sx={{ borderRadius: 28, textDecoration: 'none' }} onClick={() => navigate('/')}>
             <Typography
               variant="h4"
-              sx={{ mr: 2, display: 'flex', alignItems: 'center', color: THEME_COLORS.DARK }}>
-              <img src={logo512} alt="Logo" style={{ width: 50 }} />
-              Hub
+              sx={{
+                border: '4px solid black',
+                display: 'flex',
+                alignItems: 'center',
+                color: 'black',
+                px: '2px',
+                mr: '2px'
+              }}>
+              <strong>BREAD2</strong>
+            </Typography>
+            <Typography
+              variant="h4"
+              sx={{
+                mr: 1,
+                display: 'flex',
+                alignItems: 'center',
+                backgroundImage: `linear-gradient(to right, #B5EAD7, #C7CEEA, #D291BC, #FFDAC1, #E2F0CB, #9ACDFA, #B4CFEC)`,
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                pr: 1
+              }}>
+              Basket
             </Typography>
           </Button>
         </Grid>
