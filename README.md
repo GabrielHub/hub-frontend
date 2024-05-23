@@ -16,8 +16,6 @@ What can you do with it?
 - Dashboard should have a modal that shows all players who don't have an updated FT%
 - Delete Duplicate Games isn't working right now
 - Can't filter or sort games table on dashboard
-- First player upload breaks their rating
-- Sometimes upload creates a new player even if it is an existing alias
 - Aliases are not constrained by uniqueness
 
 > Data by 2k season
