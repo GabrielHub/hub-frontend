@@ -18,6 +18,13 @@ What can you do with it?
 - Can't filter or sort games table on dashboard
 - Aliases are not constrained by uniqueness
 
+> Create new player refactor
+- Stop creating players automatically by new alias
+- Create player button/modal on the upload page
+    - choose their name, add aliases, and add FT%
+- Selector for player name on the upload page (stretch goal) (Maybe only for next year)
+    - Tie upload data to player uid
+    - allows us to simplify aliases, relational ids, etc.
 > Data by 2k season
 - player data by season (using game timestamps)
 - will have to re-average data on the frontend
