@@ -39,7 +39,11 @@ export function Navbar() {
       return <CircularProgress />;
     }
     if (user) {
-      return <Button onClick={handleSignOut}>Logout</Button>;
+      return (
+        <Button sx={{ ml: 12 }} onClick={handleSignOut}>
+          Logout
+        </Button>
+      );
     }
     return <Box />;
   };
