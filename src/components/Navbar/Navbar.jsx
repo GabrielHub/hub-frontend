@@ -175,7 +175,7 @@ export function Navbar() {
                 px: '2px',
                 mr: '2px'
               }}>
-              <strong>BREAD2</strong>
+              <strong>BREAD</strong>
             </Typography>
             <Typography
               variant="h4"
