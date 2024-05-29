@@ -14,4 +14,19 @@ export const calculateRating = (PER) => {
   return rating;
 };
 
+export const calculatePER = (rating) => {
+  let PER = 0;
+  if (rating <= 0) {
+    PER = 0;
+  }
+  if (rating <= 5) {
+    PER = (rating / 5) * 15;
+  }
+  if (rating <= 10) {
+    PER = ((rating - 5) / 5) * 20 + 15;
+  }
+
+  return PER;
+};
+
 export default {};

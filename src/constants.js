@@ -9,13 +9,14 @@ export const FIREBASE_KEY = process.env.REACT_APP_FIREBASE_API_KEY;
 export const MIN_GAMES = 3;
 
 export const RATING_COLOR_MAP = {
-  GLeague: '#f8bba6',
-  Bench: '#ff9292',
-  Rotation: '#86fda5',
-  Starter: '#55b7ff',
-  SecondOption: '#6171ff',
-  AllStar: '#f595cb',
-  Superstar: '#c88927'
+  Rookie: '#f08787',
+  Bench: '#f1b06e',
+  Rotation: '#f0e17f',
+  Starter: '#93fa7e',
+  ThirdOption: `#00f5d4`,
+  SecondOption: '#00bbf9',
+  AllStar: '#9b5de5',
+  Superstar: '#f15bb5'
 };
 
 export const ELO_CONFIG = {
@@ -32,12 +33,13 @@ export const ELO_CONFIG = {
 };
 
 export const RATING_CONFIG = {
-  GLeague: 3,
-  Bench: 4.3,
+  Rookie: 3,
+  Bench: 4,
   Rotation: 5,
-  Starter: 5.4,
+  Starter: 5.5,
+  ThirdOption: 6,
   SecondOption: 6.5,
-  AllStar: 7.5,
+  AllStar: 8,
   /** Highest value is 10 */
   Superstar: 10
 };
