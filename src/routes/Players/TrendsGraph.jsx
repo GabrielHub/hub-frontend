@@ -35,11 +35,12 @@ const keyToLabel = {
 
 const PER_THRESHOLDS = {
   Bench: 9,
-  Rotation: 12.9,
+  Rotation: 12,
   Starter: 15,
-  SecondOption: 16.2,
-  AllStar: 23,
-  Superstar: 27.5
+  ThirdOption: 17,
+  SecondOption: 19,
+  AllStar: 20,
+  Superstar: 27
 };
 
 const PER_REFERENCE_LINES = Object.keys(PER_THRESHOLDS).map((key) => {

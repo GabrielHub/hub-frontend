@@ -52,6 +52,8 @@ export function LastGames() {
       color = RATING_COLOR_MAP.AllStar;
     } else if (rating >= RATING_CONFIG.SecondOption) {
       color = RATING_COLOR_MAP.SecondOption;
+    } else if (rating >= RATING_CONFIG.ThirdOption) {
+      color = RATING_COLOR_MAP.ThirdOption;
     } else if (rating >= RATING_CONFIG.Starter) {
       color = RATING_COLOR_MAP.Starter;
     } else if (rating >= RATING_CONFIG.Rotation) {
