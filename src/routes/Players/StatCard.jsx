@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Typography, Card, CardHeader, CardContent } from '@mui/material';
-import { adjustStatByFilter, calculateLeagueComparisonColor } from 'utils';
+import { adjustStatByFilter, calculateLeagueComparisonColor, getContrastColor } from 'utils';
 
 export function StatCard(props) {
   const {
@@ -38,7 +38,7 @@ export function StatCard(props) {
         sx={{ bgcolor: color }}
         title={
           <Grid alignItems="center" justifyContent="space-between" container>
-            <Typography variant="h6" color="white">
+            <Typography variant="h6" sx={{ color: getContrastColor(color) }}>
               {title}
             </Typography>
             {icon}

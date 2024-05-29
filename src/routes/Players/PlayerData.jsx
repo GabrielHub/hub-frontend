@@ -38,7 +38,7 @@ import { Loading } from 'components/Loading';
 import { POSITION_READABLE, RATING_COLOR_MAP } from 'constants';
 import { StatAdjustDropdown } from 'components/StatAdjustDropdown';
 import { GameGrid } from 'components/GameGrid';
-import { getReadablePositions, isMobile, adjustStatByFilter, round } from 'utils';
+import { getReadablePositions, isMobile, adjustStatByFilter, round, getContrastColor } from 'utils';
 import { BREADModal } from 'components/Modal/BREADModal';
 import { EloCell } from 'components/EloCell';
 import { useStore } from 'services';
@@ -158,7 +158,7 @@ export function PlayerData() {
           <Grid
             sx={{
               backgroundColor: RATING_COLOR_MAP[playerData.ratingString],
-              color: '#fff'
+              color: getContrastColor(RATING_COLOR_MAP[playerData.ratingString])
             }}
             xs={12}
             container
