@@ -61,7 +61,7 @@ export function LastGames() {
     } else if (rating >= RATING_CONFIG.Bench) {
       color = RATING_COLOR_MAP.Bench;
     } else {
-      color = RATING_COLOR_MAP.GLeague;
+      color = RATING_COLOR_MAP.Rookie;
     }
     return color;
   };
