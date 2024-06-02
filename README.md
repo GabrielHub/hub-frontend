@@ -20,7 +20,6 @@ What can you do with it?
 
 > Better Loading States (MUI Skeleton)
 - Awards should have skeleton before loading
-- Extra data at the end of the player page should have skeleton (Box scores + Trends)
 - Skeleton for loading audits on player or game page
 > Create new player refactor
 - Stop creating players automatically by new alias

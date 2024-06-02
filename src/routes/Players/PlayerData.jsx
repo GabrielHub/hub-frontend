@@ -14,7 +14,8 @@ import {
   MenuItem,
   IconButton,
   Rating,
-  Tooltip
+  Tooltip,
+  Skeleton
 } from '@mui/material';
 import {
   lime,
@@ -617,7 +618,7 @@ export function PlayerData() {
             />
           </Grid>
 
-          {gameData && (
+          {gameData ? (
             <GameGrid
               columns={RECENT_GAMES_COLUMNS}
               gameData={gameData}
@@ -625,8 +626,14 @@ export function PlayerData() {
               showComparison={showLeagueComparisons}
               numGames={NUMBER_OF_GAMES}
             />
+          ) : (
+            <Skeleton variant="rectangular" width={1112} height={64} />
           )}
-          {gameData && <TrendsGraph gameData={gameData} positionFilter={position} />}
+          {gameData ? (
+            <TrendsGraph gameData={gameData} positionFilter={position} />
+          ) : (
+            <Skeleton variant="rectangular" width={1112} height={64} />
+          )}
         </Grid>
       )}
     </div>
