@@ -14,7 +14,8 @@ import {
   MenuItem,
   IconButton,
   Rating,
-  Tooltip
+  Tooltip,
+  Skeleton
 } from '@mui/material';
 import {
   lime,
@@ -38,7 +39,7 @@ import { Loading } from 'components/Loading';
 import { POSITION_READABLE, RATING_COLOR_MAP } from 'constants';
 import { StatAdjustDropdown } from 'components/StatAdjustDropdown';
 import { GameGrid } from 'components/GameGrid';
-import { getReadablePositions, isMobile, adjustStatByFilter, round } from 'utils';
+import { getReadablePositions, isMobile, adjustStatByFilter, round, getContrastColor } from 'utils';
 import { BREADModal } from 'components/Modal/BREADModal';
 import { EloCell } from 'components/EloCell';
 import { useStore } from 'services';
@@ -158,7 +159,7 @@ export function PlayerData() {
           <Grid
             sx={{
               backgroundColor: RATING_COLOR_MAP[playerData.ratingString],
-              color: '#fff'
+              color: getContrastColor(RATING_COLOR_MAP[playerData.ratingString])
             }}
             xs={12}
             container
@@ -617,7 +618,7 @@ export function PlayerData() {
             />
           </Grid>
 
-          {gameData && (
+          {gameData ? (
             <GameGrid
               columns={RECENT_GAMES_COLUMNS}
               gameData={gameData}
@@ -625,8 +626,14 @@ export function PlayerData() {
               showComparison={showLeagueComparisons}
               numGames={NUMBER_OF_GAMES}
             />
+          ) : (
+            <Skeleton variant="rectangular" width={1112} height={64} />
           )}
-          {gameData && <TrendsGraph gameData={gameData} positionFilter={position} />}
+          {gameData ? (
+            <TrendsGraph gameData={gameData} positionFilter={position} />
+          ) : (
+            <Skeleton variant="rectangular" width={1112} height={64} />
+          )}
         </Grid>
       )}
     </div>

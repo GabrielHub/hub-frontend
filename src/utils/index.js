@@ -8,3 +8,4 @@ export * from './isMobile';
 export * from './calculateLeagueComparisonColor';
 export * from './round';
 export * from './elo';
+export * from './getContrastColor';

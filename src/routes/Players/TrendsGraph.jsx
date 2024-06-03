@@ -8,7 +8,10 @@ import {
   AccordionDetails,
   Select,
   MenuItem,
-  Slider
+  Slider,
+  FormGroup,
+  FormControlLabel,
+  Checkbox
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { mangoFusionPalette } from '@mui/x-charts/colorPalettes';
@@ -35,11 +38,12 @@ const keyToLabel = {
 
 const PER_THRESHOLDS = {
   Bench: 9,
-  Rotation: 12.9,
+  Rotation: 12,
   Starter: 15,
-  SecondOption: 16.2,
-  AllStar: 23,
-  Superstar: 27.5
+  ThirdOption: 17,
+  SecondOption: 19,
+  AllStar: 20,
+  Superstar: 27
 };
 
 const PER_REFERENCE_LINES = Object.keys(PER_THRESHOLDS).map((key) => {
@@ -58,6 +62,7 @@ export function TrendsGraph(props) {
   const [selectedStats, setSelectedStats] = useState(getStatTrendFilter());
   const [perFilter, setPERFilter] = useState(['Starter']);
   const [numGames, setNumGames] = useState(25);
+  const [showAverage, setShowAverage] = useState(false);
 
   const handleChange = (event) => {
     setSelectedStats(event.target.value);
@@ -70,26 +75,30 @@ export function TrendsGraph(props) {
 
   const formattedGameData = useMemo(() => {
     let filteredGameData = gameData;
-
     const positionFilterNumber = Number(positionFilter);
     if (positionFilterNumber && positionFilterNumber >= 1 && positionFilterNumber <= 5) {
       filteredGameData = gameData.filter((game) => game.pos === positionFilterNumber);
     }
-
+    const averages = {};
+    selectedStats.forEach((stat) => {
+      averages[stat] =
+        filteredGameData.slice(-numGames).reduce((sum, game) => sum + game[stat], 0) / numGames;
+    });
     return filteredGameData
       .map((game, index) => {
         const formattedGame = {
           id: index
         };
-
         if (selectedStats.includes('PER')) {
           PER_REFERENCE_LINES.forEach((line) => {
             formattedGame[line.dataKey] = line.referenceValue;
           });
         }
-
         Object.keys(keyToLabel).forEach((key) => {
           formattedGame[key] = game[key];
+        });
+        Object.keys(averages).forEach((key) => {
+          formattedGame[`${key}Avg`] = averages[key];
         });
         return formattedGame;
       })
@@ -105,9 +114,7 @@ export function TrendsGraph(props) {
       connectNulls: true,
       showMark: false
     }));
-
     if (selectedStats.includes('PER')) {
-      // merge lines array with the PER_REFERENCE_LINES
       PER_REFERENCE_LINES.forEach((line) => {
         if (perFilter.includes(line.label)) {
           lines.push({
@@ -121,8 +128,20 @@ export function TrendsGraph(props) {
         }
       });
     }
+    if (showAverage) {
+      selectedStats.forEach((key) => {
+        lines.push({
+          dataKey: `${key}Avg`,
+          label: `${keyToLabel[key]} Average`,
+          color: 'gray',
+          showMark: false,
+          disableHighlight: true,
+          type: 'line'
+        });
+      });
+    }
     return lines;
-  }, [perFilter, selectedStats]);
+  }, [perFilter, selectedStats, showAverage]);
 
   return (
     <Grid xs={12} sx={{ p: 4 }} item>
@@ -164,6 +183,19 @@ export function TrendsGraph(props) {
                 </Select>
               </Grid>
             )}
+            <Grid item xs={12} container alignItems="center" justifyContent="center" sm>
+              <FormGroup>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={showAverage}
+                      onChange={() => setShowAverage((prev) => !prev)}
+                    />
+                  }
+                  label="Show Average"
+                />
+              </FormGroup>
+            </Grid>
             <Grid item xs={12} sm>
               <Typography id="input-slider" gutterBottom>
                 Show Last {numGames} Games

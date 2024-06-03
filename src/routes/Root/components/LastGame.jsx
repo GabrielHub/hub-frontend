@@ -52,6 +52,8 @@ export function LastGames() {
       color = RATING_COLOR_MAP.AllStar;
     } else if (rating >= RATING_CONFIG.SecondOption) {
       color = RATING_COLOR_MAP.SecondOption;
+    } else if (rating >= RATING_CONFIG.ThirdOption) {
+      color = RATING_COLOR_MAP.ThirdOption;
     } else if (rating >= RATING_CONFIG.Starter) {
       color = RATING_COLOR_MAP.Starter;
     } else if (rating >= RATING_CONFIG.Rotation) {
@@ -59,7 +61,7 @@ export function LastGames() {
     } else if (rating >= RATING_CONFIG.Bench) {
       color = RATING_COLOR_MAP.Bench;
     } else {
-      color = RATING_COLOR_MAP.GLeague;
+      color = RATING_COLOR_MAP.Rookie;
     }
     return color;
   };
