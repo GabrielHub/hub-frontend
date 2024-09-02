@@ -105,7 +105,10 @@ export const VISIBILITY_MODEL = {
   estPointsPer100: false,
   stopsPer100: false,
   pProd: false,
-  grd: false
+  grd: false,
+  oFGM: false,
+  win: false,
+  loss: false
 };
 
 export const YEAR_OPTIONS = [
