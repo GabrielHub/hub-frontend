@@ -49,9 +49,6 @@ What can you do with it?
 - Admins can view and create or remove other admins (new endpoint)
 - users collection for new accounts
 > Refactor for new seasons (years)
-- current `pace` field is actually the est. possessions. Convert that to possessions and calculate the pace factor correctly
-    - pace factor should be for 48 minutes. it currently estimates possessions over 20 minutes
-- fix issue with drtg. It is way too low so something must be wrong with the calculation
 - elo should be on a per game basis, but needs to be refactored to work that way when the new year starts
 - bpm should be on a per game basis, but needs to be refactored to work that way when the new year starts
 - fix types on the backend. Advanced stats will always be there when starting a new year
