@@ -24,13 +24,15 @@ export function NameCell(props) {
     <Grid alignItems="center" justifyContent="center" container>
       <Grid xs item>
         <Tooltip title={positionDetails} sx={{ typography: 'body1' }} enterTouchDelay={0}>
-          <Link to={`/players/${playerId}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+          <Link
+            to={rank ? `/players/${playerId}` : undefined}
+            style={{ textDecoration: 'none', color: 'inherit' }}>
             <Typography
               variant="body2"
               sx={{
                 borderLeft: `2px solid ${RATING_COLOR_MAP?.[rating]}`,
                 paddingLeft: 1
-              }}>{`${rank}. ${name}`}</Typography>
+              }}>{`${rank ? `${rank}. ` : ''} ${name}`}</Typography>
           </Link>
         </Tooltip>
       </Grid>
@@ -69,13 +71,14 @@ BoxScoreNameCell.defaultProps = {
 
 NameCell.propTypes = {
   name: PropTypes.string.isRequired,
-  rank: PropTypes.number.isRequired,
+  rank: PropTypes.number,
   playerId: PropTypes.string.isRequired,
   positions: PropTypes.objectOf(PropTypes.number),
   rating: PropTypes.string.isRequired
 };
 NameCell.defaultProps = {
-  positions: {}
+  positions: {},
+  rank: null
 };
 
 export default { BoxScoreNameCell, NameCell };

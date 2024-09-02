@@ -35,7 +35,6 @@ What can you do with it?
 > Audits
 - Audit when player data is changed (name, alias, ftperc)
 - Audit when game data is changed through dashboard
-- Audit when any dashboard button is run from the frontend
 - Audits are viewable by admins on player page for player changes
 - A way to search and view game audits?
 - A way to search for audits
