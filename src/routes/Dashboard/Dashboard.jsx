@@ -24,13 +24,7 @@ import { useSnackbar } from 'notistack';
 import { AlgoliaSearch } from 'components/AlgoliaSearch';
 import { ConfirmationModal } from 'components/Modal';
 import { fetchPlayerAndGames, updatePlayerDetails, deletePlayer } from 'fb';
-import {
-  recalculateLeagueAverages,
-  recalculatePlayerAverages,
-  recalculateAwards,
-  recalculateElo,
-  deleteDuplicateGames
-} from 'rest';
+import { AdminAuditModal, ADMIN_FUNCTIONS } from 'components/Modal/AdminAuditModal';
 import { GAMES_COLUMNS } from './constants';
 
 export function Dashboard() {
@@ -43,59 +37,9 @@ export function Dashboard() {
   const [newAlias, setNewAlias] = useState('');
   const [editedPlayerData, setEditedPlayerData] = useState(null);
   const [open, setOpen] = useState(false);
+  const [openAuditModal, setOpenAuditModal] = useState(false);
+  const [auditModalTyoe, setAuditModalType] = useState('');
   const navigate = useNavigate();
-
-  const handleRecalculateElo = useCallback(async () => {
-    setLoading(true);
-    try {
-      await recalculateElo();
-      enqueueSnackbar('Elo Recalculated', { variant: 'success' });
-    } catch (err) {
-      enqueueSnackbar('Error recalculating elo, please try again', {
-        variant: 'error'
-      });
-    }
-    setLoading(false);
-  }, [enqueueSnackbar]);
-
-  const handleRecalculatePlayerAverages = useCallback(async () => {
-    setLoading(true);
-    try {
-      await recalculatePlayerAverages();
-      enqueueSnackbar('Player Averages Recalculated', { variant: 'success' });
-    } catch (err) {
-      enqueueSnackbar('Error recalculating player averages, please try again', {
-        variant: 'error'
-      });
-    }
-    setLoading(false);
-  }, [enqueueSnackbar]);
-
-  const handleRecalculateLeagueAverages = useCallback(async () => {
-    setLoading(true);
-    try {
-      await recalculateLeagueAverages();
-      enqueueSnackbar('League Averages Recalculated', { variant: 'success' });
-    } catch (err) {
-      enqueueSnackbar('Error recalculating league averages, please try again', {
-        variant: 'error'
-      });
-    }
-    setLoading(false);
-  }, [enqueueSnackbar]);
-
-  const handleRecalculateAwards = useCallback(async () => {
-    setLoading(true);
-    try {
-      await recalculateAwards();
-      enqueueSnackbar('Awards Recalculated', { variant: 'success' });
-    } catch (err) {
-      enqueueSnackbar('Error recalculating awards, please try again', {
-        variant: 'error'
-      });
-    }
-    setLoading(false);
-  }, [enqueueSnackbar]);
 
   const handlePlayerSelect = useCallback(
     async ({ objectID }) => {
@@ -176,19 +120,6 @@ export function Dashboard() {
     setLoading(false);
   }, [enqueueSnackbar, playerID]);
 
-  const handleDeleteDuplicates = useCallback(async () => {
-    setLoading(true);
-    try {
-      await deleteDuplicateGames();
-      enqueueSnackbar('Duplicate Games Deleted', { variant: 'success' });
-    } catch (err) {
-      enqueueSnackbar('Error deleting duplicate games, please try again', {
-        variant: 'error'
-      });
-    }
-    setLoading(false);
-  }, [enqueueSnackbar]);
-
   return (
     <Grid container>
       <Grid xs={12} justifyContent="center" container item>
@@ -206,11 +137,19 @@ export function Dashboard() {
         title="Are you sure?"
         message="Deleting a player cannot be undone"
       />
+      <AdminAuditModal
+        open={openAuditModal}
+        handleClose={() => setOpenAuditModal(false)}
+        type={auditModalTyoe}
+      />
       <Grid xs={12} sx={{ py: 1 }} container alignItems="center" item>
         <Button
           variant="contained"
           color="primary"
-          onClick={handleRecalculatePlayerAverages}
+          onClick={() => {
+            setAuditModalType(ADMIN_FUNCTIONS.RECALCULATE_PLAYER_AVERAGES);
+            setOpenAuditModal(true);
+          }}
           sx={{
             marginRight: 1
           }}>
@@ -222,13 +161,19 @@ export function Dashboard() {
             marginRight: 1
           }}
           color="primary"
-          onClick={handleRecalculateLeagueAverages}>
+          onClick={() => {
+            setAuditModalType(ADMIN_FUNCTIONS.RECALCULATE_LEAGUE_AVERAGES);
+            setOpenAuditModal(true);
+          }}>
           Recalculate League Averages
         </Button>
         <Button
           variant="contained"
           color="primary"
-          onClick={handleRecalculateAwards}
+          onClick={() => {
+            setAuditModalType(ADMIN_FUNCTIONS.RECALCULATE_AWARDS);
+            setOpenAuditModal(true);
+          }}
           sx={{
             marginRight: 1
           }}>
@@ -237,14 +182,23 @@ export function Dashboard() {
         <Button
           variant="contained"
           color="primary"
-          onClick={handleRecalculateElo}
+          onClick={() => {
+            setAuditModalType(ADMIN_FUNCTIONS.RECALCULATE_ELO);
+            setOpenAuditModal(true);
+          }}
           sx={{
             marginRight: 1
           }}
           disabled>
           Sync Elo
         </Button>
-        <Button variant="contained" color="primary" onClick={handleDeleteDuplicates}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            setAuditModalType(ADMIN_FUNCTIONS.DELETE_DUPLICATE_GAMES);
+            setOpenAuditModal(true);
+          }}>
           Delete Duplicate Games
         </Button>
       </Grid>
