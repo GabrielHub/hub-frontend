@@ -8,11 +8,15 @@ import Upscaler from 'upscaler';
 import { parseGameData } from 'utils';
 import { StatUploader } from 'components/StatUploader';
 import { Loading } from 'components/Loading';
+import { CreatePlayerModal } from 'components/Modal';
 import { canvasPreview } from './utils';
 
 const upscaler = new Upscaler();
 
 export function UploadStats() {
+  // * Create Player Modal
+  const [createPlayerModal, setCreatePlayerModal] = useState(false);
+
   // * Data state
   const [teamData, setTeamData] = useState([]);
   const [playerData, setPlayerData] = useState([]);
@@ -137,6 +141,7 @@ export function UploadStats() {
   return (
     <>
       <Loading isLoading={isLoading} progress={progress} />
+      <CreatePlayerModal open={createPlayerModal} handleClose={() => setCreatePlayerModal(false)} />
       <Grid container>
         <Grid xs={12} item>
           <Typography align="center" variant="h4" gutterBottom>
@@ -159,7 +164,8 @@ export function UploadStats() {
             </Grid>
             <Grid xs={12} justifyContent="center" container item>
               <Typography variant="caption" sx={{ color: 'grey' }} gutterBottom>
-                Try not to have multiple players of the same name
+                Players must be selected from the available players in the dropdown. If they do not
+                exist, create them in the Create Player Form
               </Typography>
             </Grid>
             <Grid xs={12} justifyContent="center" container item>
@@ -179,11 +185,6 @@ export function UploadStats() {
                 Names are not case sensitive, but symbols must match
               </Typography>
             </Grid>
-            <Grid xs={12} justifyContent="center" container item>
-              <Typography variant="caption" sx={{ color: 'grey' }} gutterBottom>
-                ex. Player&apos;s name is [][]Lebron[]James[], make their name Lebron James
-              </Typography>
-            </Grid>
           </Grid>
         )}
 
@@ -192,6 +193,13 @@ export function UploadStats() {
             <Grid xs justifyContent="center" container item>
               <Button variant="contained" onClick={() => setHideRules(!hideRules)}>
                 Show/Hide Upload Guidelines
+              </Button>
+              <Button
+                sx={{ ml: 2 }}
+                variant="contained"
+                color="success"
+                onClick={() => setCreatePlayerModal(true)}>
+                Create Player
               </Button>
             </Grid>
             {!imageData && (

@@ -8,11 +8,16 @@ const ERROR_DESCRIPTIONS = {
   INVALID_POSITION: ' does not have a valid position (1 - 5)',
   STAT_NAN: ' stat is not a number',
   NO_DECIMAL: ' stat should not be a decimal',
-  NO_MATCHING_TOTAL: ' does not add up to their teams total'
+  NO_MATCHING_TOTAL: ' does not add up to their teams total',
+  PLAYER_NOT_FOUND: ' was not selected through player picker',
+  MAKES_MORE_THAN_ATTEMPTS: ' has more makes than attempts'
 };
 
 // * These are string params and should not be checked by the number validator
-const playerPropsToSkip = ['name', 'grd', 'team', 'id'];
+const playerPropsToSkip = ['name', 'grd', 'team', 'id', 'playerID'];
+
+// * Fouls and Turnovers sometimes do not add up... not sure why this is (team turnovers or charges?)
+const statsToSkip = ['tov', 'pf'];
 
 const addError = (error, description) => {
   return { error, description };
@@ -93,6 +98,21 @@ export const handleUploadValidation = (rawPlayerData, rawTeamData) => {
   }
 
   rawPlayerData.forEach((player) => {
+    if (!player.playerID) {
+      errors.push(addError(player.name, ERROR_DESCRIPTIONS.PLAYER_NOT_FOUND));
+    }
+
+    // * FGM, 3PM, FTM should not be more than FGA, 3PA, FTA
+    if (player.fga && player.fga < player.fgm) {
+      errors.push(addError(`${player.name}'s FG`, ERROR_DESCRIPTIONS.MAKES_MORE_THAN_ATTEMPTS));
+    }
+    if (player.fta && player.fta < player.ftm) {
+      errors.push(addError(`${player.name}'s FT`, ERROR_DESCRIPTIONS.MAKES_MORE_THAN_ATTEMPTS));
+    }
+    if (player.fgm && player.threepa < player.threepm) {
+      errors.push(addError(`${player.name}'s 3P`, ERROR_DESCRIPTIONS.MAKES_MORE_THAN_ATTEMPTS));
+    }
+
     Object.keys(player).forEach((stat) => {
       // * Check for player stats that cannot be converted to a number
       if (!playerPropsToSkip.includes(stat) && !Number.isFinite(Number(player[stat]))) {
@@ -114,9 +134,6 @@ export const handleUploadValidation = (rawPlayerData, rawTeamData) => {
   // * Make sure stats total up to team total (This should stop people from uploading fake stats or changing their stats)
   const teamOnePlayerSum = sumPlayerData(playersOnTeamOne);
   const teamTwoPlayerSum = sumPlayerData(playersOnTeamTwo);
-
-  // * Fouls and Turnovers sometimes do not add up... not sure why this is (team turnovers or charges?)
-  const statsToSkip = ['tov', 'pf'];
 
   Object.keys(rawTeamData[teamKeys[0]]).forEach((stat) => {
     if (

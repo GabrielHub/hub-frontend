@@ -4,11 +4,12 @@ import { v4 as uuidv4 } from 'uuid';
 const firstLineContains = ['GRD', 'PTS', 'REB', 'AST', 'STL', 'BLK', 'FOULS', 'TO'];
 
 function parseStats(str, team, position = 0) {
-  const [tpmtpa, fgmtpa, tov, pf, blk, stl, ast, treb, pts, grd, ...nameArr] = str
+  const [ftmfta, tpmtpa, fgmtpa, tov, pf, blk, stl, ast, treb, pts, grd, ...nameArr] = str
     .split(' ')
     .reverse();
   const [fgm, fga] = fgmtpa.split('/');
   const [threepm, threepa] = tpmtpa.split('/');
+  const [ftm, fta] = ftmfta.split('/');
   const name = nameArr.reverse().join(' ');
 
   // * Generate uuid for data grid (and for future use to store reference IDs, opponent, game, team data etc.)
@@ -35,7 +36,9 @@ function parseStats(str, team, position = 0) {
     fgm,
     fga,
     threepm,
-    threepa
+    threepa,
+    ftm,
+    fta
   };
 
   return stats;
@@ -78,7 +81,9 @@ export const parseGameData = (lines) => {
         fgm: 0,
         fga: 0,
         threepm: 0,
-        threepa: 0
+        threepa: 0,
+        ftm: 0,
+        fta: 0
       };
 
       teams.push(currentTeam);
@@ -133,7 +138,9 @@ export const parseGameData = (lines) => {
         fgm: 0,
         fga: 0,
         threepm: 0,
-        threepa: 0
+        threepa: 0,
+        ftm: 0,
+        fta: 0
       });
     }
   });

@@ -1,8 +1,11 @@
 import React, { useCallback } from 'react';
+import PropTypes from 'prop-types';
 import { useSearchBox } from 'react-instantsearch';
 import { TextField } from '@mui/material';
 
-export function SearchBox() {
+export function SearchBox(props) {
+  const { initialQuery } = props;
+
   const memoizedSearch = useCallback((query, search) => {
     search(query);
   }, []);
@@ -17,6 +20,7 @@ export function SearchBox() {
 
   return (
     <TextField
+      defaultValue={initialQuery}
       placeholder="Player Name or Alias"
       onChange={handleChange}
       label="Search Player"
@@ -25,4 +29,12 @@ export function SearchBox() {
   );
 }
 
-export default {};
+SearchBox.propTypes = {
+  initialQuery: PropTypes.string
+};
+
+SearchBox.defaultProps = {
+  initialQuery: ''
+};
+
+export default SearchBox;

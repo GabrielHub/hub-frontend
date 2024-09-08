@@ -1,5 +1,5 @@
-import React from 'react';
-import { InstantSearch } from 'react-instantsearch';
+import React, { useEffect } from 'react';
+import { InstantSearch, useSearchBox } from 'react-instantsearch';
 import PropTypes from 'prop-types';
 import algoliasearch from 'algoliasearch/lite';
 import { ALGOLIA_KEY, ALGOLIA_PROJECT_ID } from 'constants';
@@ -9,13 +9,29 @@ import { SearchBox } from './SearchBox';
 
 const searchClient = algoliasearch(ALGOLIA_PROJECT_ID, ALGOLIA_KEY);
 
+function SearchBoxWrapper({ initialQuery }) {
+  const { refine } = useSearchBox();
+
+  useEffect(() => {
+    if (initialQuery) {
+      refine(initialQuery);
+    }
+  }, [initialQuery, refine]);
+
+  return <SearchBox initialQuery={initialQuery} />;
+}
+
 export function AlgoliaSearch(props) {
-  const { handleClick, showStats, showPositions } = props;
+  const { handleClick, showStats, showPositions, initialQuery } = props;
   return (
-    <InstantSearch searchClient={searchClient} indexName="players" routing>
+    <InstantSearch
+      searchClient={searchClient}
+      indexName="players"
+      routing
+      initialQuery={initialQuery}>
       <Grid container>
         <Grid sx={{ marginBottom: 2 }} xs={12} item>
-          <SearchBox />
+          <SearchBoxWrapper initialQuery={initialQuery} />
         </Grid>
         <Hits handleClick={handleClick} showPositions={showPositions} showStats={showStats} />
       </Grid>
@@ -23,15 +39,25 @@ export function AlgoliaSearch(props) {
   );
 }
 
+SearchBoxWrapper.propTypes = {
+  initialQuery: PropTypes.string
+};
+
+SearchBoxWrapper.defaultProps = {
+  initialQuery: ''
+};
+
 AlgoliaSearch.propTypes = {
   handleClick: PropTypes.func.isRequired,
   showStats: PropTypes.bool,
-  showPositions: PropTypes.bool
+  showPositions: PropTypes.bool,
+  initialQuery: PropTypes.string
 };
 
 AlgoliaSearch.defaultProps = {
   showStats: false,
-  showPositions: false
+  showPositions: false,
+  initialQuery: ''
 };
 
 export default {};

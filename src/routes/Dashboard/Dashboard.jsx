@@ -22,7 +22,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import { DataGrid } from '@mui/x-data-grid';
 import { useSnackbar } from 'notistack';
 import { AlgoliaSearch } from 'components/AlgoliaSearch';
-import { ConfirmationModal } from 'components/Modal';
+import { ConfirmationModal, CreatePlayerModal } from 'components/Modal';
 import { fetchPlayerAndGames, updatePlayerDetails, deletePlayer } from 'fb';
 import { AdminAuditModal, ADMIN_FUNCTIONS } from 'components/Modal/AdminAuditModal';
 import { GAMES_COLUMNS } from './constants';
@@ -39,6 +39,7 @@ export function Dashboard() {
   const [open, setOpen] = useState(false);
   const [openAuditModal, setOpenAuditModal] = useState(false);
   const [auditModalTyoe, setAuditModalType] = useState('');
+  const [openCreatePlayerModal, setOpenCreatePlayerModal] = useState(false);
   const navigate = useNavigate();
 
   const handlePlayerSelect = useCallback(
@@ -137,12 +138,23 @@ export function Dashboard() {
         title="Are you sure?"
         message="Deleting a player cannot be undone"
       />
+      <CreatePlayerModal
+        open={openCreatePlayerModal}
+        handleClose={() => setOpenCreatePlayerModal(false)}
+      />
       <AdminAuditModal
         open={openAuditModal}
         handleClose={() => setOpenAuditModal(false)}
         type={auditModalTyoe}
       />
-      <Grid xs={12} sx={{ py: 1 }} container alignItems="center" item>
+      <Grid
+        xs={12}
+        sx={{ py: 1 }}
+        justifyContent="space-around"
+        spacing={2}
+        container
+        alignItems="center"
+        item>
         <Button
           variant="contained"
           color="primary"
@@ -200,6 +212,9 @@ export function Dashboard() {
             setOpenAuditModal(true);
           }}>
           Delete Duplicate Games
+        </Button>
+        <Button variant="contained" color="success" onClick={() => setOpenCreatePlayerModal(true)}>
+          Create Player
         </Button>
       </Grid>
       <Grid sx={{ py: 4 }} xs={12} item>

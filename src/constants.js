@@ -101,4 +101,6 @@ export const THEME_COLORS = {
   DARK: '#051b2c'
 };
 
+export const INITIAL_ELO = 1500;
+
 export default {};

@@ -11,11 +11,6 @@ import { CollapsibleCard } from 'components/CollapsibleCard';
 import { handleUploadValidation } from './utils';
 import { PLAYER_DATA_CONFIG, TEAM_DATA_CONFIG } from './constants';
 
-const TABLE_KEY = {
-  TEAM: 'TEAM',
-  PLAYER: 'PLAYER'
-};
-
 export function StatUploader(props) {
   const { possiblePlayers, teamData, handleReset } = props;
   const { enqueueSnackbar } = useSnackbar();
@@ -58,24 +53,29 @@ export function StatUploader(props) {
     }
   }, [enqueueSnackbar, handleReset, playerList, teamList]);
 
-  const processRowUpdate = useCallback(
-    async (updatedRow, tableKey) => {
-      if (tableKey === TABLE_KEY.TEAM) {
-        setTeamList((current) => {
-          const mutableTeamList = [...current];
-          const indexOfSelectedRow = mutableTeamList.findIndex(({ id }) => id === updatedRow.id);
-          mutableTeamList[indexOfSelectedRow] = updatedRow;
-          return mutableTeamList;
-        });
-      } else {
-        setPlayerList((current) => {
-          const mutablePlayerList = [...current];
-          const indexOfSelectedRow = mutablePlayerList.findIndex(({ id }) => id === updatedRow.id);
-          mutablePlayerList[indexOfSelectedRow] = updatedRow;
-          return mutablePlayerList;
-        });
-      }
-      enqueueSnackbar('Validated row', { variant: 'success' });
+  const processTeamRowUpdate = useCallback(
+    async (updatedRow) => {
+      setTeamList((current) => {
+        const mutableTeamList = [...current];
+        const indexOfSelectedRow = mutableTeamList.findIndex(({ id }) => id === updatedRow.id);
+        mutableTeamList[indexOfSelectedRow] = updatedRow;
+        return mutableTeamList;
+      });
+      enqueueSnackbar('Validated team row', { variant: 'success' });
+      return updatedRow;
+    },
+    [enqueueSnackbar]
+  );
+
+  const processPlayerRowUpdate = useCallback(
+    async (updatedRow) => {
+      setPlayerList((current) => {
+        const mutablePlayerList = [...current];
+        const indexOfSelectedRow = mutablePlayerList.findIndex(({ id }) => id === updatedRow.id);
+        mutablePlayerList[indexOfSelectedRow] = updatedRow;
+        return mutablePlayerList;
+      });
+      enqueueSnackbar('Validated player row', { variant: 'success' });
       return updatedRow;
     },
     [enqueueSnackbar]
@@ -117,7 +117,7 @@ export function StatUploader(props) {
                 }
               }
             }}
-            processRowUpdate={(updatedRow) => processRowUpdate(updatedRow, TABLE_KEY.TEAM)}
+            processRowUpdate={processTeamRowUpdate}
             onProcessRowUpdateError={handleProcessRowUpdateError}
             autoHeight
             pageSizeOptions={[1]}
@@ -137,9 +137,14 @@ export function StatUploader(props) {
                 paginationModel: {
                   pageSize: 5
                 }
+              },
+              columns: {
+                columnVisibilityModel: {
+                  playerID: false
+                }
               }
             }}
-            processRowUpdate={(updatedRow) => processRowUpdate(updatedRow, TABLE_KEY.PLAYER)}
+            processRowUpdate={processPlayerRowUpdate}
             onProcessRowUpdateError={handleProcessRowUpdateError}
             autoHeight
             pageSizeOptions={[5]}

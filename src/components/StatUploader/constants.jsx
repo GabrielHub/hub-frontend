@@ -1,5 +1,9 @@
 import { POSITION_READABLE } from 'constants';
-import { IsAIEditCell, SelectPositionEditCell } from './EditCell';
+import {
+  renderSelectPositionEditCell,
+  renderIsAIEditCell,
+  renderSelectPlayerEditCell
+} from './EditCell/SelectPositionEditCell';
 
 export const PLAYER_DATA_CONFIG = [
   {
@@ -12,7 +16,7 @@ export const PLAYER_DATA_CONFIG = [
   {
     field: 'pos',
     headerName: 'POSITION',
-    renderEditCell: SelectPositionEditCell,
+    renderEditCell: renderSelectPositionEditCell,
     valueFormatter: (params) => {
       return POSITION_READABLE[params.value];
     },
@@ -23,7 +27,7 @@ export const PLAYER_DATA_CONFIG = [
   {
     field: 'oppPos',
     headerName: 'MATCHUP',
-    renderEditCell: SelectPositionEditCell,
+    renderEditCell: renderSelectPositionEditCell,
     valueFormatter: (params) => {
       return POSITION_READABLE[params.value];
     },
@@ -34,7 +38,7 @@ export const PLAYER_DATA_CONFIG = [
   {
     field: 'isAI',
     headerName: 'Is AI?',
-    renderEditCell: IsAIEditCell,
+    renderEditCell: renderIsAIEditCell,
     valueFormatter: (params) => {
       return params.value === 0 ? 'No' : 'Yes';
     },
@@ -44,9 +48,11 @@ export const PLAYER_DATA_CONFIG = [
   },
   {
     field: 'name',
-    headerName: 'NAME',
+    headerName: 'PLAYER',
+    renderEditCell: renderSelectPlayerEditCell,
     sortable: false,
     editable: true,
+    flex: 1,
     width: 200,
     description: 'Name is often incorrect, please double check that there are no typos in the name'
   },
@@ -133,6 +139,27 @@ export const PLAYER_DATA_CONFIG = [
     headerName: '3PA',
     sortable: false,
     editable: true,
+    flex: 1
+  },
+  {
+    field: 'ftm',
+    headerName: 'FTM',
+    sortable: false,
+    editable: true,
+    flex: 1
+  },
+  {
+    field: 'fta',
+    headerName: 'FTA',
+    sortable: false,
+    editable: true,
+    flex: 1
+  },
+  {
+    field: 'playerID',
+    headerName: 'Player ID',
+    sortable: false,
+    editable: false,
     flex: 1
   }
 ];
@@ -226,6 +253,20 @@ export const TEAM_DATA_CONFIG = [
   {
     field: 'threepa',
     headerName: '3PA',
+    sortable: false,
+    editable: true,
+    flex: 1
+  },
+  {
+    field: 'ftm',
+    headerName: 'FTM',
+    sortable: false,
+    editable: true,
+    flex: 1
+  },
+  {
+    field: 'fta',
+    headerName: 'FTA',
     sortable: false,
     editable: true,
     flex: 1
