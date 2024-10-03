@@ -9,7 +9,7 @@ function CustomCardHeader({ name, positions, showPositions }) {
   return (
     <>
       <Typography variant="h6">{name}</Typography>
-      {showPositions && positions.length && (
+      {showPositions && Object.keys(positions).length > 0 && (
         <Typography variant="subtitle1" color="text.secondary">
           {getReadablePositions(positions)}
         </Typography>
