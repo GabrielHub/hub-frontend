@@ -71,17 +71,10 @@ export function Dashboard() {
 
   const handleSaveClick = useCallback(async () => {
     setLoading(true);
-    // * Valid states (FT 0 - 100), lowercase and trim all aliases
-    if (editedPlayerData.ftPerc < 0 || editedPlayerData.ftPerc > 100) {
-      enqueueSnackbar('Invalid FT%', { variant: 'error' });
-      return;
-    }
     const validAliases = editedPlayerData.alias.map((alias) => alias.toLowerCase().trim());
     const name = editedPlayerData.name.trim();
-    const { ftPerc } = editedPlayerData;
-
     try {
-      await updatePlayerDetails(playerID, name, validAliases, ftPerc);
+      await updatePlayerDetails(playerID, name, validAliases);
       await handlePlayerSelect({ objectID: playerID });
       enqueueSnackbar('Player Updated', { variant: 'success' });
     } catch (err) {
@@ -232,12 +225,6 @@ export function Dashboard() {
                     value={editedPlayerData?.name}
                     onChange={handleTextFieldChange('name')}
                     sx={{ marginRight: 1 }}
-                  />
-                  <TextField
-                    disabled={!isEditing}
-                    label="ftPerc"
-                    value={editedPlayerData?.ftPerc}
-                    onChange={handleTextFieldChange('ftPerc')}
                   />
                   {isEditing ? (
                     <IconButton onClick={handleCancelClick}>
