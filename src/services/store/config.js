@@ -10,7 +10,7 @@ const RANKING_VISIBILITY_MODEL = {
   astPerc: false,
   fgPerc: false,
   threePerc: false,
-  tsPerc: false,
+  efgPerc: false,
   threepAR: false,
   oFGA: false,
   oFGM: false,

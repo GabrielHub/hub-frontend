@@ -9,7 +9,7 @@ function CustomCardHeader({ name, positions, showPositions }) {
   return (
     <>
       <Typography variant="h6">{name}</Typography>
-      {showPositions && (
+      {showPositions && positions.length && (
         <Typography variant="subtitle1" color="text.secondary">
           {getReadablePositions(positions)}
         </Typography>
@@ -21,8 +21,12 @@ function CustomCardHeader({ name, positions, showPositions }) {
 CustomCardHeader.propTypes = {
   name: PropTypes.string.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
-  positions: PropTypes.any.isRequired,
+  positions: PropTypes.any,
   showPositions: PropTypes.bool.isRequired
+};
+
+CustomCardHeader.defaultProps = {
+  positions: []
 };
 
 function CustomSubHeader({ pts, reb, ast }) {

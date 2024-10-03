@@ -1,4 +1,4 @@
-import { doc, setDoc, Timestamp } from 'firebase/firestore';
+import { collection, addDoc, Timestamp } from 'firebase/firestore';
 import { INITIAL_ELO } from '../constants';
 import { db } from './firebase';
 
@@ -6,14 +6,17 @@ export const createPlayer = async (name, aliases) => {
   const formattedName = name.trim();
   const uniqueAliases = [
     ...new Set([
-      ...aliases.split(',').map((alias) => alias.toLowerCase().trim()),
+      ...aliases
+        .split(',')
+        .map((alias) => alias.toLowerCase().trim())
+        .filter((alias) => alias !== ''),
       formattedName.toLowerCase()
     ])
   ];
 
-  const playerRef = doc(db, 'players', formattedName);
+  const playersCollection = collection(db, 'players');
   try {
-    await setDoc(playerRef, {
+    const docRef = await addDoc(playersCollection, {
       name: formattedName,
       alias: uniqueAliases,
       elo: INITIAL_ELO,
@@ -25,6 +28,8 @@ export const createPlayer = async (name, aliases) => {
       _createdAt: Timestamp.now(),
       _updatedAt: Timestamp.now()
     });
+
+    return docRef.id; // Return the auto-generated UID
   } catch (err) {
     throw new Error(err);
   }

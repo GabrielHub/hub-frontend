@@ -1,26 +1,35 @@
-import React, { useCallback } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSearchBox } from 'react-instantsearch';
 import { TextField } from '@mui/material';
 
 export function SearchBox(props) {
   const { initialQuery } = props;
+  const inputRef = useRef(null);
+  const [inputValue, setInputValue] = useState(initialQuery);
 
-  const memoizedSearch = useCallback((query, search) => {
-    search(query);
-  }, []);
+  const { refine } = useSearchBox();
 
-  const { refine } = useSearchBox({
-    queryHook: memoizedSearch
-  });
+  useEffect(() => {
+    if (initialQuery) {
+      setInputValue(initialQuery);
+      refine(initialQuery);
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+    }
+  }, [initialQuery, refine]);
 
   const handleChange = (event) => {
-    refine(event.target.value);
+    const newValue = event.target.value;
+    setInputValue(newValue);
+    refine(newValue);
   };
 
   return (
     <TextField
-      defaultValue={initialQuery}
+      inputRef={inputRef}
+      value={inputValue}
       placeholder="Player Name or Alias"
       onChange={handleChange}
       label="Search Player"

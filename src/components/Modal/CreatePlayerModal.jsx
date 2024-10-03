@@ -18,6 +18,8 @@ export function CreatePlayerModal(props) {
 
   const handleCreate = async () => {
     await createPlayer(name, aliases);
+    setName('');
+    setAliases('');
     handleClose();
   };
 
