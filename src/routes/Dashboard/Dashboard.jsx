@@ -38,7 +38,7 @@ export function Dashboard() {
   const [editedPlayerData, setEditedPlayerData] = useState(null);
   const [open, setOpen] = useState(false);
   const [openAuditModal, setOpenAuditModal] = useState(false);
-  const [auditModalTyoe, setAuditModalType] = useState('');
+  const [auditModalType, setAuditModalType] = useState('');
   const [openCreatePlayerModal, setOpenCreatePlayerModal] = useState(false);
   const navigate = useNavigate();
 
@@ -90,7 +90,7 @@ export function Dashboard() {
   };
 
   const handleAddAlias = () => {
-    const aliases = [...playerData.alias, newAlias];
+    const aliases = [...editedPlayerData.alias, newAlias];
     setEditedPlayerData({ ...editedPlayerData, alias: aliases });
   };
 
@@ -138,7 +138,7 @@ export function Dashboard() {
       <AdminAuditModal
         open={openAuditModal}
         handleClose={() => setOpenAuditModal(false)}
-        type={auditModalTyoe}
+        type={auditModalType}
       />
       <Grid
         xs={12}
