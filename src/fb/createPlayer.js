@@ -1,4 +1,4 @@
-import { collection, addDoc, Timestamp } from 'firebase/firestore';
+import { collection, addDoc, Timestamp, query, where, getDocs } from 'firebase/firestore';
 import { INITIAL_ELO } from '../constants';
 import { db } from './firebase';
 
@@ -15,6 +15,14 @@ export const createPlayer = async (name, aliases) => {
   ];
 
   const playersCollection = collection(db, 'players');
+
+  const nameQuery = query(playersCollection, where('name', '==', formattedName));
+  const nameQuerySnapshot = await getDocs(nameQuery);
+
+  if (!nameQuerySnapshot.empty) {
+    throw new Error('A player with this name already exists');
+  }
+
   try {
     const docRef = await addDoc(playersCollection, {
       name: formattedName,

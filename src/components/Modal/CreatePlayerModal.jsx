@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 import {
   Dialog,
@@ -13,14 +14,18 @@ import { createPlayer } from '../../fb/createPlayer';
 
 export function CreatePlayerModal(props) {
   const { open, handleClose } = props;
+  const { enqueueSnackbar } = useSnackbar();
   const [name, setName] = useState('');
   const [aliases, setAliases] = useState('');
-
   const handleCreate = async () => {
-    await createPlayer(name, aliases);
-    setName('');
-    setAliases('');
-    handleClose();
+    try {
+      await createPlayer(name, aliases);
+      setName('');
+      setAliases('');
+      handleClose();
+    } catch (err) {
+      enqueueSnackbar(err.message, { variant: 'error' });
+    }
   };
 
   return (
