@@ -72,6 +72,9 @@ function SelectPlayerEditCell(props) {
     setOpen(true);
   }, []);
 
+  const initialQuery = !value || value === 'Empty' ? '' : value;
+  const { playerID } = apiRef.current.getRow(id);
+
   return (
     <>
       {open && (
@@ -85,11 +88,13 @@ function SelectPlayerEditCell(props) {
           }}
           variant="outlined">
           <CardContent>
-            <AlgoliaSearch handleClick={handleChange} initialQuery={value} />
+            <AlgoliaSearch handleClick={handleChange} initialQuery={initialQuery} />
           </CardContent>
         </Card>
       )}
-      <Button onClick={handleOpen}>{value}</Button>
+      <Button onClick={handleOpen} variant="contained" sx={{ margin: 'auto' }}>
+        {playerID ? value : 'Select'}
+      </Button>
     </>
   );
 }

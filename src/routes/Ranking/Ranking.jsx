@@ -37,6 +37,9 @@ export function Ranking() {
         <Typography variant="h5" gutterBottom>
           Player Rankings, Ratings and Stats
         </Typography>
+        <Typography variant="subtitle1" color="text.secondary" gutterBottom>
+          *2 game minimum to be included in the table
+        </Typography>
       </Grid>
       <Grid xs={12} sx={{ paddingBottom: 4 }} item>
         <Accordion>

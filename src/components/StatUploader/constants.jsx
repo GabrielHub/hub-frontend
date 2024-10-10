@@ -1,4 +1,5 @@
 import { POSITION_READABLE } from 'constants';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import {
   renderSelectPositionEditCell,
   renderIsAIEditCell,
@@ -50,6 +51,14 @@ export const PLAYER_DATA_CONFIG = [
     field: 'name',
     headerName: 'PLAYER',
     renderEditCell: renderSelectPlayerEditCell,
+    renderCell: (params) => (
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        {params.value}
+        {params.row.playerID && (
+          <CheckCircleIcon style={{ color: 'green', marginLeft: '5px', fontSize: '1rem' }} />
+        )}
+      </div>
+    ),
     sortable: false,
     editable: true,
     flex: 1,

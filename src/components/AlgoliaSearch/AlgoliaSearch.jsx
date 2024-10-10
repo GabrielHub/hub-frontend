@@ -28,7 +28,7 @@ export function AlgoliaSearch(props) {
       searchClient={searchClient}
       indexName="players"
       routing
-      initialQuery={initialQuery && initialQuery !== 'Empty' ? initialQuery : ''}>
+      initialQuery={initialQuery}>
       <Grid container>
         <Grid sx={{ marginBottom: 2 }} xs={12} item>
           <SearchBoxWrapper initialQuery={initialQuery} />
