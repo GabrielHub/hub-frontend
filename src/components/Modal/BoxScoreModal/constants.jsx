@@ -144,6 +144,24 @@ export const BOX_SCORE_COLUMNS = [
     headerAlign: 'center',
     align: 'center',
     sortable: false
+  },
+  {
+    field: 'ftm',
+    headerName: 'FTM',
+    type: 'number',
+    flex: 1,
+    headerAlign: 'center',
+    align: 'center',
+    sortable: false
+  },
+  {
+    field: 'fta',
+    headerName: 'FTA',
+    type: 'number',
+    flex: 1,
+    headerAlign: 'center',
+    align: 'center',
+    sortable: false
   }
 ];
 

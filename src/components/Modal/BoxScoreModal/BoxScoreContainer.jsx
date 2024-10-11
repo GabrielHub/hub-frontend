@@ -22,7 +22,9 @@ const BASIC_STATS = [
   'fga',
   'threepm',
   'threepa',
-  'pf'
+  'pf',
+  'ftm',
+  'fta'
 ];
 
 export function BoxScoreContainer(props) {
