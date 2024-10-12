@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Grid, Typography, Card, CardActions, CardContent, Button, Box } from '@mui/material';
 import { BREADModal } from 'components/Modal/BREADModal';
-import pixelLogo from '../../images/pixelLogo.png';
-import headerImage from '../../images/headerImage.png';
-import { LastGames, AwardCarousel } from './components';
+import pixelLogo from 'images/pixelLogo.png';
+import headerImage from 'images/headerImage.png';
+import { LastGames, AwardCarousel } from 'routes/Root/components';
 
 const bull = (
   <Box component="span" sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}>
@@ -92,9 +92,16 @@ export function Root() {
       <Grid xs justifyContent="space-around" alignItems="stretch" container item>
         <Grid sx={{ padding: 2 }} xs={12} xl={4} item>
           <Card
-            sx={{ minWidth: 275, height: '100%', padding: 2, border: ' 4px solid #e8cab2' }}
+            sx={{
+              minWidth: 275,
+              height: '100%',
+              padding: 2,
+              border: '4px solid #e8cab2',
+              display: 'flex',
+              flexDirection: 'column'
+            }}
             variant="outlined">
-            <CardContent>
+            <CardContent sx={{ flexGrow: 1 }}>
               <Grid alignItems="center" container>
                 <Grid xs item>
                   <Typography variant="h5" component="div">
@@ -123,18 +130,26 @@ export function Root() {
             <CardContent>
               <LastGames />
             </CardContent>
-            <CardActions>
+            <CardActions sx={{ mt: 'auto' }}>
               <Button size="small" onClick={() => navigate('/ranking')}>
                 View Rankings
               </Button>
             </CardActions>
           </Card>
         </Grid>
+
         <Grid sx={{ padding: 2 }} xs={12} xl={4} item>
           <Card
-            sx={{ minWidth: 275, height: '100%', padding: 2, border: ' 4px solid #edd6ff' }}
+            sx={{
+              minWidth: 275,
+              height: '100%',
+              padding: 2,
+              border: '4px solid #edd6ff',
+              display: 'flex',
+              flexDirection: 'column'
+            }}
             variant="outlined">
-            <CardContent>
+            <CardContent sx={{ flexGrow: 1 }}>
               <Grid alignItems="center" container>
                 <Grid xs item>
                   <Typography variant="h5" component="div">
@@ -164,18 +179,26 @@ export function Root() {
             <CardContent>
               <AwardCarousel />
             </CardContent>
-            <CardActions>
+            <CardActions sx={{ mt: 'auto' }}>
               <Button size="small" onClick={() => navigate('/analysis/awards')}>
                 View Awards Page
               </Button>
             </CardActions>
           </Card>
         </Grid>
+
         <Grid sx={{ padding: 2 }} xs={12} xl={4} item>
           <Card
-            sx={{ minWidth: 275, height: '100%', padding: 2, border: ' 4px solid #a8b8ba' }}
+            sx={{
+              minWidth: 275,
+              height: '100%',
+              padding: 2,
+              border: '4px solid #a8b8ba',
+              display: 'flex',
+              flexDirection: 'column'
+            }}
             variant="outlined">
-            <CardContent>
+            <CardContent sx={{ flexGrow: 1 }}>
               <Grid alignItems="center" container>
                 <Grid xs item>
                   <Typography variant="h5" component="div">
@@ -202,7 +225,7 @@ export function Root() {
                 You can view career averages, games played, and more
               </Typography>
             </CardContent>
-            <CardActions>
+            <CardActions sx={{ mt: 'auto', justifyContent: 'flex-start' }}>
               <Button size="small" onClick={() => navigate('/players')}>
                 Search Players
               </Button>
