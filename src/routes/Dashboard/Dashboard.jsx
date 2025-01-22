@@ -143,72 +143,75 @@ export function Dashboard() {
       <Grid
         xs={12}
         sx={{ py: 1 }}
-        justifyContent="space-around"
-        spacing={2}
         container
-        alignItems="center"
-        item>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            setAuditModalType(ADMIN_FUNCTIONS.RECALCULATE_PLAYER_AVERAGES);
-            setOpenAuditModal(true);
-          }}
-          sx={{
-            marginRight: 1
-          }}>
-          Recalculate Player Averages
-        </Button>
-        <Button
-          variant="contained"
-          sx={{
-            marginRight: 1
-          }}
-          color="primary"
-          onClick={() => {
-            setAuditModalType(ADMIN_FUNCTIONS.RECALCULATE_LEAGUE_AVERAGES);
-            setOpenAuditModal(true);
-          }}>
-          Recalculate League Averages
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            setAuditModalType(ADMIN_FUNCTIONS.RECALCULATE_AWARDS);
-            setOpenAuditModal(true);
-          }}
-          sx={{
-            marginRight: 1
-          }}>
-          Sync Awards
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            setAuditModalType(ADMIN_FUNCTIONS.RECALCULATE_ELO);
-            setOpenAuditModal(true);
-          }}
-          sx={{
-            marginRight: 1
-          }}
-          disabled>
-          Sync Elo
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            setAuditModalType(ADMIN_FUNCTIONS.DELETE_DUPLICATE_GAMES);
-            setOpenAuditModal(true);
-          }}>
-          Delete Duplicate Games
-        </Button>
-        <Button variant="contained" color="success" onClick={() => setOpenCreatePlayerModal(true)}>
-          Create Player
-        </Button>
+        item
+        spacing={2}
+        justifyContent="flex-start"
+        alignItems="center">
+        <Grid item>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              setAuditModalType(ADMIN_FUNCTIONS.RECALCULATE_PLAYER_AVERAGES);
+              setOpenAuditModal(true);
+            }}>
+            Recalculate Player Averages
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              setAuditModalType(ADMIN_FUNCTIONS.RECALCULATE_LEAGUE_AVERAGES);
+              setOpenAuditModal(true);
+            }}>
+            Recalculate League Averages
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              setAuditModalType(ADMIN_FUNCTIONS.RECALCULATE_AWARDS);
+              setOpenAuditModal(true);
+            }}>
+            Sync Awards
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              setAuditModalType(ADMIN_FUNCTIONS.RECALCULATE_ELO);
+              setOpenAuditModal(true);
+            }}
+            disabled>
+            Sync Elo
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              setAuditModalType(ADMIN_FUNCTIONS.DELETE_DUPLICATE_GAMES);
+              setOpenAuditModal(true);
+            }}>
+            Delete Duplicate Games
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button
+            variant="contained"
+            color="success"
+            onClick={() => setOpenCreatePlayerModal(true)}>
+            Create Player
+          </Button>
+        </Grid>
       </Grid>
       <Grid sx={{ py: 4 }} xs={12} item>
         <AlgoliaSearch handleClick={handlePlayerSelect} />

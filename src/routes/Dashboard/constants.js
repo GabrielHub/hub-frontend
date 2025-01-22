@@ -7,8 +7,7 @@ export const GAMES_COLUMNS = [
     valueGetter: (params) => {
       return new Date(params.value.seconds * 1000).toLocaleDateString('en-US');
     },
-    flex: 1,
-    sortable: false
+    flex: 1
   },
   {
     field: 'name',
@@ -54,22 +53,19 @@ export const GAMES_COLUMNS = [
     field: 'pts',
     headerName: 'PTS',
     type: 'number',
-    flex: 1,
-    sortable: false
+    flex: 1
   },
   {
     field: 'treb',
     headerName: 'REB',
     type: 'number',
-    flex: 1,
-    sortable: false
+    flex: 1
   },
   {
     field: 'ast',
     headerName: 'AST',
     type: 'number',
-    flex: 1,
-    sortable: false
+    flex: 1
   },
   {
     field: 'stl',
@@ -93,8 +89,7 @@ export const GAMES_COLUMNS = [
     field: 'tov',
     headerName: 'TO',
     type: 'number',
-    flex: 1,
-    sortable: false
+    flex: 1
   },
   {
     field: 'fgm',
