@@ -6,3 +6,4 @@ export * from './fetchLastUploaded';
 export * from './fetchArchive';
 export * from './fetchBoxScore';
 export * from './fetchAwards';
+export * from './fetchTableDataByPosition';

@@ -42,7 +42,15 @@ function Footer(props) {
 }
 
 export function PlayerGrid(props) {
-  const { columns, defaultSortField, defaultSortType, visibilityModel } = props;
+  const {
+    columns,
+    defaultSortField,
+    defaultSortType,
+    visibilityModel,
+    rows: externalRows,
+    loading: externalLoading
+  } = props;
+
   const {
     setRankingTableVisibilityModel,
     getPerGameFilter,
@@ -50,6 +58,7 @@ export function PlayerGrid(props) {
     setLeagueComparisonToggle,
     getLeagueComparisonToggle
   } = useStore();
+
   const { enqueueSnackbar } = useSnackbar();
   const [dropdownValue, setDropdownValue] = useState(getPerGameFilter());
   const [showComparison, setShowComparison] = useState(getLeagueComparisonToggle());
@@ -87,6 +96,8 @@ export function PlayerGrid(props) {
   };
 
   const getTableRows = useCallback(async () => {
+    if (externalRows) return;
+
     setLoading(true);
     const queryParams = {
       sortField: sortModel[0]?.field || defaultSortField,
@@ -94,19 +105,21 @@ export function PlayerGrid(props) {
     };
     const { data, error } = await fetchTableData(queryParams);
     const adjustedData = adjustDataByFilter(data, dropdownValue);
-
     if (error) {
-      setLoading(false);
       enqueueSnackbar('Error reading data, please try again', { variant: 'error' });
     } else {
       setRows(adjustedData);
-      setLoading(false);
     }
-  }, [defaultSortField, defaultSortType, dropdownValue, enqueueSnackbar, sortModel]);
+    setLoading(false);
+  }, [externalRows, sortModel, defaultSortField, defaultSortType, dropdownValue, enqueueSnackbar]);
 
   useEffect(() => {
-    getTableRows();
-  }, [getTableRows]);
+    if (externalRows) {
+      setRows(externalRows);
+    } else {
+      getTableRows();
+    }
+  }, [externalRows, getTableRows]);
 
   const getBackgroundColor = useCallback(
     (stat) => {
@@ -135,7 +148,7 @@ export function PlayerGrid(props) {
         onColumnVisibilityModelChange={(newVisibilityModel) => {
           setRankingTableVisibilityModel(newVisibilityModel);
         }}
-        loading={loading}
+        loading={externalLoading || loading}
         autoPageSize
         slots={{
           footer: Footer,
@@ -163,18 +176,20 @@ export function PlayerGrid(props) {
 }
 
 PlayerGrid.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  columns: PropTypes.arrayOf(PropTypes.object).isRequired,
   defaultSortField: PropTypes.string.isRequired,
   defaultSortType: PropTypes.string.isRequired,
-  columns: PropTypes.arrayOf(
-    PropTypes.objectOf(
-      PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool, PropTypes.func])
-    )
-  ).isRequired,
-  visibilityModel: PropTypes.objectOf(PropTypes.bool)
+  // eslint-disable-next-line react/forbid-prop-types
+  visibilityModel: PropTypes.object.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  rows: PropTypes.arrayOf(PropTypes.object),
+  loading: PropTypes.bool
 };
 
 PlayerGrid.defaultProps = {
-  visibilityModel: {}
+  rows: null,
+  loading: false
 };
 
 Footer.propTypes = {

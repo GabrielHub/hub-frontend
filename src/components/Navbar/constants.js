@@ -24,8 +24,8 @@ export const navConfig = [
         path: '/analysis/league'
       },
       {
-        title: 'PER LEADERS',
-        path: '/analysis/per'
+        title: 'BY POSITION',
+        path: '/analysis/position'
       },
       {
         title: 'NBA COMPARISON',

@@ -4,8 +4,8 @@ export const TAB_CONFIG = [
     path: '/analysis/league'
   },
   {
-    label: 'PER Leaders',
-    path: '/analysis/per'
+    label: 'By Position',
+    path: '/analysis/position'
   },
   {
     label: 'NBA Comparison',
