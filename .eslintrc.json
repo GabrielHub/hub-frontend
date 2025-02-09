@@ -22,7 +22,17 @@
         "paths": ["src"],
         "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }
-    }
+    },
+    "alias": {
+        "map": [
+          ["components", "./src/components"],
+          ["routes", "./src/routes"],
+          ["services", "./src/services"],
+          ["utils", "./src/utils"],
+          ["images", "./src/images"]
+        ],
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
   },
   "rules": {
     "react/prop-types": "error",

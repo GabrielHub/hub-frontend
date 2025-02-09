@@ -1,12 +1,11 @@
 import axios from 'axios';
 import { FIREBASE_BASE_URL } from 'constants';
 
-export const fetchTableData = async ({ sortField, sortType, limit }) => {
+export const fetchTableData = async ({ sortField, sortType }) => {
   const response = {};
   const body = {
     sortField,
-    sortType,
-    limit: limit ?? 10
+    sortType
   };
 
   await axios

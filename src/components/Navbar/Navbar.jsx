@@ -28,6 +28,7 @@ export function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState({});
   const [openCollapse, setOpenCollapse] = useState({});
+  // const { mode, toggleColorMode } = useTheme();
 
   const handleSignOut = async () => {
     await logout();
@@ -40,12 +41,20 @@ export function Navbar() {
     }
     if (user) {
       return (
-        <Button sx={{ ml: 12 }} onClick={handleSignOut}>
+        <Button sx={{ ml: 12 }} variant="contained" onClick={handleSignOut}>
           Logout
         </Button>
       );
     }
-    return <Box />;
+
+    return null;
+
+    // TODO Disable dark mode until we correctly set all the pages to use the theme provider
+    /* return (
+      <IconButton sx={{ ml: 1 }} onClick={toggleColorMode} color="inherit">
+        {mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
+      </IconButton>
+    ); */
   };
 
   const toggleDrawer = (open) => (event) => {

@@ -11,9 +11,6 @@ import { CustomGridCell } from 'components/CustomGridCell';
 import { adjustDataByFilter } from 'utils/adjustPlayerDataByFilter';
 import { useStore } from 'services';
 
-// * There are not enough players to put a hard limit.
-const LIMIT = 100;
-
 function Footer(props) {
   const { dropdownValue, showComparison, handleComparisonChange, handleDropdownChange } = props;
   const [open, setOpen] = useState(false);
@@ -93,8 +90,7 @@ export function PlayerGrid(props) {
     setLoading(true);
     const queryParams = {
       sortField: sortModel[0]?.field || defaultSortField,
-      sortType: sortModel[0]?.sort || defaultSortType,
-      limit: LIMIT
+      sortType: sortModel[0]?.sort || defaultSortType
     };
     const { data, error } = await fetchTableData(queryParams);
     const adjustedData = adjustDataByFilter(data, dropdownValue);
