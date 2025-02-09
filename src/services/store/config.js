@@ -59,6 +59,12 @@ const CONFIG = {
     setAction: 'SET_STAT_TREND_FILTER',
     setFunction: 'setStatTrendFilter',
     getFunction: 'getStatTrendFilter'
+  },
+  themeMode: {
+    initialState: 'light',
+    setAction: 'SET_THEME_MODE',
+    setFunction: 'setThemeMode',
+    getFunction: 'getThemeMode'
   }
 };
 

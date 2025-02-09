@@ -65,7 +65,7 @@ export function Root() {
             </Button>
           </Grid>
           <Grid item xs={12} container justifyContent="center">
-            <Typography variant="body2" color="text.secondary" align="center" gutterBottom>
+            <Typography variant="body2" sx={{ color: '#666666' }} align="center" gutterBottom>
               Better Ratings, Estimates, Adjustments, and Data
             </Typography>
           </Grid>

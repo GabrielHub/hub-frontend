@@ -1,17 +1,17 @@
-import React, { createContext, useState, useMemo, useCallback, useContext } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { ThemeProvider as MUIThemeProvider } from '@mui/material';
+import {
+  ThemeProvider as MUIThemeProvider,
+  CssBaseline,
+  useTheme as useMUITheme
+} from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 import baseTheme from '../theme';
-
-export const ThemeContext = createContext();
+import { useStore } from './store';
 
 export function ThemeProvider({ children }) {
-  const [mode, setMode] = useState('light');
-
-  const toggleColorMode = useCallback(() => {
-    setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
-  }, []);
+  const { getThemeMode } = useStore();
+  const mode = getThemeMode();
 
   const theme = useMemo(
     () =>
@@ -24,7 +24,7 @@ export function ThemeProvider({ children }) {
             ? {
                 // Light mode colors
                 background: {
-                  default: '#ffffff',
+                  default: '#f5f5f5',
                   paper: '#f5f5f5'
                 },
                 text: {
@@ -35,7 +35,7 @@ export function ThemeProvider({ children }) {
             : {
                 // Use your existing dark theme colors
                 background: {
-                  default: '#121212',
+                  default: '#1e1e1e',
                   paper: '#1e1e1e'
                 },
                 text: {
@@ -48,24 +48,22 @@ export function ThemeProvider({ children }) {
     [mode]
   );
 
-  const value = useMemo(() => ({ mode, toggleColorMode }), [mode, toggleColorMode]);
-
   return (
-    <ThemeContext.Provider value={value}>
-      <MUIThemeProvider theme={theme}>{children}</MUIThemeProvider>
-    </ThemeContext.Provider>
+    <MUIThemeProvider theme={theme}>
+      <CssBaseline />
+      {children}
+    </MUIThemeProvider>
   );
 }
 
+// This hook gives access to both our context and MUI theme
 export function useTheme() {
-  const context = useContext(ThemeContext);
-  if (!context) {
-    throw new Error('useTheme must be used within a ThemeProvider');
-  }
-  return context;
-}
+  const { getThemeMode } = useStore();
+  const mode = getThemeMode();
+  const muiTheme = useMUITheme();
 
-// * Add prop validation
+  return { mode, theme: muiTheme };
+}
 
 ThemeProvider.propTypes = {
   children: PropTypes.node.isRequired

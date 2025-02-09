@@ -12,6 +12,7 @@ const reducer = (state, action) => {
     case CONFIG.leagueComparisonToggle.setAction:
     case CONFIG.statTrendFilter.setAction:
     case CONFIG.perGameFilter.setAction:
+    case CONFIG.themeMode.setAction:
       return { ...state, [action.key]: action.value };
     default:
       return state;

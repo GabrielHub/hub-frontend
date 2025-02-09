@@ -9,7 +9,7 @@ import { calculateLeagueComparisonColor } from 'utils';
 import { StatAdjustDropdown } from 'components/StatAdjustDropdown';
 import { CustomGridCell } from 'components/CustomGridCell';
 import { adjustDataByFilter } from 'utils/adjustPlayerDataByFilter';
-import { useStore } from 'services';
+import { useStore, useTheme } from 'services';
 
 function Footer(props) {
   const { dropdownValue, showComparison, handleComparisonChange, handleDropdownChange } = props;
@@ -72,6 +72,8 @@ export function PlayerGrid(props) {
     }
   ]);
 
+  const { theme } = useTheme();
+
   const handleDropdownChange = (event) => {
     setDropdownValue(event.target.value);
     setPerGameFilter(event.target.value);
@@ -123,7 +125,9 @@ export function PlayerGrid(props) {
 
   const getBackgroundColor = useCallback(
     (stat) => {
-      if (!showComparison || !comparisonData) return 'white';
+      if (!showComparison || !comparisonData) {
+        return theme.palette.background.paper;
+      }
       const adjustedColor = calculateLeagueComparisonColor(
         stat.field,
         stat.value,
@@ -132,10 +136,12 @@ export function PlayerGrid(props) {
         dropdownValue,
         true
       );
-      if (!adjustedColor) return 'white';
+      if (!adjustedColor) {
+        return theme.palette.background.paper;
+      }
       return adjustedColor;
     },
-    [comparisonData, dropdownValue, rows, showComparison]
+    [comparisonData, dropdownValue, rows?.pace, showComparison, theme.palette.background.paper]
   );
 
   return (

@@ -16,6 +16,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { calculateLeagueComparisonColor } from 'utils';
 import { CustomGridCell } from 'components/CustomGridCell';
 import { BoxScoreModal } from 'components/Modal';
+import { useTheme } from 'services';
 
 export function GameGrid(props) {
   const { columns, gameData, leagueData, showComparison, numGames } = props;
@@ -23,20 +24,23 @@ export function GameGrid(props) {
   const [clickMessage, setClickMessage] = useState('');
   const [uploadId, setUploadId] = useState('');
   const [open, setOpen] = useState(false);
+  const { theme } = useTheme();
 
   const getBackgroundColor = useCallback(
     (stat) => {
-      if (!showComparison || !leagueData) return 'white';
+      if (!showComparison || !leagueData) {
+        return theme.palette.background.paper;
+      }
 
       const adjustedColor = calculateLeagueComparisonColor(
         stat.field,
         stat.value,
         leagueData[stat.field]
       );
-      if (!adjustedColor) return 'white';
+      if (!adjustedColor) return theme.palette.background.paper;
       return adjustedColor;
     },
-    [leagueData, showComparison]
+    [leagueData, showComparison, theme.palette.background.paper]
   );
 
   const handleRowClick = useCallback(

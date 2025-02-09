@@ -16,19 +16,21 @@ import {
   Collapse,
   ListItemText
 } from '@mui/material';
-import { ExpandLess, ExpandMore } from '@mui/icons-material';
+import { ExpandLess, ExpandMore, Brightness7, Brightness4 } from '@mui/icons-material';
 import { blueGrey } from '@mui/material/colors';
 import MenuIcon from '@mui/icons-material/Menu';
-import { AuthContext } from 'services';
+import { AuthContext, useStore, useTheme } from 'services';
 import { navConfig } from './constants';
 
 export function Navbar() {
   const navigate = useNavigate();
   const { user, logout, loading } = useContext(AuthContext);
+
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState({});
   const [openCollapse, setOpenCollapse] = useState({});
-  // const { mode, toggleColorMode } = useTheme();
+  const { mode } = useTheme();
+  const { setThemeMode } = useStore();
 
   const handleSignOut = async () => {
     await logout();
@@ -46,15 +48,7 @@ export function Navbar() {
         </Button>
       );
     }
-
     return null;
-
-    // TODO Disable dark mode until we correctly set all the pages to use the theme provider
-    /* return (
-      <IconButton sx={{ ml: 1 }} onClick={toggleColorMode} color="inherit">
-        {mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
-      </IconButton>
-    ); */
   };
 
   const toggleDrawer = (open) => (event) => {
@@ -80,18 +74,18 @@ export function Navbar() {
     navConfig.map((route) => {
       if (route.children) {
         return (
-          <div key={route.path}>
+          <div key={route.path} style={{ display: 'flex', alignItems: 'center' }}>
             <Button
               variant="text"
               aria-controls="simple-menu"
               aria-haspopup="true"
+              sx={{ mx: 1 }}
               onClick={(event) => handleClick(route.path, event)}>
               <Typography
                 variant="h6"
                 component="div"
-                sx={{ flexGrow: 1, mr: 2, color: 'black' }}
-                align="center"
-                gutterBottom>
+                sx={{ color: mode === 'dark' ? 'white' : 'black' }}
+                align="center">
                 {route.title}
               </Typography>
             </Button>
@@ -111,16 +105,15 @@ export function Navbar() {
         );
       }
       return (
-        <Link key={route.path} to={route.path} style={{ textDecoration: 'none' }}>
+        <Button key={route.path} component={Link} to={route.path} variant="text" sx={{ mx: 1 }}>
           <Typography
             variant="h6"
             component="div"
-            sx={{ flexGrow: 1, mr: 2, color: 'black' }}
-            align="center"
-            gutterBottom>
+            sx={{ color: mode === 'dark' ? 'white' : 'black' }}
+            align="center">
             {route.title}
           </Typography>
-        </Link>
+        </Button>
       );
     });
 
@@ -181,10 +174,10 @@ export function Navbar() {
             <Typography
               variant="h4"
               sx={{
-                border: '4px solid black',
+                border: `4px solid ${mode === 'dark' ? 'white' : 'black'}`,
                 display: 'flex',
                 alignItems: 'center',
-                color: 'black',
+                color: mode === 'dark' ? 'white' : 'black',
                 px: '2px',
                 mr: '2px'
               }}>
@@ -208,17 +201,20 @@ export function Navbar() {
         <Grid xs item>
           {renderAuthButton()}
         </Grid>
-        <Hidden mdUp>
+        <Grid item sx={{ display: 'flex', alignItems: 'center', gap: 1, mr: 2 }}>
+          <Hidden mdDown>{renderNavDesktopLinks()}</Hidden>
           <IconButton
-            sx={{ marginRight: 1 }}
-            edge="end"
-            color="inherit"
-            aria-label="menu"
-            onClick={toggleDrawer(true)}>
+            onClick={() => setThemeMode(mode === 'dark' ? 'light' : 'dark')}
+            color="inherit">
+            {mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
+          </IconButton>
+        </Grid>
+
+        <Hidden mdUp>
+          <IconButton edge="end" color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
             <MenuIcon />
           </IconButton>
         </Hidden>
-        <Hidden mdDown>{renderNavDesktopLinks()}</Hidden>
       </Grid>
       <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
         <Box

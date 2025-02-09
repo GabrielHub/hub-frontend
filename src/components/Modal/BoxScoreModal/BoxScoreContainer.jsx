@@ -9,6 +9,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Loading } from 'components/Loading';
 import { CustomGridCell } from 'components/CustomGridCell';
 import { calculateLeagueComparisonColor } from 'utils';
+import { useTheme } from 'services';
 import { BOX_SCORE_COLUMNS, TEAM_LOCATIONS } from './constants';
 
 const BASIC_STATS = [
@@ -30,23 +31,24 @@ const BASIC_STATS = [
 export function BoxScoreContainer(props) {
   const { leagueData, showComparison, uploadId } = props;
   const { enqueueSnackbar } = useSnackbar();
+  const { theme } = useTheme();
   const [isLoading, setIsLoading] = useState(false);
   const [boxScoreData, setBoxScoreData] = useState(null);
   const [timestamp, setTimestamp] = useState(null);
 
   const getBackgroundColor = useCallback(
     (stat) => {
-      if (!showComparison || !leagueData) return 'white';
+      if (!showComparison || !leagueData) return theme.palette.background.paper;
 
       const adjustedColor = calculateLeagueComparisonColor(
         stat.field,
         stat.value,
         leagueData[stat.field]
       );
-      if (!adjustedColor) return 'white';
+      if (!adjustedColor) return theme.palette.background.paper;
       return adjustedColor;
     },
-    [leagueData, showComparison]
+    [leagueData, showComparison, theme.palette.background.paper]
   );
 
   const getBoxScoreData = useCallback(async () => {

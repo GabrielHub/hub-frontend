@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Typography, Card, CardHeader, CardContent } from '@mui/material';
 import { adjustStatByFilter, calculateLeagueComparisonColor, getContrastColor } from 'utils';
+import { useTheme } from 'services';
 
 export function StatCard(props) {
   const {
@@ -16,9 +17,11 @@ export function StatCard(props) {
     shouldRound
   } = props;
 
+  const { mode } = useTheme();
+
   const getBackgroundColor = useCallback(
     (stat) => {
-      if (!showLeagueComparisons) return 'white';
+      if (!showLeagueComparisons) return mode === 'dark' ? '#2d2d2d' : 'white';
       const adjustedColor = calculateLeagueComparisonColor(
         stat.field,
         playerData?.[stat.field],
@@ -26,22 +29,26 @@ export function StatCard(props) {
         playerData?.pace,
         perGameFilter
       );
-      if (!adjustedColor) return 'white';
+      if (!adjustedColor) return mode === 'dark' ? '#2d2d2d' : 'white';
       return adjustedColor;
     },
-    [leagueData, perGameFilter, playerData, showLeagueComparisons]
+    [leagueData, perGameFilter, playerData, showLeagueComparisons, mode]
   );
 
+  const headerColor = mode === 'dark' ? `${color}99` : color;
+
   return (
-    <Card sx={{ height: '100%', paddingBottom: 0 }}>
+    <Card sx={{ height: '100%', paddingBottom: 0, bgcolor: mode === 'dark' ? '#1e1e1e' : 'white' }}>
       <CardHeader
-        sx={{ bgcolor: color }}
+        sx={{ bgcolor: headerColor }}
         title={
           <Grid alignItems="center" justifyContent="space-between" container>
-            <Typography variant="h6" sx={{ color: getContrastColor(color) }}>
+            <Typography variant="h6" sx={{ color: getContrastColor(headerColor) }}>
               {title}
             </Typography>
-            {icon}
+            {React.cloneElement(icon, {
+              sx: { color: getContrastColor(headerColor) }
+            })}
           </Grid>
         }
       />
