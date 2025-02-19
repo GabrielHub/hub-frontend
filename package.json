@@ -19,7 +19,7 @@
     "better-react-mathjax": "^2.0.3",
     "buffer": "^6.0.3",
     "eslint-config-airbnb": "^19.0.4",
-    "firebase": "^9.19.1",
+    "firebase": "^11.3.1",
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",
     "match-sorter": "^6.3.1",

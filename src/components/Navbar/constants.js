@@ -50,6 +50,10 @@ export const navConfig = [
         path: '/admin/manualUpload'
       },
       {
+        title: 'AI UPLOAD',
+        path: '/admin/aiUpload'
+      },
+      {
         title: 'DASHBOARD',
         path: '/admin/dashboard'
       }

@@ -10,6 +10,7 @@ import { PrivateRoute } from './PrivateRoute';
 import { Dashboard } from './Dashboard';
 import { EditGame, Game, BoxScoreData } from './Games';
 import { DraftTool } from './Tool';
+import { AIUpload } from './AIUpload';
 import { League, Position, Similarity, Awards, Archive } from './Analysis/Tabs';
 
 // TODO Routes are also used for the Navbar, and for the TABS in the Analysis page
@@ -92,6 +93,14 @@ export const routerConfig = [
             element: (
               <PrivateRoute>
                 <UploadStats />
+              </PrivateRoute>
+            )
+          },
+          {
+            path: 'aiUpload',
+            element: (
+              <PrivateRoute>
+                <AIUpload />
               </PrivateRoute>
             )
           }
