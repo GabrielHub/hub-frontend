@@ -1,5 +1,4 @@
 import { initializeApp } from 'firebase/app';
-import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 import { getVertexAI, getGenerativeModel, Schema } from 'firebase/vertexai';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
@@ -74,10 +73,6 @@ const jsonSchema = Schema.object({
 
 const app = initializeApp(firebaseConfig);
 const vertexAI = getVertexAI(app);
-export const appCheck = initializeAppCheck(app, {
-  provider: new ReCaptchaV3Provider('6LfuttsqAAAAAJv3aNu8bYtNaDRnZ61PhoEfENE-'),
-  isTokenAutoRefreshEnabled: true
-});
 
 export const auth = getAuth(app);
 export const db = getFirestore(app);
