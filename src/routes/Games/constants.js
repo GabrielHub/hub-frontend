@@ -8,11 +8,6 @@ export const FIELD_TYPES = {
 
 export const FIELDS = [
   {
-    field: 'name',
-    headerName: 'Name',
-    type: FIELD_TYPES.string
-  },
-  {
     field: 'isAI',
     headerName: 'AI',
     type: FIELD_TYPES.number

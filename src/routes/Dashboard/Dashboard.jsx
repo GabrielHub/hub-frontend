@@ -79,10 +79,12 @@ export function Dashboard() {
       enqueueSnackbar('Player Updated', { variant: 'success' });
     } catch (err) {
       enqueueSnackbar('Error updating player, please try again', { variant: 'error' });
+    } finally {
+      setEditedPlayerData(null);
+      setNewAlias('');
+      setIsEditing(false);
+      setLoading(false);
     }
-
-    setIsEditing(false);
-    setLoading(false);
   }, [editedPlayerData, enqueueSnackbar, handlePlayerSelect, playerID]);
 
   const handleTextFieldChange = (field) => (event) => {
