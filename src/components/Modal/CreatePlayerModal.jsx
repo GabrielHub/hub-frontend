@@ -8,7 +8,8 @@ import {
   DialogTitle,
   Button,
   TextField,
-  Grid
+  Grid,
+  Typography
 } from '@mui/material';
 import { createPlayer } from '../../fb/createPlayer';
 
@@ -33,10 +34,16 @@ export function CreatePlayerModal(props) {
       <DialogTitle>Create Player</DialogTitle>
       <DialogContent>
         <Grid spacing={2} container>
+          <Grid item xs={12}>
+            <Typography variant="subtitle1" sx={{ color: 'text.secondary' }}>
+              May take a couple seconds or a minute to update
+            </Typography>
+          </Grid>
           <Grid item xs={12} md={6}>
             <TextField
               variant="filled"
               label="Name"
+              placeholder="Use their discord name"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />

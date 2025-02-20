@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { Grid, Button, Typography } from '@mui/material';
 import { Loading } from 'components/Loading';
 import { StatUploader } from 'components/StatUploader';
+import { CreatePlayerModal } from 'components/Modal';
 import { getBoxscoreData } from 'fb/getBoxscoreData';
 import { useSnackbar } from 'notistack';
 
 export function AIUpload() {
   const { enqueueSnackbar } = useSnackbar();
+  const [createPlayerModal, setCreatePlayerModal] = useState(false);
   const [imageData, setImageData] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -55,6 +57,7 @@ export function AIUpload() {
   return (
     <>
       <Loading isLoading={isLoading} />
+      <CreatePlayerModal open={createPlayerModal} handleClose={() => setCreatePlayerModal(false)} />
       <Grid container>
         <Grid xs={12} item>
           <Typography align="center" variant="h4" gutterBottom>
@@ -76,6 +79,13 @@ export function AIUpload() {
                   Select Image
                   <input hidden accept="image/*" type="file" onChange={handleImageChange} />
                 </Button>
+                <Button
+                  sx={{ ml: 2 }}
+                  variant="contained"
+                  color="success"
+                  onClick={() => setCreatePlayerModal(true)}>
+                  Create Player
+                </Button>
               </Grid>
             ) : (
               <Grid xs={12} justifyContent="center" container item>
@@ -89,8 +99,14 @@ export function AIUpload() {
                 <Grid xs={12} justifyContent="center" container item sx={{ mt: 2 }}>
                   <Button
                     variant="contained"
+                    color="success"
+                    onClick={() => setCreatePlayerModal(true)}>
+                    Create Player
+                  </Button>
+                  <Button
+                    variant="contained"
                     onClick={analyzeImage}
-                    sx={{ mr: 2 }}
+                    sx={{ mx: 2 }}
                     disabled={!!playerData.length}>
                     Analyze Image
                   </Button>
