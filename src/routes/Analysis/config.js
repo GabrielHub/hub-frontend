@@ -4,6 +4,10 @@ export const TAB_CONFIG = [
     path: '/analysis/league'
   },
   {
+    label: 'AI Insights',
+    path: '/analysis/insights'
+  },
+  {
     label: 'By Position',
     path: '/analysis/position'
   },
