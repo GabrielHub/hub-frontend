@@ -86,8 +86,11 @@ export function EditGame() {
       enqueueSnackbar('Error saving game data', { variant: 'error' });
       // eslint-disable-next-line no-console
       console.error(e);
+      setIsLoading(false);
+      return;
     }
-    setIsLoading(false);
+
+    navigate('/admin/dashboard');
   };
 
   const handlePlayerSelect = (player) => {
@@ -104,7 +107,7 @@ export function EditGame() {
     <Grid container spacing={2}>
       {isLoading && <Loading isLoading={isLoading} />}
       <Grid item xs={12} container justifyContent="space-between" alignItems="center">
-        <Button variant="contained" color="primary" onClick={() => navigate(-1)}>
+        <Button variant="contained" color="primary" onClick={() => navigate('/admin/dashboard')}>
           Back
         </Button>
         <Typography variant="h4">Edit Game Details</Typography>
