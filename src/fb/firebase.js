@@ -84,5 +84,8 @@ export const model = getGenerativeModel(vertexAI, {
     temperature: 0
   }
 });
+export const insightModel = getGenerativeModel(vertexAI, {
+  model: 'gemini-2.0-flash'
+});
 
 export default {};

@@ -23,7 +23,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { useSnackbar } from 'notistack';
 import { AlgoliaSearch } from 'components/AlgoliaSearch';
 import { ConfirmationModal, CreatePlayerModal } from 'components/Modal';
-import { fetchPlayerAndGames, updatePlayerDetails, deletePlayer } from 'fb';
+import { fetchPlayerAndGames, updatePlayerDetails, deletePlayer, generateInsights } from 'fb';
 import { AdminAuditModal, ADMIN_FUNCTIONS } from 'components/Modal/AdminAuditModal';
 import { GAMES_COLUMNS } from './constants';
 
@@ -40,6 +40,7 @@ export function Dashboard() {
   const [openAuditModal, setOpenAuditModal] = useState(false);
   const [auditModalType, setAuditModalType] = useState('');
   const [openCreatePlayerModal, setOpenCreatePlayerModal] = useState(false);
+  const [generateInsightsLoading, setGenerateInsightsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handlePlayerSelect = useCallback(
@@ -314,6 +315,30 @@ export function Dashboard() {
               </>
             )}
           </Paper>
+          <Grid xs={12} sx={{ p: 2 }} item>
+            <Button
+              variant="contained"
+              color="primary"
+              disabled={generateInsightsLoading}
+              onClick={async () => {
+                setGenerateInsightsLoading(true);
+                try {
+                  await generateInsights(playerID);
+                  enqueueSnackbar('Insights generated successfully', {
+                    variant: 'success'
+                  });
+                } catch (error) {
+                  enqueueSnackbar('Error generating insights, please try again', {
+                    variant: 'error'
+                  });
+                } finally {
+                  setGenerateInsightsLoading(false);
+                }
+              }}>
+              {generateInsightsLoading && <CircularProgress size={20} />}
+              {generateInsightsLoading ? 'Generating Insights...' : 'Generate Insights'}
+            </Button>
+          </Grid>
         </Grid>
       )}
       <Grid xs={12} sx={{ height: 750 }} item>

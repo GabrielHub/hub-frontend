@@ -12,6 +12,7 @@ import { EditGame, Game, BoxScoreData } from './Games';
 import { DraftTool } from './Tool';
 import { AIUpload } from './AIUpload';
 import { League, Position, Similarity, Awards, Archive } from './Analysis/Tabs';
+import { Insights } from './Analysis/Tabs/Insights/Insights';
 
 // TODO Routes are also used for the Navbar, and for the TABS in the Analysis page
 // Should be a single object (source of truth) for all routes
@@ -38,6 +39,10 @@ export const routerConfig = [
           {
             path: 'league', //* Default to league averages
             element: <League />
+          },
+          {
+            path: 'insights',
+            element: <Insights />
           },
           {
             path: 'position',

@@ -24,6 +24,10 @@ export const navConfig = [
         path: '/analysis/league'
       },
       {
+        title: 'AI INSIGHTS',
+        path: '/analysis/insights'
+      },
+      {
         title: 'BY POSITION',
         path: '/analysis/position'
       },

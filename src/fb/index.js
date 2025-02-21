@@ -4,3 +4,4 @@ export * from './updatePlayerDetails';
 export * from './deletePlayer';
 export * from './fetchGameData';
 export * from './updateGameDetails';
+export * from './generateInsights';
