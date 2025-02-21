@@ -16,7 +16,13 @@ import {
   Collapse,
   ListItemText
 } from '@mui/material';
-import { ExpandLess, ExpandMore, Brightness7, Brightness4 } from '@mui/icons-material';
+import {
+  ExpandLess,
+  ExpandMore,
+  Brightness7,
+  Brightness4,
+  ArrowDropDown
+} from '@mui/icons-material';
 import { blueGrey } from '@mui/material/colors';
 import MenuIcon from '@mui/icons-material/Menu';
 import { AuthContext, useStore, useTheme } from 'services';
@@ -84,9 +90,19 @@ export function Navbar() {
               <Typography
                 variant="h6"
                 component="div"
-                sx={{ color: mode === 'dark' ? 'white' : 'black' }}
+                sx={{
+                  color: mode === 'dark' ? 'white' : 'black',
+                  display: 'flex',
+                  alignItems: 'center'
+                }}
                 align="center">
                 {route.title}
+                <ArrowDropDown
+                  sx={{
+                    transform: anchorEl[route.path] ? 'rotate(180deg)' : 'rotate(0deg)',
+                    transition: 'transform 0.2s'
+                  }}
+                />
               </Typography>
             </Button>
             <Menu
