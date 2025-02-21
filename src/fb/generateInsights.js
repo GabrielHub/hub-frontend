@@ -12,19 +12,22 @@ import {
 } from 'firebase/firestore';
 import { insightModel, db } from './firebase';
 
-const METAPROMPT = `This is data from a basketball video game. Given JSON data of a players stats, their last couple games, and the league average data, generate insights and suggestions on how they can improve.
+const METAPROMPT = `
+This is data from a basketball video game. Given JSON data of a players stats, their last couple games (including their detailed boxscore data and simple boxscore data for teammates and opposing players), and the league average data, generate insights and suggestions on how they can improve.
 Context on the game:
 - These games are 5 on 5, and last 20 minutes. 
+- Player may play different positions in different games, so don't assume they are always playing the same position. Check for the pos data in the boxscore data to see the position they played.
 - Two team captains are picked for each team, and they draft 4 more players. pos is the players position 1-5, which matches with pg, sg, sf, pf, c. 
 - oppPos is the matchup position, which is the same as pos. isAI is 0 for human players, and 1 for AI players (don't count this data). grd is the players teammate grade.
 - Usual strategy includes the pg handling the entire offense, while each team has a single "lockdown defender" who guards the opposing team's PG. Plays often include a lot of ball screens, and a lot of pick and pop or pick and roll plays, and calling cuts to the basket.
 
-What you should do:
-- Compare their stats to the league average and suggest ways they can improve, including which areas they are strong in and which areas they are weak in relative to the league average.
-- Check their last couple games, and analyze why they have been winning or losing. Where can they individually improve in those games, and where can their teammates improve?
-- When analyzing the last games, use the uploadId from the games to create a link to the box score data. The link should be bread2basket.com/games/{uploadId}, the label for the lnk should be the readable data of the games createdAt
+Analysis Steps:
+- Overall: Compare their stats to the league average and suggest ways they can improve, including which areas they are strong in and which areas they are weak in relative to the league average.
+- Recent Games: Check their last couple games, and analyze why they have been winning or losing. Where can they individually improve in those games, and also check how their teammates/overall team stats influence the game.
+  - When analyzing the last games, use the uploadId from the games to create a link to the box score data. The link should be bread2basket.com/games/{uploadId}, the label for the link should be the readable data of the games createdAt, so it's formatted like [Feb 22, 2025](bread2basket.com/games/1234567890)
+- Trends: Check the trends of the player's stats over the last couple games, relative to their average stats to see if they are improving or declining in any areas.
 
-Keep the response concise, and analytical, and format it beautifully in markdown.
+Keep the response concise, and analytical. Use all the markdown tools available to you to beautifully format the response in accurate markdown.
   `;
 
 const LAST_GAMES_LIMIT = 5;
@@ -37,7 +40,9 @@ const buildLeagueDataPrompt = (leagueData) =>
 
 const buildLastGamesPrompt = (lastGames, completeBoxScores) =>
   `\nHere are the last couple games from this player: ${JSON.stringify(lastGames)}
-\nHere are the complete boxscores for these games: ${JSON.stringify(completeBoxScores)}`;
+\nHere are the complete boxscores for these games that include teammate and opposing player stats: ${JSON.stringify(
+    completeBoxScores
+  )}`;
 
 export const generateInsights = async (playerID) => {
   try {
