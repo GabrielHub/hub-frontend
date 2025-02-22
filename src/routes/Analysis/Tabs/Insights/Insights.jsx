@@ -1,13 +1,34 @@
 /* eslint-disable no-underscore-dangle */
 import React, { useState, useCallback, useEffect } from 'react';
-import { MuiMarkdown } from 'mui-markdown';
+import PropTypes from 'prop-types';
+import { MuiMarkdown, getOverrides } from 'mui-markdown';
 import { useSnackbar } from 'notistack';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link as RouterLink } from 'react-router-dom';
 import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Loading } from 'components/Loading';
 import { AlgoliaSearch } from 'components/AlgoliaSearch';
 import { fetchInsights } from 'rest';
+
+function CustomLink({ href, ...props }) {
+  return (
+    <RouterLink
+      to={href.replace('bread2basket.com', '')}
+      style={{
+        textDecoration: 'none',
+        fontWeight: 700
+      }}
+      target="_blank"
+      rel="noopener noreferrer"
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      {...props}
+    />
+  );
+}
+
+CustomLink.propTypes = {
+  href: PropTypes.string.isRequired
+};
 
 export function Insights() {
   const { enqueueSnackbar } = useSnackbar();
@@ -44,6 +65,13 @@ export function Insights() {
     }
   }, [searchParams, getInsights]);
 
+  const markdownOverrides = {
+    ...getOverrides(),
+    a: {
+      component: CustomLink
+    }
+  };
+
   return (
     <Grid sx={{ maxWidth: 1440, margin: 'auto' }} spacing={1} container>
       <Loading isLoading={isLoading} />
@@ -66,7 +94,7 @@ export function Insights() {
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <MuiMarkdown>{insight.analysis}</MuiMarkdown>
+              <MuiMarkdown overrides={markdownOverrides}>{insight.analysis}</MuiMarkdown>
             </AccordionDetails>
           </Accordion>
         </Grid>
